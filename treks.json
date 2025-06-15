@@ -1,0 +1,1788 @@
+ [
+  {
+    "id": 1,
+    "name": "Everest Base Camp Trek",
+    "district": "Solukhumbu",
+    "region": "Everest (Khumbu)",
+    "difficulty": "Challenging",
+    "duration": "12-16 days",
+    "best_seasons": [
+      "March-May",
+      "September-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "5,545m (Kala Patthar) / 5,364m (EBC)",
+      "min_elevation": "2,860m (Lukla)"
+    },
+    "description": "The iconic trek to the base of the world's highest peak, Mt. Everest. Offers stunning views of Everest, Lhotse, Nuptse, Ama Dablam, and Sherpa culture within Sagarmatha National Park.",
+    "historical_significance": "Follows historic mountaineering routes; deep immersion in Sherpa Buddhist culture.",
+    "itinerary": [
+      "Day 1: Fly Ktm-Lukla, Trek Phakding",
+      "Day 2: Trek Namche Bazaar",
+      "Day 3: Acclimatize Namche",
+      "Day 4: Trek Tengboche",
+      "Day 5: Trek Dingboche",
+      "Day 6: Acclimatize Dingboche",
+      "Day 7: Trek Lobuche",
+      "Day 8: Trek Gorak Shep, Visit EBC",
+      "Day 9: Hike Kala Patthar, Trek Pheriche",
+      "Day 10-12: Trek down to Lukla",
+      "Day 13/14: Fly Lukla-Ktm"
+    ],
+    "itinerary_points": [
+      {
+        "name": "Lukla",
+        "lat": 27.68889,
+        "lng": 86.73056
+      },
+      {
+        "name": "Phakding",
+        "lat": 27.75,
+        "lng": 86.7167
+      },
+      {
+        "name": "Namche Bazaar",
+        "lat": 27.8167,
+        "lng": 86.7167
+      },
+      {
+        "name": "Tengboche",
+        "lat": 27.83611,
+        "lng": 86.76389
+      },
+      {
+        "name": "Dingboche",
+        "lat": 27.883,
+        "lng": 86.817
+      },
+      {
+        "name": "Lobuche",
+        "lat": 27.94806,
+        "lng": 86.81028
+      },
+      {
+        "name": "Gorak Shep",
+        "lat": 27.98056,
+        "lng": 86.82861
+      },
+      {
+        "name": "Everest Base Camp",
+        "lat": 28.00722,
+        "lng": 86.85944
+      },
+      {
+        "name": "Kala Patthar",
+        "lat": 27.995833,
+        "lng": 86.828417
+      },
+      {
+        "name": "Pheriche",
+        "lat": 27.893561,
+        "lng": 86.819878
+      }
+    ],
+    "cost_breakdown": {
+      "permits": "Sagarmatha NP (NPR 3000), Khumbu Municipality Fee (NPR 2000). TIMS often included by agencies.",
+      "guide": "$25-$35/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$5-$15/night (teahouse)",
+      "food": "$25-$45/day (increases with altitude)"
+    },
+    "transportation": "Flight Ktm-Lukla (~$400+ RT). Trek from Jiri/Salleri possible (adds 5-7 days).",
+    "nearby_attractions": [
+      "Gokyo Lakes",
+      "Island Peak",
+      "Tengboche Monastery"
+    ],
+    "required_permits": [
+      "Sagarmatha National Park Permit",
+      "Khumbu Pasang Lhamu Rural Municipality Fee"
+    ],
+    "recommended_gear": [
+      "Trekking boots",
+      "Down jacket",
+      "Sleeping bag (-15C)",
+      "Layers",
+      "Poles",
+      "Water purification",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "High - Acclimatize properly."
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1516302350523-4c29d47b89e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Annapurna Circuit Trek",
+    "district": "Manang, Mustang, Myagdi, Lamjung, Kaski",
+    "region": "Annapurna",
+    "difficulty": "Challenging",
+    "duration": "14-21 days",
+    "best_seasons": [
+      "March-May",
+      "October-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "5,416m (Thorong La Pass)",
+      "min_elevation": "820m (Besisahar)"
+    },
+    "description": "Classic trek encircling the Annapurna massif, famed for its diverse scenery from subtropical to high alpine and arid zones. Crosses the high Thorong La pass.",
+    "historical_significance": "Follows ancient trade routes; passes diverse ethnic villages (Gurung, Thakali, Manangi) and Muktinath.",
+    "itinerary": [
+      "Drive Ktm-Jagat/Chamje",
+      "Trek Dharapani, Chame, Pisang, Manang",
+      "Acclimatize Manang",
+      "Trek Yak Kharka, Thorong Phedi/High Camp",
+      "Cross Thorong La",
+      "Trek Muktinath, Jomsom",
+      "Fly Jomsom-Pokhara or trek/drive down via Tatopani/Ghorepani."
+    ],
+    "itinerary_points": [
+      {
+        "name": "Besisahar",
+        "lat": 28.2333,
+        "lng": 84.3833
+      },
+      {
+        "name": "Chame",
+        "lat": 28.5569,
+        "lng": 84.2294
+      },
+      {
+        "name": "Pisang",
+        "lat": 28.6214,
+        "lng": 84.1525
+      },
+      {
+        "name": "Manang",
+        "lat": 28.6667,
+        "lng": 84.0167
+      },
+      {
+        "name": "Thorong Phedi",
+        "lat": 28.7833,
+        "lng": 83.9333
+      },
+      {
+        "name": "Thorong La Pass",
+        "lat": 28.7942,
+        "lng": 83.9253
+      },
+      {
+        "name": "Muktinath",
+        "lat": 28.8167,
+        "lng": 83.8667
+      },
+      {
+        "name": "Jomsom",
+        "lat": 28.7833,
+        "lng": 83.7333
+      }
+    ],
+    "cost_breakdown": {
+      "permits": "ACAP (NPR 3000), TIMS (NPR 1000/2000)",
+      "guide": "$25-$30/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$3-$10/night (teahouse)",
+      "food": "$20-$35/day"
+    },
+    "transportation": "Bus/Jeep Ktm to start point. Flight Jomsom-Pokhara (~$125) or Bus/Jeep from end points.",
+    "nearby_attractions": [
+      "Tilicho Lake",
+      "Muktinath Temple",
+      "Kagbeni",
+      "Marpha",
+      "Poon Hill"
+    ],
+    "required_permits": [
+      "Annapurna Conservation Area Permit (ACAP)",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Trekking boots",
+      "Layers",
+      "Down jacket",
+      "Sleeping bag (-15C)",
+      "Poles",
+      "Water purification",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "High"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1542319465-68c17e59a3a3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Langtang Valley Trek",
+    "district": "Rasuwa",
+    "region": "Langtang",
+    "difficulty": "Moderate",
+    "duration": "7-10 days",
+    "best_seasons": [
+      "March-May",
+      "October-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "4,984m (Tserko Ri) / 3,870m (Kyanjin Gompa)",
+      "min_elevation": "1,460m (Syabrubesi)"
+    },
+    "description": "Relatively short trek near Kathmandu into the beautiful Langtang Valley, offering views of Langtang Lirung and chances to explore Tamang culture. Ends at Kyanjin Gompa.",
+    "historical_significance": "Tamang culture with Tibetan origins. Kyanjin Gompa monastery. Valley heavily impacted by 2015 earthquake but rebuilt.",
+    "itinerary": [
+      "Drive Ktm-Syabrubesi",
+      "Trek Lama Hotel",
+      "Trek Langtang Village",
+      "Trek Kyanjin Gompa",
+      "Explore Kyanjin (Hike Tserko Ri/Kyanjin Ri)",
+      "Trek back Lama Hotel",
+      "Trek Syabrubesi",
+      "Drive Ktm"
+    ],
+    "itinerary_points": [
+      {
+        "name": "Syabrubesi",
+        "lat": 28.1603,
+        "lng": 85.3456
+      },
+      {
+        "name": "Lama Hotel",
+        "lat": 28.1631,
+        "lng": 85.4306
+      },
+      {
+        "name": "Langtang Village",
+        "lat": 28.2139,
+        "lng": 85.5167
+      },
+      {
+        "name": "Kyanjin Gompa",
+        "lat": 28.2139,
+        "lng": 85.5667
+      },
+      {
+        "name": "Tserko Ri",
+        "lat": 28.2222,
+        "lng": 85.5972
+      }
+    ],
+    "cost_breakdown": {
+      "permits": "Langtang NP (NPR 3000), TIMS (NPR 1000/2000)",
+      "guide": "$25-$30/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$5-$10/night (teahouse)",
+      "food": "$20-$30/day"
+    },
+    "transportation": "Bus/Jeep Ktm-Syabrubesi.",
+    "nearby_attractions": [
+      "Kyanjin Gompa & Cheese Factory",
+      "Tserko Ri viewpoint",
+      "Langshisha Kharka"
+    ],
+    "required_permits": [
+      "Langtang National Park Entry Permit",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Trekking boots",
+      "Layers",
+      "Warm jacket",
+      "Sleeping bag (0C)",
+      "Poles",
+      "Water purification"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Moderate"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1605649461784-edc01e8ec95e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1605649461784-edc01e8ec95e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1605649461784-edc01e8ec95e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Ghorepani Poon Hill Trek",
+    "district": "Myagdi, Kaski",
+    "region": "Annapurna",
+    "difficulty": "Easy to Moderate",
+    "duration": "4-6 days",
+    "best_seasons": [
+      "February-May",
+      "September-December"
+    ],
+    "elevation_profile": {
+      "max_elevation": "3,210m (Poon Hill)",
+      "min_elevation": "1,070m (Nayapul/Birethanti)"
+    },
+    "description": "Popular short trek known for spectacular sunrise views over Annapurna and Dhaulagiri ranges from Poon Hill. Passes through Gurung villages and rhododendron forests.",
+    "historical_significance": "Traverses traditional Gurung villages.",
+    "itinerary": [
+      "Drive Pokhara-Nayapul, Trek Ulleri/Tikhedhunga",
+      "Trek Ghorepani",
+      "Hike Poon Hill (sunrise), Trek Tadapani/Ghandruk",
+      "Explore Ghandruk",
+      "Trek Nayapul, Drive Pokhara"
+    ],
+    "itinerary_points": [
+      {
+        "name": "Nayapul",
+        "lat": 28.3,
+        "lng": 83.7833
+      },
+      {
+        "name": "Tikhedhunga",
+        "lat": 28.35,
+        "lng": 83.7667
+      },
+      {
+        "name": "Ghorepani",
+        "lat": 28.4,
+        "lng": 83.7
+      },
+      {
+        "name": "Poon Hill",
+        "lat": 28.4167,
+        "lng": 83.6833
+      },
+      {
+        "name": "Tadapani",
+        "lat": 28.3833,
+        "lng": 83.75
+      },
+      {
+        "name": "Ghandruk",
+        "lat": 28.3667,
+        "lng": 83.8
+      }
+    ],
+    "cost_breakdown": {
+      "permits": "ACAP (NPR 3000), TIMS (NPR 1000/2000)",
+      "guide": "$25-$30/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$5-$10/night (teahouse)",
+      "food": "$20-$30/day"
+    },
+    "transportation": "Bus/Taxi Pokhara to Nayapul.",
+    "nearby_attractions": [
+      "Poon Hill viewpoint",
+      "Ghandruk Village"
+    ],
+    "required_permits": [
+      "Annapurna Conservation Area Permit (ACAP)",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Hiking shoes",
+      "Layers",
+      "Light jacket",
+      "Rain gear",
+      "Daypack",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Low"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1518002054494-3a6f23e2d7d4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1518002054494-3a6f23e2d7d4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1518002054494-3a6f23e2d7d4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Gokyo Lakes Trek",
+    "district": "Solukhumbu",
+    "region": "Everest (Khumbu)",
+    "difficulty": "Challenging",
+    "duration": "11-14 days",
+    "best_seasons": [
+      "March-May",
+      "September-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "5,357m (Gokyo Ri)",
+      "min_elevation": "2,860m (Lukla)"
+    },
+    "description": "Stunning trek focusing on the series of turquoise glacial lakes in the Gokyo Valley, with panoramic views including Everest from Gokyo Ri.",
+    "historical_significance": "Part of the traditional Sherpa homeland, features summer pasture settlements (yersa).",
+    "itinerary": [
+      "Similar start to EBC trek",
+      "Divert from Namche towards Dole, Machhermo",
+      "Reach Gokyo Lakes",
+      "Ascend Gokyo Ri",
+      "Return via same route or cross Renjo La pass (longer)"
+    ],
+    "itinerary_points": [
+      {
+        "name": "Lukla",
+        "lat": 27.68889,
+        "lng": 86.73056
+      },
+      {
+        "name": "Phakding",
+        "lat": 27.75,
+        "lng": 86.7167
+      },
+      {
+        "name": "Namche Bazaar",
+        "lat": 27.8167,
+        "lng": 86.7167
+      },
+      {
+        "name": "Dole",
+        "lat": 27.85,
+        "lng": 86.7167
+      },
+      {
+        "name": "Machhermo",
+        "lat": 27.8667,
+        "lng": 86.6833
+      },
+      {
+        "name": "Gokyo",
+        "lat": 27.95,
+        "lng": 86.6833
+      },
+      {
+        "name": "Gokyo Ri",
+        "lat": 27.9667,
+        "lng": 86.6833
+      }
+    ],
+    "cost_breakdown": {
+      "permits": "Sagarmatha NP (NPR 3000), Khumbu Municipality Fee (NPR 2000)",
+      "guide": "$25-$35/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$5-$15/night (teahouse)",
+      "food": "$25-$45/day"
+    },
+    "transportation": "Flight Ktm-Lukla (~$400+ RT).",
+    "nearby_attractions": [
+      "Ngozumpa Glacier",
+      "Gokyo Ri viewpoint",
+      "Possibility to cross Renjo La or Cho La passes"
+    ],
+    "required_permits": [
+      "Sagarmatha National Park Permit",
+      "Khumbu Pasang Lhamu Rural Municipality Fee"
+    ],
+    "recommended_gear": [
+      "Trekking boots",
+      "Down jacket",
+      "Sleeping bag (-15C)",
+      "Layers",
+      "Poles",
+      "Water purification",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "High"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1515876305430-f06edab8282a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1515876305430-f06edab8282a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1515876305430-f06edab8282a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Three Passes Trek",
+    "district": "Solukhumbu",
+    "region": "Everest (Khumbu)",
+    "difficulty": "Strenuous",
+    "duration": "18-22 days",
+    "best_seasons": [
+      "March-May",
+      "September-October (avoid snow on passes)"
+    ],
+    "elevation_profile": {
+      "max_elevation": "5,545m (Kala Patthar), Passes: Kongma La(5,535m), Cho La(5,420m), Renjo La(5,360m)",
+      "min_elevation": "2,860m (Lukla)"
+    },
+    "description": "The ultimate Everest circuit, crossing three challenging high passes (Kongma La, Cho La, Renjo La) linking the EBC, Gokyo, and Thame valleys. Demands excellent fitness and acclimatization.",
+    "historical_significance": "Covers major valleys of the Khumbu region, offering comprehensive cultural and geographical exposure.",
+    "itinerary": [
+      "Typically anti-clockwise: Lukla -> Namche -> Chukhung -> Kongma La -> Lobuche -> EBC/Kala Patthar -> Dzongla -> Cho La -> Gokyo -> Renjo La -> Thame -> Namche -> Lukla"
+    ],
+    "itinerary_points": [
+      {
+        "name": "Lukla",
+        "lat": 27.68889,
+        "lng": 86.73056
+      },
+      {
+        "name": "Namche Bazaar",
+        "lat": 27.8167,
+        "lng": 86.7167
+      },
+      {
+        "name": "Chukhung",
+        "lat": 27.9,
+        "lng": 86.8667
+      },
+      {
+        "name": "Kongma La",
+        "lat": 27.9333,
+        "lng": 86.8333
+      },
+      {
+        "name": "Lobuche",
+        "lat": 27.94806,
+        "lng": 86.81028
+      },
+      {
+        "name": "Everest Base Camp",
+        "lat": 28.00722,
+        "lng": 86.85944
+      },
+      {
+        "name": "Dzongla",
+        "lat": 27.9333,
+        "lng": 86.7667
+      },
+      {
+        "name": "Cho La",
+        "lat": 27.95,
+        "lng": 86.7333
+      },
+      {
+        "name": "Gokyo",
+        "lat": 27.95,
+        "lng": 86.6833
+      },
+      {
+        "name": "Renjo La",
+        "lat": 27.9667,
+        "lng": 86.6333
+      },
+      {
+        "name": "Thame",
+        "lat": 27.8333,
+        "lng": 86.65
+      }
+    ],
+    "cost_breakdown": {
+      "permits": "Sagarmatha NP (NPR 3000), Khumbu Municipality Fee (NPR 2000)",
+      "guide": "$30-$40/day (experienced guide recommended)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$5-$15/night (teahouse)",
+      "food": "$30-$50/day"
+    },
+    "transportation": "Flight Ktm-Lukla (~$400+ RT).",
+    "nearby_attractions": [
+      "Everest Base Camp",
+      "Gokyo Lakes",
+      "Kala Patthar",
+      "Thame Monastery"
+    ],
+    "required_permits": [
+      "Sagarmatha National Park Permit",
+      "Khumbu Pasang Lhamu Rural Municipality Fee"
+    ],
+    "recommended_gear": [
+      "As per EBC + Microspikes/crampons often useful for passes",
+      "Possibly helmet",
+      "Very warm gear"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Very High - Careful acclimatization and contingency days vital."
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1533130061792-64b345e4a833?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1533130061792-64b345e4a833?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Everest View Trek",
+    "district": "Solukhumbu",
+    "region": "Everest (Khumbu)",
+    "difficulty": "Moderate",
+    "duration": "5-7 days",
+    "best_seasons": [
+      "March-May",
+      "September-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "3,880m (Everest View Hotel / Tengboche)",
+      "min_elevation": "2,860m (Lukla)"
+    },
+    "description": "A shorter trek providing classic views of Everest, Lhotse, and Ama Dablam without ascending to extreme altitudes. Ideal for those with limited time.",
+    "historical_significance": "Visits key Sherpa hubs like Namche Bazaar and Tengboche monastery.",
+    "itinerary": [
+      "Day 1: Fly Ktm-Lukla, Trek Phakding",
+      "Day 2: Trek Namche Bazaar",
+      "Day 3: Hike to Everest View Hotel/Khumjung",
+      "Day 4: Trek to Tengboche",
+      "Day 5: Trek back to Monjo/Namche",
+      "Day 6: Trek Lukla",
+      "Day 7: Fly Lukla-Ktm"
+    ],
+    "itinerary_points": [
+      {
+        "name": "Lukla",
+        "lat": 27.68889,
+        "lng": 86.73056
+      },
+      {
+        "name": "Phakding",
+        "lat": 27.75,
+        "lng": 86.7167
+      },
+      {
+        "name": "Namche Bazaar",
+        "lat": 27.8167,
+        "lng": 86.7167
+      },
+      {
+        "name": "Everest View Hotel",
+        "lat": 27.8333,
+        "lng": 86.7333
+      },
+      {
+        "name": "Khumjung",
+        "lat": 27.8333,
+        "lng": 86.7167
+      },
+      {
+        "name": "Tengboche",
+        "lat": 27.83611,
+        "lng": 86.76389
+      },
+      {
+        "name": "Monjo",
+        "lat": 27.7667,
+        "lng": 86.7167
+      }
+    ],
+    "cost_breakdown": {
+      "permits": "Sagarmatha NP (NPR 3000), Khumbu Municipality Fee (NPR 2000)",
+      "guide": "$25-$35/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$5-$15/night (teahouse)",
+      "food": "$25-$40/day"
+    },
+    "transportation": "Flight Ktm-Lukla (~$400+ RT).",
+    "nearby_attractions": [
+      "Namche Bazaar",
+      "Tengboche Monastery",
+      "Khumjung Village (Yeti Scalp Monastery)"
+    ],
+    "required_permits": [
+      "Sagarmatha National Park Permit",
+      "Khumbu Pasang Lhamu Rural Municipality Fee"
+    ],
+    "recommended_gear": [
+      "Hiking boots",
+      "Warm layers",
+      "Light down jacket",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Low-Moderate"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1501554728187-ce583db33af7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1501554728187-ce583db33af7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Mardi Himal Trek",
+    "district": "Kaski",
+    "region": "Annapurna",
+    "difficulty": "Moderate",
+    "duration": "5-9 days",
+    "best_seasons": [
+      "March-May",
+      "September-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "4,500m (Base Camp), 4,200m (High Camp)",
+      "min_elevation": "Approx 1,650m (Kande) / 1,100m (Siwai)"
+    },
+    "description": "Ridge trek offering spectacular close-up views of Mardi Himal, Machhapuchhre, Annapurna South, and Hiunchuli. Less crowded than ABC or Poon Hill.",
+    "historical_significance": "Follows a less-trodden path, offering glimpses into quieter village life.",
+    "itinerary": [
+      "Drive Pokhara-Kande/Phedi",
+      "Trek Australian Camp/Pothana, Forest Camp, Low Camp, High Camp",
+      "Day trip to Mardi Himal Base Camp (West)",
+      "Return via Low Camp, Siding village",
+      "Drive Siding/Lumle back to Pokhara"
+    ],
+    "itinerary_points": [
+      {
+        "name": "Kande",
+        "lat": 28.2833,
+        "lng": 83.8167
+      },
+      {
+        "name": "Australian Camp",
+        "lat": 28.2833,
+        "lng": 83.8333
+      },
+      {
+        "name": "Forest Camp",
+        "lat": 28.3333,
+        "lng": 83.8333
+      },
+      {
+        "name": "Low Camp",
+        "lat": 28.3667,
+        "lng": 83.85
+      },
+      {
+        "name": "High Camp",
+        "lat": 28.4,
+        "lng": 83.8667
+      },
+      {
+        "name": "Mardi Himal Base Camp",
+        "lat": 28.4333,
+        "lng": 83.8833
+      },
+      {
+        "name": "Siding Village",
+        "lat": 28.35,
+        "lng": 83.8667
+      }
+    ],
+    "cost_breakdown": {
+      "permits": "ACAP (NPR 3000), TIMS (NPR 1000/2000)",
+      "guide": "$25-$30/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$5-$10/night (teahouse, can be basic at high camp)",
+      "food": "$20-$35/day"
+    },
+    "transportation": "Taxi/Bus Pokhara to Kande/Phedi (start). Jeep from Siding/Lumle (end).",
+    "nearby_attractions": [
+      "Machhapuchhre views",
+      "Ridge walking experience"
+    ],
+    "required_permits": [
+      "Annapurna Conservation Area Permit (ACAP)",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Trekking boots",
+      "Layers",
+      "Warm jacket",
+      "Sleeping bag (0C to -10C)",
+      "Poles",
+      "Water purification",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Moderate"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1585993573411-5896b82d6e87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1585993573411-5896b82d6e87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1585993573411-5896b82d6e87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Khopra Danda Trek",
+    "district": "Myagdi",
+    "region": "Annapurna",
+    "difficulty": "Moderate",
+    "duration": "6-9 days",
+    "best_seasons": [
+      "March-May",
+      "September-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "3,660m (Khopra Danda), 4,660m (Khayer Lake optional day hike)",
+      "min_elevation": "Approx 1,070m (Nayapul) / 1,500m (Ghandruk area)"
+    },
+    "description": "Community lodge-based trek offering stunning panoramic views of Dhaulagiri and Annapurna ranges from Khopra Ridge. Features an optional challenging day hike to sacred Khayer Lake.",
+    "historical_significance": "Supports local community-run lodges, promotes sustainable tourism.",
+    "itinerary": [
+      "Drive Pokhara-Nayapul/Ghandruk Phedi",
+      "Trek Ghandruk/Tadapani",
+      "Trek Dobato/Bayeli Kharka",
+      "Trek Khopra Danda",
+      "Optional day hike to Khayer Lake",
+      "Trek down via Swanta Village",
+      "Trek to Ghorepani or Tatopani",
+      "Exit via Nayapul or Beni"
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "ACAP (NPR 3000), TIMS (NPR 1000/2000)",
+      "guide": "$25-$30/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$5-$15/night (community/private lodges)",
+      "food": "$20-$35/day"
+    },
+    "transportation": "Bus/Taxi Pokhara to start point. Bus/Jeep from end points (e.g., Tatopani, Beni, Nayapul).",
+    "nearby_attractions": [
+      "Khayer Lake (sacred)",
+      "Panoramic viewpoints",
+      "Swanta Village",
+      "Can connect with Poon Hill / Annapurna Circuit routes"
+    ],
+    "required_permits": [
+      "Annapurna Conservation Area Permit (ACAP)",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Trekking boots",
+      "Layers",
+      "Warm jacket",
+      "Sleeping bag (0C)",
+      "Poles",
+      "Water purification",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Moderate (High if hiking to Khayer Lake)"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Tamang Heritage Trail",
+    "district": "Rasuwa",
+    "region": "Langtang",
+    "difficulty": "Easy to Moderate",
+    "duration": "5-7 days",
+    "best_seasons": [
+      "March-May",
+      "September-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "3,165m (Nagthali Gyang)",
+      "min_elevation": "1,460m (Syabrubesi)"
+    },
+    "description": "Cultural trek focusing on Tamang heritage, villages (Gatlang, Thuman, Briddim), monasteries, and hot springs, with views of Langtang and Ganesh Himal.",
+    "historical_significance": "Showcases unique Tamang culture, architecture, and hospitality.",
+    "itinerary": [
+      "Drive Ktm-Syabrubesi",
+      "Trek Gatlang",
+      "Trek Tatopani (hot springs)",
+      "Trek Thuman",
+      "Trek Briddim (homestay)",
+      "Trek Syabrubesi",
+      "Drive Ktm"
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "Langtang NP (NPR 3000), TIMS (NPR 1000/2000)",
+      "guide": "$25-$30/day (recommended for cultural interaction)",
+      "porter": "$20-$25/day (optional)",
+      "accommodation": "$5-$10/night (homestay/lodge)",
+      "food": "$15-$25/day"
+    },
+    "transportation": "Bus/Jeep Ktm-Syabrubesi.",
+    "nearby_attractions": [
+      "Parvati Kunda",
+      "Tatopani hot springs",
+      "Ancient monasteries",
+      "Viewpoints like Nagthali Gyang"
+    ],
+    "required_permits": [
+      "Langtang National Park Entry Permit",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Hiking shoes",
+      "Comfortable clothes",
+      "Light jacket",
+      "Towel (hot springs)",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Low"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1583224964978-2e827980e960?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1583224964978-2e827980e960?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Gosainkunda Trek",
+    "district": "Rasuwa",
+    "region": "Langtang",
+    "difficulty": "Moderate to Challenging",
+    "duration": "5-7 days (via Dhunche)",
+    "best_seasons": [
+      "March-May",
+      "September-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "4,610m (Lauribina La Pass), 4,380m (Gosainkunda Lake)",
+      "min_elevation": "Approx 2,000m (Dhunche)"
+    },
+    "description": "Pilgrimage trek to the sacred alpine lakes of Gosainkunda, revered by Hindus (associated with Lord Shiva) and Buddhists. Can cross Lauribina La pass.",
+    "historical_significance": "Major pilgrimage site, especially during Janai Purnima festival in August.",
+    "itinerary": [
+      "Drive Ktm-Dhunche",
+      "Trek Chandanbari/Sing Gompa",
+      "Trek Lauribinayak",
+      "Trek Gosainkunda Lake",
+      "Explore lakes",
+      "Return via same route OR cross Lauribina La pass to Ghopte/Tharepati (connects to Helambu)"
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "Langtang NP (NPR 3000), TIMS (NPR 1000/2000)",
+      "guide": "$25-$30/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$5-$10/night (teahouse)",
+      "food": "$20-$35/day"
+    },
+    "transportation": "Bus/Jeep Ktm-Dhunche.",
+    "nearby_attractions": [
+      "Gosainkunda Lake complex",
+      "Sing Gompa (cheese factory)",
+      "Views from Lauribinayak"
+    ],
+    "required_permits": [
+      "Langtang National Park Entry Permit",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Trekking boots",
+      "Warm layers",
+      "Waterproofs",
+      "Sleeping bag (0C to -10C)",
+      "Poles",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Moderate-High"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1583224964978-2e827980e960?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1583224964978-2e827980e960?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Helambu Trek",
+    "district": "Sindhupalchowk, Nuwakot",
+    "region": "Langtang (Helambu)",
+    "difficulty": "Easy to Moderate",
+    "duration": "5-8 days",
+    "best_seasons": [
+      "March-May",
+      "September-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "Approx 3,650m (Tharepati Pass)",
+      "min_elevation": "Approx 1,400m (Sundarijal/Melamchi)"
+    },
+    "description": "Short circuit trek near Kathmandu Valley, known for its Hyolmo Sherpa culture, monasteries, apple orchards, and scenic forests. Lower altitude.",
+    "historical_significance": "Home to the Hyolmo people, with distinct culture and traditions. Ancient monasteries.",
+    "itinerary": [
+      "Drive Ktm-Sundarijal",
+      "Trek Chisapani",
+      "Trek Kutumsang",
+      "Trek Tharepati",
+      "Trek Tarkeghyang",
+      "Trek Sermathang",
+      "Trek down to Melamchi Pul Bazaar",
+      "Drive Ktm"
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "Shivapuri Nagarjun NP (NPR 1000), Langtang NP (NPR 3000 - if crossing Tharepati), TIMS (NPR 1000/2000)",
+      "guide": "$25-$30/day (optional)",
+      "porter": "$20-$25/day (optional)",
+      "accommodation": "$5-$10/night (lodge/teahouse)",
+      "food": "$15-$30/day"
+    },
+    "transportation": "Bus/Taxi Ktm-Sundarijal (start). Bus from Melamchi Pul (end).",
+    "nearby_attractions": [
+      "Hyolmo villages",
+      "Monasteries in Tarkeghyang & Sermathang",
+      "Views from Tharepati"
+    ],
+    "required_permits": [
+      "Shivapuri Nagarjun National Park Permit",
+      "Langtang National Park Permit (potentially)",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Hiking shoes",
+      "Comfortable clothes",
+      "Light jacket",
+      "Rain gear",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Low"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1583224964978-2e827980e960?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1583224964978-2e827980e960?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Ama Dablam Base Camp Trek",
+    "district": "Solukhumbu",
+    "region": "Everest (Khumbu)",
+    "difficulty": "Moderate to Challenging",
+    "duration": "9-12 days",
+    "best_seasons": [
+      "March-May",
+      "September-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "Approx 4,600m (Base Camp)",
+      "min_elevation": "2,860m (Lukla)"
+    },
+    "description": "Trek focusing on the stunningly beautiful Ama Dablam peak, leading to its base camp. Follows the main EBC trail initially.",
+    "historical_significance": "Ama Dablam ('Mother's Necklace') is culturally significant and visually dominant in the Khumbu.",
+    "itinerary": [
+      "Follow EBC route to Pangboche",
+      "Divert towards Ama Dablam Base Camp",
+      "Explore Base Camp area",
+      "Return via Pangboche, Namche to Lukla"
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "Sagarmatha NP (NPR 3000), Khumbu Municipality Fee (NPR 2000)",
+      "guide": "$25-$35/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$5-$15/night (teahouse)",
+      "food": "$25-$45/day"
+    },
+    "transportation": "Flight Ktm-Lukla (~$400+ RT).",
+    "nearby_attractions": [
+      "Pangboche Monastery (oldest in Khumbu)",
+      "Close views of Ama Dablam"
+    ],
+    "required_permits": [
+      "Sagarmatha National Park Permit",
+      "Khumbu Pasang Lhamu Rural Municipality Fee"
+    ],
+    "recommended_gear": [
+      "Trekking boots",
+      "Down jacket",
+      "Sleeping bag (-10C)",
+      "Layers",
+      "Poles",
+      "Water purification",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Moderate-High"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Arun Valley Trek",
+    "district": "Sankhuwasabha, Bhojpur",
+    "region": "Makalu / Eastern Nepal",
+    "difficulty": "Moderate to Challenging",
+    "duration": "15-20 days (can connect to Makalu BC or Everest region)",
+    "best_seasons": [
+      "March-May",
+      "September-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "Approx 4,350m",
+      "min_elevation": "Approx 435m (Tumlingtar)"
+    },
+    "description": "A culturally rich trek through the deep Arun Valley, home to Rai and Sherpa communities. Less frequented, offering diverse ecosystems from lowlands to alpine zones. Often used as an approach to Makalu Base Camp or a lower-altitude route towards the Everest region.",
+    "historical_significance": "Traverses areas inhabited by diverse ethnic groups with unique traditions. Historically significant trade route.",
+    "itinerary": [
+      "Fly Ktm-Tumlingtar",
+      "Trek through Chewa Besi, Gothe Bazar, Salpa Phedi",
+      "Cross Salpa Bhanjyang pass",
+      "Continue through Gudel, Najing Dingma",
+      "Options to exit via Phaplu/Salleri or link towards Lukla/Makalu"
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "Makalu Barun NP (NPR 3000) required if entering park area. TIMS card.",
+      "guide": "$25-$30/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "Basic teahouses/homestays, possible camping sections.",
+      "food": "$20-$35/day"
+    },
+    "transportation": "Flight Ktm-Tumlingtar (~$150 one-way). Exit potentially via Phaplu flight or long bus journey.",
+    "nearby_attractions": [
+      "Salpa Pokhari (lake)",
+      "Diverse Rai and Sherpa villages"
+    ],
+    "required_permits": [
+      "Makalu Barun National Park Permit (if applicable)",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Trekking boots",
+      "Layers",
+      "Sleeping bag (0C)",
+      "Rain gear",
+      "Water purification",
+      "Sun protection",
+      "Possibly camping gear"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Low to Moderate depending on route/passes."
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1605649461784-edc01e8ec95e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1605649461784-edc01e8ec95e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Pikey Peak Trek",
+    "district": "Solukhumbu, Okhaldhunga",
+    "region": "Everest (Lower Khumbu)",
+    "difficulty": "Moderate",
+    "duration": "5-8 days",
+    "best_seasons": [
+      "March-May",
+      "September-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "4,065m (Pikey Peak)",
+      "min_elevation": "Approx 1,675m (Dhap)"
+    },
+    "description": "Relatively new trek offering arguably some of the best wide panoramic views of the Everest range (from Makalu to Dhaulagiri on clear days) without extreme altitude. Known for Sherpa culture and rhododendron forests.",
+    "historical_significance": "Pikey Peak is considered a sacred clan protector deity by local Sherpas. Route passes through traditional Sherpa villages.",
+    "itinerary": [
+      "Drive Ktm-Dhap",
+      "Trek to Jhapre",
+      "Trek to Pikey Peak Base Camp",
+      "Ascend Pikey Peak for sunrise/views",
+      "Trek down to Loding/Junbesi",
+      "Trek to Phaplu/Salleri",
+      "Fly/Drive back to Ktm"
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "TIMS Card. No national park fee generally required.",
+      "guide": "$25-$30/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$5-$10/night (teahouse/homestay)",
+      "food": "$20-$30/day"
+    },
+    "transportation": "Jeep Ktm-Dhap (start). Fly Phaplu-Ktm or long jeep ride Salleri-Ktm (end).",
+    "nearby_attractions": [
+      "Thubten Choling Monastery (near Junbesi)",
+      "Panoramic Himalayan views"
+    ],
+    "required_permits": [
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Hiking boots",
+      "Warm layers",
+      "Windproof jacket",
+      "Sleeping bag (0C)",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Low-Moderate"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1605649461784-edc01e8ec95e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1605649461784-edc01e8ec95e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Rolwaling Valley Trek",
+    "district": "Dolakha",
+    "region": "Rolwaling (Gaurishankar)",
+    "difficulty": "Strenuous",
+    "duration": "15-22 days (longer if crossing Tashi Lapcha pass)",
+    "best_seasons": [
+      "April-May",
+      "October-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "Approx 4,700m (Tsho Rolpa Lake), 5,755m (Tashi Lapcha pass - technical)",
+      "min_elevation": "Approx 1,000m (Gongar Khola/start)"
+    },
+    "description": "A remote and challenging trek into the secluded Rolwaling Valley, west of the Khumbu. Features stunning landscapes, Sherpa villages, Tsho Rolpa glacial lake, and views of Mt. Gaurishankar. Crossing the Tashi Lapcha pass to enter the Khumbu is a technical mountaineering challenge.",
+    "historical_significance": "Rolwaling is believed to be a 'beyul' (hidden sacred valley). Home to traditional Sherpa communities.",
+    "itinerary": [
+      "Drive Ktm-Gongar Khola",
+      "Trek through Simigaon, Beding, Na village",
+      "Explore Tsho Rolpa glacial lake",
+      "Return via same route OR attempt technical Tashi Lapcha pass crossing (requires climbing gear, permits, experienced team) to reach Thame in Khumbu."
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "Gaurishankar Conservation Area Permit (GCAP - NPR 3000), TIMS. Rolwaling RAP may apply depending on route/pass crossing ($20/week approx - verify). Tashi Lapcha climbing permit required for pass.",
+      "guide": "Mandatory, experienced guide crucial ($30-$40/day)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "Basic teahouses, likely requires camping, especially near lake/pass.",
+      "food": "$25-$40/day (may need self-sufficiency)"
+    },
+    "transportation": "Bus/Jeep Ktm to start point. Fly Phaplu-Ktm or long trek/drive (end, typical) or long trek back to Jiri/Salleri",
+    "nearby_attractions": [
+      "Tsho Rolpa Glacial Lake",
+      "Beding village",
+      "Views of Gaurishankar",
+      "Remote monasteries"
+    ],
+    "required_permits": [
+      "GCAP",
+      "TIMS",
+      "Potentially Rolwaling RAP",
+      "Climbing permit for Tashi Lapcha"
+    ],
+    "recommended_gear": [
+      "Full trekking gear",
+      "Sleeping bag (-15C)",
+      "Camping gear (tent, stove)",
+      "Climbing gear (ropes, ice axe, crampons, harness) if crossing Tashi Lapcha"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "High to Very High (especially if crossing pass). Remote area, limited rescue access. Technical hazards on pass."
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1605649461784-edc01e8ec95e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1605649461784-edc01e8ec95e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Dudh Kunda Trek",
+    "district": "Solukhumbu",
+    "region": "Everest (Lower Khumbu)",
+    "difficulty": "Moderate to Challenging",
+    "duration": "12-15 days",
+    "best_seasons": [
+      "March-May",
+      "September-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "Approx 4,600m (Dudh Kunda Lake)",
+      "min_elevation": "Approx 2,300m (Phaplu/Ringmo)"
+    },
+    "description": "Trek to the sacred 'Milk Lake' (Dudh Kunda) situated at the base of Numbur Himal. A less-crowded pilgrimage route through Sherpa villages and rhododendron forests.",
+    "historical_significance": "Dudh Kunda is a sacred lake for both Hindus and Buddhists; major festival held in August.",
+    "itinerary": [
+      "Fly Ktm-Phaplu or Drive Ktm-Salleri/Ringmo",
+      "Trek through Takshindu, Beni",
+      "Reach Dudh Kunda Lake",
+      "Explore area",
+      "Return via similar or slightly different route to Phaplu/Salleri"
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "TIMS Card. May require local fee, check status.",
+      "guide": "$25-$30/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "Basic teahouses/homestays, potential camping near lake.",
+      "food": "$20-$35/day"
+    },
+    "transportation": "Flight Ktm-Phaplu or long jeep ride Ktm-Salleri/Ringmo.",
+    "nearby_attractions": [
+      "Dudh Kunda Lake",
+      "Thubten Choling Monastery (near Junbesi, possible detour)",
+      "Views of Numbur Himal"
+    ],
+    "required_permits": [
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Trekking boots",
+      "Warm layers",
+      "Sleeping bag (-10C)",
+      "Rain gear",
+      "Water purification",
+      "Potentially camping gear"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Moderate-High"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1605649461784-edc01e8ec95e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1605649461784-edc01e8ec95e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Jiri to Everest Base Camp Trek",
+    "district": "Dolakha, Solukhumbu",
+    "region": "Everest (Khumbu)",
+    "difficulty": "Strenuous",
+    "duration": "20-25 days",
+    "best_seasons": [
+      "March-May",
+      "September-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "5,545m (Kala Patthar)",
+      "min_elevation": "Approx 1,905m (Jiri)"
+    },
+    "description": "The classic 'pioneer's route' to Everest Base Camp, starting with a bus ride to Jiri and trekking through the lower hills before joining the main trail from Lukla. Offers more cultural immersion and gradual acclimatization.",
+    "historical_significance": "This was the original route used by expeditions before the Lukla airstrip was built.",
+    "itinerary": [
+      "Drive Ktm-Jiri/Shivalaya",
+      "Trek through Bhandar, Sete, Junbesi, Nunthala, Bupsa",
+      "Join main EBC trail near Phakding/Chheplung",
+      "Continue EBC trek as per standard route",
+      "Fly back Lukla-Ktm or trek back to Jiri/Salleri"
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "GCAP (if starting Jiri), Sagarmatha NP, Khumbu Municipality Fee, TIMS",
+      "guide": "$25-$35/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$5-$15/night (teahouse)",
+      "food": "$20-$45/day"
+    },
+    "transportation": "Bus Ktm-Jiri (start). Flight Lukla-Ktm (end, typical) or long trek/drive out.",
+    "nearby_attractions": [
+      "Lower Solu cultural villages",
+      "Full EBC attractions"
+    ],
+    "required_permits": [
+      "Gaurishankar Conservation Area Permit (if starting Jiri)",
+      "Sagarmatha National Park Permit",
+      "Khumbu Pasang Lhamu Rural Municipality Fee",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Full EBC gear list"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "High - Gradual ascent helps, but still significant."
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Annapurna Base Camp Trek",
+    "district": "Kaski, Myagdi",
+    "region": "Annapurna",
+    "difficulty": "Moderate to Challenging",
+    "duration": "7-12 days",
+    "best_seasons": [
+      "March-May",
+      "October-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "4,130m (Annapurna Base Camp)",
+      "min_elevation": "1,070m (Nayapul)"
+    },
+    "description": "Iconic trek into the heart of the Annapurna Sanctuary, a natural amphitheater surrounded by towering peaks including Annapurna I, Machhapuchhre, and Hiunchuli.",
+    "historical_significance": "The Sanctuary is considered sacred by the local Gurung people.",
+    "itinerary": [
+      "Drive Pokhara-Nayapul/Siwai",
+      "Trek via Chomrong, Bamboo, Deurali",
+      "Reach Machhapuchhre Base Camp (MBC)",
+      "Continue to Annapurna Base Camp (ABC)",
+      "Return via Jhinu Danda (hot springs), Siwai/Nayapul"
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "ACAP (NPR 3000), TIMS (NPR 1000/2000)",
+      "guide": "$25-$30/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$5-$10/night (teahouse)",
+      "food": "$20-$35/day"
+    },
+    "transportation": "Bus/Taxi Pokhara to Nayapul/Siwai.",
+    "nearby_attractions": [
+      "Annapurna Sanctuary views",
+      "Machhapuchhre Base Camp",
+      "Jhinu Danda hot springs",
+      "Ghandruk village (possible detour)"
+    ],
+    "required_permits": [
+      "Annapurna Conservation Area Permit (ACAP)",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Trekking boots",
+      "Layers",
+      "Waterproofs",
+      "Warm jacket",
+      "Sleeping bag (0C to -10C)",
+      "Poles",
+      "Water purification",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Moderate-High. Avalanche risk in certain seasons/areas - heed local advice."
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Tilicho Lake Trek",
+    "district": "Manang",
+    "region": "Annapurna",
+    "difficulty": "Challenging",
+    "duration": "16-20 days (usually combined with Annapurna Circuit)",
+    "best_seasons": [
+      "April-May",
+      "October-November (Passes can have snow)"
+    ],
+    "elevation_profile": {
+      "max_elevation": "5,416m (Thorong La Pass), 4,919m (Tilicho Lake)",
+      "min_elevation": "820m (Besisahar)"
+    },
+    "description": "A side trip from the Annapurna Circuit leading to the stunningly beautiful, high-altitude Tilicho Lake, one of the highest lakes in the world. Requires extra acclimatization and traverses landslide-prone areas.",
+    "historical_significance": "Tilicho Lake holds religious significance for Hindus (mentioned in Ramayana). Area is part of the traditional Manangi homeland.",
+    "itinerary": [
+      "Follow Annapurna Circuit route to Manang",
+      "Side Trip: Trek Khangsar, Tilicho Base Camp",
+      "Visit Tilicho Lake",
+      "Return to Khangsar/Yak Kharka",
+      "Continue Annapurna Circuit over Thorong La Pass"
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "ACAP (NPR 3000), TIMS (NPR 1000/2000)",
+      "guide": "$25-$30/day (recommended due to trail hazards)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$3-$10/night (teahouse, basic at Tilicho Base Camp)",
+      "food": "$20-$40/day"
+    },
+    "transportation": "Same as Annapurna Circuit.",
+    "nearby_attractions": [
+      "Tilicho Lake",
+      "Views of Tilicho Peak and Gangapurna",
+      "Annapurna Circuit highlights"
+    ],
+    "required_permits": [
+      "Annapurna Conservation Area Permit (ACAP)",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Full Annapurna Circuit gear",
+      "Possibly microspikes depending on season",
+      "Good balance needed for landslide sections"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "High. Landslide risk on trail to Tilicho Base Camp - check conditions."
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 29,
+    "name": "Nar Phu Valley Trek",
+    "district": "Manang",
+    "region": "Annapurna (Nar Phu)",
+    "difficulty": "Strenuous",
+    "duration": "17-21 days (often combined with Annapurna Circuit)",
+    "best_seasons": [
+      "April-May",
+      "October-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "5,416m (Thorong La Pass if combined), 5,320m (Kang La Pass)",
+      "min_elevation": "Approx 1,300m (Koto)"
+    },
+    "description": "Trek into the remote and culturally distinct Nar and Phu valleys north of the main Annapurna Circuit route. Requires restricted area permits and offers a glimpse into ancient Tibetan-influenced culture and stunning, rugged landscapes. Often involves crossing the high Kang La pass.",
+    "historical_significance": "Nar and Phu villages retain unique dialects and traditions due to isolation. Ancient monasteries like Phu Gompa.",
+    "itinerary": [
+      "Follow Annapurna Circuit route to Koto",
+      "Enter Nar Phu valley via Meta, Kyang",
+      "Explore Phu village and monastery",
+      "Trek to Nar village",
+      "Cross Kang La pass (5,320m) to Ngawal OR return via same route",
+      "Rejoin Annapurna Circuit and continue over Thorong La or exit"
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "Nar Phu RAP ($100/week Sep-Nov, $75/week other; + daily fees), ACAP (NPR 3000), TIMS (NPR 1000/2000)",
+      "guide": "Mandatory ($30-$40/day approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "Basic teahouses/homestays, potential camping",
+      "food": "$25-$40/day"
+    },
+    "transportation": "Same as Annapurna Circuit start/end.",
+    "nearby_attractions": [
+      "Nar & Phu Villages",
+      "Ancient monasteries",
+      "Kang La Pass",
+      "Views of Himlung Himal, Ratna Chuli"
+    ],
+    "required_permits": [
+      "Nar Phu Restricted Area Permit (RAP)",
+      "Annapurna Conservation Area Permit (ACAP)",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Full Annapurna Circuit gear",
+      "Sleeping bag (-15C)",
+      "Potentially camping gear",
+      "Microspikes useful for Kang La"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Very High. Remote area. Requires minimum 2 trekkers + licensed guide."
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 30,
+    "name": "Jomsom Muktinath Trek",
+    "district": "Mustang",
+    "region": "Annapurna (Lower Mustang)",
+    "difficulty": "Moderate",
+    "duration": "5-10 days (fly in/out option)",
+    "best_seasons": [
+      "March-May",
+      "September-November (can be done in monsoon, less rain)"
+    ],
+    "elevation_profile": {
+      "max_elevation": "3,800m (Muktinath)",
+      "min_elevation": "2,720m (Jomsom)"
+    },
+    "description": "Trek through the Kali Gandaki Valley, the world's deepest gorge, in the rain-shadow area of Lower Mustang. Features arid landscapes, Tibetan-influenced culture, the sacred Muktinath temple, and strong winds.",
+    "historical_significance": "Ancient salt trade route. Muktinath is sacred to Hindus & Buddhists. Kagbeni is gateway to Upper Mustang.",
+    "itinerary": [
+      "Fly Pokhara-Jomsom",
+      "Trek Kagbeni",
+      "Trek Muktinath",
+      "Explore Muktinath",
+      "Trek back to Jomsom via Lupra (optional Bon village) OR trek down valley towards Marpha, Tatopani",
+      "Fly Jomsom-Pokhara or take bus/jeep from Jomsom/Beni."
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "ACAP (NPR 3000), TIMS (NPR 1000/2000)",
+      "guide": "$25-$30/day (optional but recommended)",
+      "porter": "$20-$25/day (optional)",
+      "accommodation": "$5-$15/night (teahouse/lodge)",
+      "food": "$20-$35/day"
+    },
+    "transportation": "Flight Pokhara-Jomsom (~$125 one-way). Bus/Jeep available Jomsom-Pokhara (long journey).",
+    "nearby_attractions": [
+      "Muktinath Temple (108 spouts)",
+      "Kagbeni Village",
+      "Marpha Village (apples)",
+      "Views of Dhaulagiri & Nilgiri"
+    ],
+    "required_permits": [
+      "Annapurna Conservation Area Permit (ACAP)",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Hiking shoes",
+      "Windproof jacket/layers",
+      "Sun protection (high UV)",
+      "Scarf/buff (dust/wind)"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Low-Moderate (if flying in, take it easy first day). Strong winds common in afternoon."
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 31,
+    "name": "Sikles Trek",
+    "district": "Kaski",
+    "region": "Annapurna",
+    "difficulty": "Easy to Moderate",
+    "duration": "4-7 days",
+    "best_seasons": [
+      "February-May",
+      "September-December"
+    ],
+    "elevation_profile": {
+      "max_elevation": "Approx 2,700m (Tara Hill Top)",
+      "min_elevation": "Approx 1,000m (near Pokhara/start)"
+    },
+    "description": "A short cultural trek through Gurung villages, rhododendron forests, and terraced fields northeast of Pokhara. Offers good views of Annapurna II, IV, and Lamjung Himal. Less crowded than Poon Hill.",
+    "historical_significance": "Sikles is one of the largest Gurung villages in Nepal, known for preserving traditional culture and architecture.",
+    "itinerary": [
+      "Drive Pokhara towards Bhurjung Khola",
+      "Trek Ghale Kharka",
+      "Trek Sikles village",
+      "Explore Sikles",
+      "Hike to Tara Hill Top (optional)",
+      "Trek down via Taprang/Chipli",
+      "Drive back to Pokhara"
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "ACAP (NPR 3000), TIMS (NPR 1000/2000)",
+      "guide": "$25-$30/day (recommended for cultural interaction)",
+      "porter": "$20-$25/day (optional)",
+      "accommodation": "$5-$10/night (homestay/basic lodge)",
+      "food": "$15-$25/day"
+    },
+    "transportation": "Bus/Jeep Pokhara to starting point (e.g., Bhurjung Khola). Jeep/Bus from ending point.",
+    "nearby_attractions": [
+      "Sikles Eco-Museum",
+      "Traditional Gurung village life",
+      "Rhododendron forests (in spring)"
+    ],
+    "required_permits": [
+      "Annapurna Conservation Area Permit (ACAP)",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Hiking shoes",
+      "Comfortable clothes",
+      "Light jacket",
+      "Rain gear",
+      "Daypack",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Very Low"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1518002054494-3a6f23e2d7d4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1518002054494-3a6f23e2d7d4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 32,
+    "name": "Royal Trek",
+    "district": "Kaski",
+    "region": "Annapurna",
+    "difficulty": "Easy",
+    "duration": "3-5 days",
+    "best_seasons": [
+      "September-May"
+    ],
+    "elevation_profile": {
+      "max_elevation": "Approx 1,730m",
+      "min_elevation": "Approx 800m (near Pokhara)"
+    },
+    "description": "A short, low-altitude trek named after Prince Charles trekked this route in the 1980s. Offers pleasant walks through villages and terraced fields with views of the Annapurnas.",
+    "historical_significance": "Gained fame due to the royal visit. Passes through diverse ethnic villages.",
+    "itinerary": [
+      "Drive Ktm-Jagat/Chamje",
+      "Trek Dharapani, Chame, Pisang, Manang",
+      "Acclimatize Manang",
+      "Trek Yak Kharka, Thorong Phedi/High Camp",
+      "Cross Thorong La",
+      "Trek Muktinath, Jomsom",
+      "Fly Jomsom-Pokhara or trek/drive down via Tatopani/Ghorepani."
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "ACAP (NPR 3000), TIMS (NPR 1000/2000)",
+      "guide": "$25-$30/day (optional)",
+      "porter": "$20-$25/day (optional)",
+      "accommodation": "$5-$10/night (lodge/teahouse)",
+      "food": "$15-$25/day"
+    },
+    "transportation": "Bus/Taxi Ktm to start point. Bus from end points (e.g., Tatopani, Beni, Nayapul).",
+    "nearby_attractions": [
+      "Annapurna Conservation Area Permit (ACAP)",
+      "TIMS Card"
+    ],
+    "required_permits": [
+      "Annapurna Conservation Area Permit (ACAP)",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Hiking shoes",
+      "Comfortable clothes",
+      "Light jacket",
+      "Sun hat",
+      "Daypack"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "Negligible"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1518002054494-3a6f23e2d7d4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1518002054494-3a6f23e2d7d4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    "id": 33,
+    "name": "Langtang Gosainkunda Helambu Trek",
+    "district": "Rasuwa, Nuwakot, Sindhupalchowk",
+    "region": "Langtang",
+    "difficulty": "Challenging",
+    "duration": "14-18 days",
+    "best_seasons": [
+      "March-May",
+      "October-November"
+    ],
+    "elevation_profile": {
+      "max_elevation": "4,984m (Tserko Ri) / 4,610m (Lauribina La Pass)",
+      "min_elevation": "Approx 1,400m (Sundarijal)"
+    },
+    "description": "A comprehensive trek combining the Langtang Valley, sacred Gosainkunda lakes, and the culturally rich Helambu region.",
+    "historical_significance": "Combines Tamang, Hyolmo cultures, and major pilgrimage sites.",
+    "itinerary": [
+      "Combine Langtang Valley Trek itinerary",
+      "From Thulo Syabru/Sing Gompa, trek towards Gosainkunda",
+      "Cross Lauribina La Pass",
+      "Descend into Helambu region via Ghopte, Tharepati",
+      "Follow Helambu Trek itinerary down to Sundarijal/Melamchi"
+    ],
+    "itinerary_points": [],
+    "cost_breakdown": {
+      "permits": "Langtang NP (NPR 3000), Shivapuri Nagarjun NP (NPR 1000), TIMS (NPR 1000/2000)",
+      "guide": "$25-$35/day (approx)",
+      "porter": "$20-$25/day (approx)",
+      "accommodation": "$5-$10/night (teahouse)",
+      "food": "$20-$35/day"
+    },
+    "transportation": "Bus/Jeep Ktm-Syabrubesi (start). Bus from Melamchi/Taxi from Sundarijal (end).",
+    "nearby_attractions": [
+      "Kyanjin Gompa",
+      "Gosainkunda Lakes",
+      "Helambu villages"
+    ],
+    "required_permits": [
+      "Langtang National Park Permit",
+      "Shivapuri Nagarjun National Park Permit",
+      "TIMS Card"
+    ],
+    "recommended_gear": [
+      "Full trekking gear",
+      "Warm layers",
+      "Waterproofs",
+      "Sleeping bag (-10C)",
+      "Poles",
+      "Sun protection"
+    ],
+    "safety_info": {
+      "altitude_sickness_risk": "High"
+    },
+    "photos": [
+      "https://images.unsplash.com/photo-1605649461784-edc01e8ec95e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1605649461784-edc01e8ec95e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+    ]
+  }
+]
