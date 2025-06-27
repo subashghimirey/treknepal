@@ -9,8 +9,10 @@ class UserProfile(models.Model):
     display_name = models.CharField(max_length=255)
     photo_url = models.URLField(blank=True, null=True)
     role = models.CharField(max_length=20, default='user')
+    interests = models.JSONField(default=list, blank=True) 
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(default=timezone.now)
+
 
     def __str__(self):
         return self.display_name or self.user.username

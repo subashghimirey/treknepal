@@ -9,6 +9,23 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from .serializers import UserSignupSerializer
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from .recommend import recommend_treks
+from .serializers import TrekSerializer
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def recommended_treks_api(request):
+    profile = request.user.profile
+    print(f"Fetching recommendations for user: {profile.user.username} with interests: {profile.interests}")
+    recommended = recommend_treks(profile)
+    serializer = TrekSerializer(recommended, many=True)
+    return Response(serializer.data)
+
+
 class SignupView(APIView):
     def post(self, request):
         serializer = UserSignupSerializer(data=request.data)
@@ -37,7 +54,7 @@ class LoginView(APIView):
         if user:
             token, created = Token.objects.get_or_create(user=user)
 
-            # Get the user profile
+            
             try:
                 profile = UserProfile.objects.get(user=user)
                 profile_data = UserProfileSerializer(profile).data

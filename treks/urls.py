@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-from .views import SignupView, LoginView
+from .views import SignupView, LoginView, recommended_treks_api
 
 
     
@@ -37,4 +37,6 @@ urlpatterns = [
 
     path('transit-pass/', views.TransitPassListCreateView.as_view()),
     path('transit-pass/<int:pk>/', views.TransitPassDetailView.as_view()),
+
+    path('recommendations/', recommended_treks_api, name='recommend-treks'),
 ]
