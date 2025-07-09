@@ -6,19 +6,44 @@ from .models import (
     UserTrekInteraction, TransitPass
 )
 
-# ✅ Define a basic UserSerializer
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email']
 
-# ✅ Updated UserProfileSerializer using nested UserSerializer
-class UserProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-
+class UserProfileInlineSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['user', 'display_name', 'photo_url', 'role', 'is_active', 'created_at']
+        fields = ['display_name', 'photo_url', 'role', 'interests']
+
+class UserSerializer(serializers.ModelSerializer):
+    profile = UserProfileInlineSerializer()
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'profile', ]
+    
+    def update(self, instance, validated_data):
+        # Pop profile data from validated_data
+        profile_data = validated_data.pop('profile', {})
+
+        # Update User fields
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        instance.save()
+
+        # Update related UserProfile fields
+        profile = instance.profile  # through OneToOneField
+
+        for attr, value in profile_data.items():
+            setattr(profile, attr, value)
+        profile.save()
+
+        return instance
+
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    
+    class Meta:
+        model = UserProfile
+        fields = ['user', 'display_name', 'photo_url', 'interests' , 'role', 'is_active', 'created_at']
 
 
 class TrekSerializer(serializers.ModelSerializer):

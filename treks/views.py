@@ -76,8 +76,8 @@ class UserProfileListCreateView(generics.ListCreateAPIView):
 
 
 class UserProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
     lookup_field = 'id'
 
 

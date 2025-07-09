@@ -34,7 +34,7 @@ DEBUG = os.getenv("DEBUG", "True") == "True"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '.onrender.com']
+ALLOWED_HOSTS = ['*', '.onrender.com','192.168.0.110']
 
 
 # Application definition

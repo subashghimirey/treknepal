@@ -13,7 +13,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
 
     path('users/', views.UserProfileListCreateView.as_view()),
-    path('users/<str:id>/', views.UserProfileDetailView.as_view()),
+    path('users/<int:id>/', views.UserProfileDetailView.as_view()),
 
     path('treks/', views.TrekListCreateView.as_view()),
     path('treks/<int:id>/', views.TrekDetailView.as_view()),
@@ -38,5 +38,5 @@ urlpatterns = [
     path('transit-pass/', views.TransitPassListCreateView.as_view()),
     path('transit-pass/<int:pk>/', views.TransitPassDetailView.as_view()),
 
-    path('recommendations/', recommended_treks_api, name='recommend-treks'),
+    path('recommendations/', recommended_treks_api),
 ]

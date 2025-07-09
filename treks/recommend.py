@@ -1,57 +1,66 @@
-
-from sklearn.feature_extraction.text import TfidfVectorizer
+import spacy
+import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from .models import Trek
 
+# Load spaCy medium model once (this will load ~100MB)
+nlp = spacy.load("en_core_web_md")
+
+def average_spacy_vector(words, nlp):
+    """
+    Given a list of words, return the average vector.
+    Ignores words not in the spaCy vocab.
+    """
+    vectors = [nlp(word).vector for word in words if nlp(word).has_vector]
+    if not vectors:
+        return np.zeros(nlp.vocab.vectors_length)
+    return np.mean(vectors, axis=0)
+
+def flatten_list(json_list):
+    """
+    Flattens JSONFields that may be list of strings or list of dicts.
+    """
+    if not json_list:
+        return []
+    flattened = []
+    for item in json_list:
+        if isinstance(item, dict):
+            flattened.extend(str(v) for v in item.values())
+        else:
+            flattened.append(str(item))
+    return flattened
+
 def recommend_treks(user_profile, top_n=6):
+    """
+    Recommends top N treks based on cosine similarity between
+    user interest vector and trek content vectors.
+    """
     if not user_profile.interests:
         return Trek.objects.none()
 
-    SYNONYMS = {
-    "mountains": ["mountain", "hill", "range", "ridge"],
-    "culture": ["heritage", "tradition", "cultural"],
-    "view": ["sight", "scenery", "landscape", "panorama"],
-    "adventure": ["exploration", "expedition", "journey", "quest"],
-    "nature": ["wildlife", "flora", "fauna", "environment"],
-}
-
-    def expand_interests(interests):
-        expanded = []
-        for word in interests:
-            expanded.extend(SYNONYMS.get(word.lower(), [word]))
-        return expanded
-
-    user_words = expand_interests(user_profile.interests)
-    user_text = " ".join(user_words).lower()
+    user_words = [word.lower() for word in user_profile.interests]
+    user_vector = average_spacy_vector(user_words, nlp)
 
     treks = list(Trek.objects.all())
- 
-    corpus = [
-    f"{trek.name or ''} {trek.region or ''} {trek.difficulty or ''} "
-    f"{trek.description or ''} {' '.join(trek.tags or [])}".lower()
-    for trek in treks
-    ]
+    similarities = []
 
-    corpus.append(user_text)
+    for trek in treks:
+        combined_text = [
+            trek.name or '',
+            trek.duration or '',
+            trek.difficulty or '',
+            trek.description or '',
+            trek.historical_significance or '',
+            " ".join(flatten_list(trek.nearby_attractions)),
+            " ".join(flatten_list(trek.tags)),
+        ]
+        words = " ".join(combined_text).lower().split()
+        trek_vector = average_spacy_vector(words, nlp)
+        score = cosine_similarity([user_vector], [trek_vector])[0][0]
+        similarities.append((trek, score))
 
-    tfidf = TfidfVectorizer(stop_words='english')
-    tfidf_matrix = tfidf.fit_transform(corpus)
-
-    user_vector = tfidf_matrix[-1]
-    trek_vectors = tfidf_matrix[:-1]
-
-    print(f"user_vector shape: {user_vector.shape} | trek_vectors shape: {trek_vectors.shape}")
-
-    similarities = cosine_similarity(user_vector, trek_vectors).flatten()
-
-    print(f"Similarities: {similarities}")
-
-    sorted_indices = similarities.argsort()[::-1]
-
-    recommendations = []
-    for idx in sorted_indices[:top_n]:
-        if similarities[idx] > 0.1:
-            recommendations.append(treks[idx])
+    similarities.sort(key=lambda x: x[1], reverse=True)
+    recommendations = [trek for trek, score in similarities if score > 0][:top_n]
 
     print(f"Recommended {len(recommendations)} treks for user {user_profile.user.username} based on interests: {user_profile.interests}")
     return recommendations
