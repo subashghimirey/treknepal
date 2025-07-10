@@ -169,18 +169,22 @@ class SOSAlert(models.Model):
     EMERGENCY_TYPES = (
         ('health_issues', 'Health Issues'),
         ('lost', 'Lost'),
-
+        ('theft', 'Theft'),
+        ('rescue', 'Rescue'),
     )
+
+
     
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     latitude = models.FloatField()
     longitude = models.FloatField()
     selected_types = models.JSONField()  # List of selected emergency types
-    contacted_services = models.JSONField(default=list)  # List of services contacted
-    google_places_data = models.JSONField(default=list)  # Nearby places from Google
-    fallback_contacts = models.JSONField(default=list)  # Fallback emergency contacts
-    status = models.CharField(max_length=20, default='sent')
-    # emergency_type = 
+    contacted_services = models.JSONField(default=list) 
+    google_places_data = models.JSONField(default=list)  
+    fallback_contacts = models.JSONField(default=list)  
+    status = models.CharField(max_length=20 ,default='sent')
+    emergency_type = models.CharField(max_length=20, choices=EMERGENCY_TYPES, default='health_issues')
+    description = models.TextField(null=True, blank=True) 
     created_at = models.DateTimeField(default=timezone.now)
     resolved_at = models.DateTimeField(null=True, blank=True)
     

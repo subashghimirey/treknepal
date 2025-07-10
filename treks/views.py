@@ -274,13 +274,13 @@ def send_sos_alert(request):
     try:
         user_lat = float(request.data.get('latitude'))
         user_lon = float(request.data.get('longitude'))
-        selected_types = request.data.get('selected_types', [])  # e.g. ["police", "hospital"]
+        selected_types = request.data.get('selected_types', [])  
+        emergency_type = request.data.get('emergency_type', []) 
+        description = request.data.get('description', '')  
         
-        # Get user info
         user_profile = request.user.profile
         user_name = user_profile.display_name or request.user.username
         
-        # Fallback emergency contacts
         fallback_contacts = [
             # {
             #     "name": "Nepal Police",
@@ -381,6 +381,7 @@ def send_sos_alert(request):
                 f"Location: https://maps.google.com/?q={user_lat},{user_lon}\n"
                 f"Coordinates: {user_lat}, {user_lon}\n"
                 f"Emergency Types: {', '.join(selected_types)}\n\n"
+                f"{description}\n\n"
                 f"⚠️ PLEASE RESPOND IMMEDIATELY ⚠️\n\n"
                 f"This is an automated emergency alert from Trek Nepal App.\n"
                 f"Alert ID: {sos_alert.id}"
@@ -400,6 +401,8 @@ def send_sos_alert(request):
         return Response({
             "success": True,
             "message": "SOS alert sent successfully",
+            "description" : description,
+            "emergency_type": emergency_type,
             "alert_id": sos_alert.id,
             "contacted_services": len(contacted_services),
             "nearby_places_found": len(all_nearby_places),
@@ -440,6 +443,7 @@ def get_sos_alerts(request):
         })
     
     return Response(alerts_data)
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
