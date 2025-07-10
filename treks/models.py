@@ -165,6 +165,12 @@ class SOSAlert(models.Model):
         ('teahouse', 'Teahouse'),
         ('rescue', 'Rescue'),
     )
+
+    EMERGENCY_TYPES = (
+        ('health_issues', 'Health Issues'),
+        ('lost', 'Lost'),
+
+    )
     
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     latitude = models.FloatField()
@@ -174,6 +180,7 @@ class SOSAlert(models.Model):
     google_places_data = models.JSONField(default=list)  # Nearby places from Google
     fallback_contacts = models.JSONField(default=list)  # Fallback emergency contacts
     status = models.CharField(max_length=20, default='sent')
+    # emergency_type = 
     created_at = models.DateTimeField(default=timezone.now)
     resolved_at = models.DateTimeField(null=True, blank=True)
     

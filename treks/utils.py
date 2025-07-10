@@ -10,7 +10,6 @@ class GooglePlacesService:
     def __init__(self):
         api = os.getenv('GOOGLE_API_KEY', None)
         self.api_key = api
-        print("api key printed?", api)
         self.base_url = f'https://maps.googleapis.com/maps/api/place'
     
     def calculate_distance(self, lat1, lon1, lat2, lon2):

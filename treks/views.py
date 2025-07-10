@@ -427,14 +427,16 @@ def get_sos_alerts(request):
     alerts_data = []
     for alert in alerts:
         alerts_data.append({
-            'id': alert.id,
-            'latitude': alert.latitude,
-            'longitude': alert.longitude,
-            'selected_types': alert.selected_types,
-            'contacted_services_count': len(alert.contacted_services),
-            'status': alert.status,
-            'created_at': alert.created_at.isoformat(),
-            'resolved_at': alert.resolved_at.isoformat() if alert.resolved_at else None
+            "id": alert.id,
+            "latitude": alert.latitude,
+            "longitude": alert.longitude,
+            "selected_types": alert.selected_types,
+            "contacted_services": alert.contacted_services,
+            "google_places_data": alert.google_places_data,
+            "fallback_contacts": alert.fallback_contacts,
+            "status": alert.status,
+            "created_at": alert.created_at.isoformat(),
+            "resolved_at": alert.resolved_at.isoformat() if alert.resolved_at else None
         })
     
     return Response(alerts_data)
