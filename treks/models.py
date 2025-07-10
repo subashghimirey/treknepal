@@ -144,3 +144,38 @@ class TransitPass(models.Model):
     encrypted_qr = models.TextField()
     issued_at = models.DateTimeField(default=timezone.now)
     validated_at = models.DateTimeField(null=True, blank=True)
+
+
+class EmergencyContactPoint(models.Model):
+    name = models.CharField(max_length=100)
+    type = models.CharField(choices=[('police', 'Police'), ('hospital', 'Hospital'), ('teahouse', 'Teahouse / Lodge'), ('rescue', 'Rescue')], max_length=20)
+    email = models.EmailField(null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+
+    def __str__(self):
+        return f"{self.name} ({self.type}) - {self.phone}"
+    
+    
+class SOSAlert(models.Model):
+    ALERT_TYPES = (
+        ('police', 'Police'),
+        ('hospital', 'Hospital'),
+        ('teahouse', 'Teahouse'),
+        ('rescue', 'Rescue'),
+    )
+    
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    selected_types = models.JSONField()  # List of selected emergency types
+    contacted_services = models.JSONField(default=list)  # List of services contacted
+    google_places_data = models.JSONField(default=list)  # Nearby places from Google
+    fallback_contacts = models.JSONField(default=list)  # Fallback emergency contacts
+    status = models.CharField(max_length=20, default='sent')
+    created_at = models.DateTimeField(default=timezone.now)
+    resolved_at = models.DateTimeField(null=True, blank=True)
+    
+    def __str__(self):
+        return f"SOS Alert by {self.user.display_name} at {self.created_at}"

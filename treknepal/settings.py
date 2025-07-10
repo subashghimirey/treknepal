@@ -125,6 +125,25 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'      # or your SMTP server (gmail, mailgun, hostinger, zoho etc.)
+EMAIL_PORT = 587                   # 587 for TLS, 465 for SSL
+EMAIL_USE_TLS = True               # Use TLS (recommended)
+EMAIL_USE_SSL = False              # Only if using port 465 with SSL
+
+EMAIL_HOST_USER = 'codewithme.noworries@gmail.com'   
+EMAIL_HOST_PASSWORD = os.getenv("PASSWORD")   
+DEFAULT_FROM_EMAIL = 'Trek Nepal <codewithme.noworries@gmail.com>'
+
+
+
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 

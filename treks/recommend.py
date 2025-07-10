@@ -3,18 +3,20 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from .models import Trek
 
-# Load spaCy medium model once (this will load ~100MB)
+# Load spaCy medium model once
 nlp = spacy.load("en_core_web_md")
 
-def average_spacy_vector(words, nlp):
+# Simple in-memory cache to avoid recalculating trek vectors
+trek_vector_cache = {}
+
+def compute_average_vector_from_text(text):
     """
-    Given a list of words, return the average vector.
-    Ignores words not in the spaCy vocab.
+    Processes the full text and averages token vectors,
+    excluding stop words, punctuation, and non-vector tokens.
     """
-    vectors = [nlp(word).vector for word in words if nlp(word).has_vector]
-    if not vectors:
-        return np.zeros(nlp.vocab.vectors_length)
-    return np.mean(vectors, axis=0)
+    doc = nlp(text.lower())
+    vectors = [token.vector for token in doc if token.has_vector and not token.is_stop and not token.is_punct]
+    return np.mean(vectors, axis=0) if vectors else np.zeros(nlp.vocab.vectors_length)
 
 def flatten_list(json_list):
     """
@@ -34,31 +36,50 @@ def recommend_treks(user_profile, top_n=6):
     """
     Recommends top N treks based on cosine similarity between
     user interest vector and trek content vectors.
+    Uses caching for trek vectors to speed up recommendations.
     """
     if not user_profile.interests:
         return Trek.objects.none()
 
-    user_words = [word.lower() for word in user_profile.interests]
-    user_vector = average_spacy_vector(user_words, nlp)
+    # Compute user vector
+    user_text = " ".join(user_profile.interests)
+    user_vector = compute_average_vector_from_text(user_text)
+
+    # If user vector is empty, return nothing
+    if np.linalg.norm(user_vector) == 0:
+        return Trek.objects.none()
 
     treks = list(Trek.objects.all())
     similarities = []
 
     for trek in treks:
-        combined_text = [
-            trek.name or '',
-            trek.duration or '',
-            trek.difficulty or '',
-            trek.description or '',
-            trek.historical_significance or '',
-            " ".join(flatten_list(trek.nearby_attractions)),
-            " ".join(flatten_list(trek.tags)),
-        ]
-        words = " ".join(combined_text).lower().split()
-        trek_vector = average_spacy_vector(words, nlp)
+        trek_id = trek.id
+
+        # Retrieve or compute trek vector
+        if trek_id in trek_vector_cache:
+            trek_vector = trek_vector_cache[trek_id]
+        else:
+            combined_text = " ".join([
+                trek.name or '',
+                trek.duration or '',
+                trek.difficulty or '',
+                trek.description or '',
+                trek.historical_significance or '',
+                " ".join(flatten_list(trek.nearby_attractions)),
+                " ".join(flatten_list(trek.tags)),
+            ])
+            trek_vector = compute_average_vector_from_text(combined_text)
+            trek_vector_cache[trek_id] = trek_vector
+
+        # Skip zero vectors (meaning no meaningful content)
+        if np.linalg.norm(trek_vector) == 0:
+            continue
+
+        # Compute cosine similarity
         score = cosine_similarity([user_vector], [trek_vector])[0][0]
         similarities.append((trek, score))
 
+    # Sort by similarity
     similarities.sort(key=lambda x: x[1], reverse=True)
     recommendations = [trek for trek, score in similarities if score > 0][:top_n]
 

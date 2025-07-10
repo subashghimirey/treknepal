@@ -1,0 +1,1649 @@
+[
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.689890000000002,
+    "longitude": 86.73156,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.68789,
+    "longitude": 86.72955999999999,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.69089,
+    "longitude": 86.72856,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.751,
+    "longitude": 86.71770000000001,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.749,
+    "longitude": 86.7157,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.752,
+    "longitude": 86.71470000000001,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.817700000000002,
+    "longitude": 86.71770000000001,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.8157,
+    "longitude": 86.7157,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.8187,
+    "longitude": 86.71470000000001,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.837110000000003,
+    "longitude": 86.76489000000001,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.83511,
+    "longitude": 86.76289,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.83811,
+    "longitude": 86.76189000000001,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.884,
+    "longitude": 86.818,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.881999999999998,
+    "longitude": 86.81599999999999,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.884999999999998,
+    "longitude": 86.815,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.949060000000003,
+    "longitude": 86.81128000000001,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.94706,
+    "longitude": 86.80928,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.95006,
+    "longitude": 86.80828000000001,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.98156,
+    "longitude": 86.82961,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.97956,
+    "longitude": 86.82760999999999,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.98256,
+    "longitude": 86.82661,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.00822,
+    "longitude": 86.86044000000001,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.00622,
+    "longitude": 86.85844,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.00922,
+    "longitude": 86.85744000000001,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.996833000000002,
+    "longitude": 86.829417,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.994833,
+    "longitude": 86.827417,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.997833,
+    "longitude": 86.826417,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.894561,
+    "longitude": 86.82087800000001,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.892560999999997,
+    "longitude": 86.818878,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.895560999999997,
+    "longitude": 86.81787800000001,
+    "trek_name": "Everest Base Camp Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.2343,
+    "longitude": 84.38430000000001,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.2323,
+    "longitude": 84.3823,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.2353,
+    "longitude": 84.38130000000001,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.5579,
+    "longitude": 84.2304,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.555899999999998,
+    "longitude": 84.2284,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.558899999999998,
+    "longitude": 84.2274,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.622400000000003,
+    "longitude": 84.15350000000001,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.6204,
+    "longitude": 84.1515,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.6234,
+    "longitude": 84.15050000000001,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.6677,
+    "longitude": 84.0177,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.665699999999998,
+    "longitude": 84.0157,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.668699999999998,
+    "longitude": 84.0147,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.7843,
+    "longitude": 83.93430000000001,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.7823,
+    "longitude": 83.9323,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.7853,
+    "longitude": 83.93130000000001,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.7952,
+    "longitude": 83.9263,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.7932,
+    "longitude": 83.92429999999999,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.7962,
+    "longitude": 83.9233,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.817700000000002,
+    "longitude": 83.8677,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.8157,
+    "longitude": 83.86569999999999,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.8187,
+    "longitude": 83.8647,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.7843,
+    "longitude": 83.7343,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.7823,
+    "longitude": 83.7323,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.7853,
+    "longitude": 83.7313,
+    "trek_name": "Annapurna Circuit Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.1613,
+    "longitude": 85.34660000000001,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.159299999999998,
+    "longitude": 85.3446,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.1623,
+    "longitude": 85.34360000000001,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.1641,
+    "longitude": 85.4316,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.1621,
+    "longitude": 85.4296,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.1651,
+    "longitude": 85.4286,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.2149,
+    "longitude": 85.5177,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.212899999999998,
+    "longitude": 85.5157,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.215899999999998,
+    "longitude": 85.5147,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.2149,
+    "longitude": 85.5677,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.212899999999998,
+    "longitude": 85.56569999999999,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.215899999999998,
+    "longitude": 85.5647,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.223200000000002,
+    "longitude": 85.5982,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.2212,
+    "longitude": 85.5962,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.2242,
+    "longitude": 85.5952,
+    "trek_name": "Langtang Valley Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.301000000000002,
+    "longitude": 83.7843,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.299,
+    "longitude": 83.78229999999999,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.302,
+    "longitude": 83.7813,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.351000000000003,
+    "longitude": 83.7677,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.349,
+    "longitude": 83.7657,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.352,
+    "longitude": 83.7647,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.401,
+    "longitude": 83.70100000000001,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.398999999999997,
+    "longitude": 83.699,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.401999999999997,
+    "longitude": 83.69800000000001,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.4177,
+    "longitude": 83.68430000000001,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.415699999999998,
+    "longitude": 83.6823,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.418699999999998,
+    "longitude": 83.68130000000001,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.3843,
+    "longitude": 83.751,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.382299999999997,
+    "longitude": 83.749,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.385299999999997,
+    "longitude": 83.748,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.367700000000003,
+    "longitude": 83.801,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.3657,
+    "longitude": 83.79899999999999,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.3687,
+    "longitude": 83.798,
+    "trek_name": "Ghorepani Poon Hill Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.689890000000002,
+    "longitude": 86.73156,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.68789,
+    "longitude": 86.72955999999999,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.69089,
+    "longitude": 86.72856,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.751,
+    "longitude": 86.71770000000001,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.749,
+    "longitude": 86.7157,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.752,
+    "longitude": 86.71470000000001,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.817700000000002,
+    "longitude": 86.71770000000001,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.8157,
+    "longitude": 86.7157,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.8187,
+    "longitude": 86.71470000000001,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.851000000000003,
+    "longitude": 86.71770000000001,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.849,
+    "longitude": 86.7157,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.852,
+    "longitude": 86.71470000000001,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.867700000000003,
+    "longitude": 86.68430000000001,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.8657,
+    "longitude": 86.6823,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.8687,
+    "longitude": 86.68130000000001,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.951,
+    "longitude": 86.68430000000001,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.948999999999998,
+    "longitude": 86.6823,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.951999999999998,
+    "longitude": 86.68130000000001,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.9677,
+    "longitude": 86.68430000000001,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.9657,
+    "longitude": 86.6823,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.9687,
+    "longitude": 86.68130000000001,
+    "trek_name": "Gokyo Lakes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.689890000000002,
+    "longitude": 86.73156,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.68789,
+    "longitude": 86.72955999999999,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.69089,
+    "longitude": 86.72856,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.817700000000002,
+    "longitude": 86.71770000000001,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.8157,
+    "longitude": 86.7157,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.8187,
+    "longitude": 86.71470000000001,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.901,
+    "longitude": 86.8677,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.898999999999997,
+    "longitude": 86.86569999999999,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.901999999999997,
+    "longitude": 86.8647,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.9343,
+    "longitude": 86.8343,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.932299999999998,
+    "longitude": 86.83229999999999,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.935299999999998,
+    "longitude": 86.8313,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.949060000000003,
+    "longitude": 86.81128000000001,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.94706,
+    "longitude": 86.80928,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.95006,
+    "longitude": 86.80828000000001,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.00822,
+    "longitude": 86.86044000000001,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.00622,
+    "longitude": 86.85844,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.00922,
+    "longitude": 86.85744000000001,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.9343,
+    "longitude": 86.7677,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.932299999999998,
+    "longitude": 86.7657,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.935299999999998,
+    "longitude": 86.7647,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.951,
+    "longitude": 86.7343,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.948999999999998,
+    "longitude": 86.7323,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.951999999999998,
+    "longitude": 86.7313,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.951,
+    "longitude": 86.68430000000001,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.948999999999998,
+    "longitude": 86.6823,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.951999999999998,
+    "longitude": 86.68130000000001,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.9677,
+    "longitude": 86.63430000000001,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.9657,
+    "longitude": 86.6323,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.9687,
+    "longitude": 86.63130000000001,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.834300000000002,
+    "longitude": 86.65100000000001,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.8323,
+    "longitude": 86.649,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.8353,
+    "longitude": 86.64800000000001,
+    "trek_name": "Three Passes Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.689890000000002,
+    "longitude": 86.73156,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.68789,
+    "longitude": 86.72955999999999,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.69089,
+    "longitude": 86.72856,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.751,
+    "longitude": 86.71770000000001,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.749,
+    "longitude": 86.7157,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.752,
+    "longitude": 86.71470000000001,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.817700000000002,
+    "longitude": 86.71770000000001,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.8157,
+    "longitude": 86.7157,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.8187,
+    "longitude": 86.71470000000001,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.834300000000002,
+    "longitude": 86.7343,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.8323,
+    "longitude": 86.7323,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.8353,
+    "longitude": 86.7313,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.834300000000002,
+    "longitude": 86.71770000000001,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.8323,
+    "longitude": 86.7157,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.8353,
+    "longitude": 86.71470000000001,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.837110000000003,
+    "longitude": 86.76489000000001,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.83511,
+    "longitude": 86.76289,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.83811,
+    "longitude": 86.76189000000001,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 27.7677,
+    "longitude": 86.71770000000001,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 27.7657,
+    "longitude": 86.7157,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 27.7687,
+    "longitude": 86.71470000000001,
+    "trek_name": "Everest View Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.2843,
+    "longitude": 83.8177,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.2823,
+    "longitude": 83.81569999999999,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.2853,
+    "longitude": 83.8147,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.2843,
+    "longitude": 83.8343,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.2823,
+    "longitude": 83.83229999999999,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.2853,
+    "longitude": 83.8313,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.334300000000002,
+    "longitude": 83.8343,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.3323,
+    "longitude": 83.83229999999999,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.3353,
+    "longitude": 83.8313,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.367700000000003,
+    "longitude": 83.851,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.3657,
+    "longitude": 83.84899999999999,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.3687,
+    "longitude": 83.848,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.401,
+    "longitude": 83.8677,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.398999999999997,
+    "longitude": 83.86569999999999,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.401999999999997,
+    "longitude": 83.8647,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.4343,
+    "longitude": 83.88430000000001,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.432299999999998,
+    "longitude": 83.8823,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.435299999999998,
+    "longitude": 83.88130000000001,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Local Police Station",
+    "type": "police",
+    "email": "sudeepkarki74@gmail.com",
+    "phone": "+977-1-100",
+    "latitude": 28.351000000000003,
+    "longitude": 83.8677,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Community Hospital",
+    "type": "hospital",
+    "email": "hospital@example.com",
+    "phone": "+977-1-102",
+    "latitude": 28.349,
+    "longitude": 83.86569999999999,
+    "trek_name": "Mardi Himal Trek"
+  },
+  {
+    "name": "Trekker\\'s Teahouse",
+    "type": "teahouse",
+    "email": "teahouse@example.com",
+    "phone": "+977-1-103",
+    "latitude": 28.352,
+    "longitude": 83.8647,
+    "trek_name": "Mardi Himal Trek"
+  }
+]

@@ -39,4 +39,15 @@ urlpatterns = [
     path('transit-pass/<int:pk>/', views.TransitPassDetailView.as_view()),
 
     path('recommendations/', recommended_treks_api),
+
+    # path('send-sos/', views.send_sos, name='send_sos'),
+
+
+    path('sos-alert/', views.send_sos_alert, name='send-sos-alert'),
+    path('sos-alerts/', views.get_sos_alerts, name='get-sos-alerts'),
+    path('sos-alerts/<int:alert_id>/resolve/', views.resolve_sos_alert, name='resolve-sos-alert'),
+
+
+
+
 ]
