@@ -45,9 +45,7 @@ urlpatterns = [
 
     path('sos-alert/', views.send_sos_alert, name='send-sos-alert'),
     path('sos-alerts/', views.get_sos_alerts, name='get-sos-alerts'),
+    path('sos-alerts/<int:alert_id>/', views.sos_alert_detail, name='sos-alert-detail'),
     path('sos-alerts/<int:alert_id>/resolve/', views.resolve_sos_alert, name='resolve-sos-alert'),
-
-
-
 
 ]

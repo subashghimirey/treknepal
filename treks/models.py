@@ -48,6 +48,13 @@ class Trek(models.Model):
 
 
 class TimsApplication(models.Model):
+
+    STATUS = (
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    )
+
     tims_card_no = models.CharField(max_length=255, unique=True)
     transaction_id = models.CharField(max_length=255, unique=True)
     issue_date = models.DateTimeField()
@@ -69,14 +76,14 @@ class TimsApplication(models.Model):
     nepal_office_number = models.CharField(max_length=20, null=True, blank=True)
     nepal_address = models.TextField()
 
-    # Home contact
+ 
     home_contact_name = models.CharField(max_length=255)
     home_city = models.CharField(max_length=255)
     home_mobile = models.CharField(max_length=20)
     home_office_number = models.CharField(max_length=20, null=True, blank=True)
     home_address = models.TextField()
 
-    status = models.CharField(max_length=50, default='pending')
+    status = models.CharField(max_length=50,choices=STATUS ,default='pending')
     payment_status = models.CharField(max_length=50, default='pending')
     permit_cost = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 

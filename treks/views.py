@@ -187,17 +187,23 @@ class TrekDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 # --- TIMS ---
 class TimsApplicationListCreateView(generics.ListCreateAPIView):
-    queryset = TimsApplication.objects.all()
     serializer_class = TimsApplicationSerializer
+    permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        return TimsApplication.objects.filter(user=self.request.user.profile)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user.profile)
 
 class TimsApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = TimsApplication.objects.all()
     serializer_class = TimsApplicationSerializer
+    permission_classes = [IsAuthenticated]
     lookup_field = 'id'
 
+    def get_queryset(self):
+        return TimsApplication.objects.filter(user=self.request.user.profile)
 
-# --- SOCIAL: POST ---
 class PostListCreateView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -208,7 +214,7 @@ class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
 
 
-# --- SOCIAL: COMMENT ---
+
 class CommentListCreateView(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -465,3 +471,24 @@ def resolve_sos_alert(request, alert_id):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def sos_alert_detail(request, alert_id):
+    """Get details of a specific SOS alert for the current user"""
+    try:
+        alert = SOSAlert.objects.get(id=alert_id, user=request.user.profile)
+        alert_data = {
+            "id": alert.id,
+            "latitude": alert.latitude,
+            "longitude": alert.longitude,
+            "selected_types": alert.selected_types,
+            "contacted_services": alert.contacted_services,
+            "google_places_data": alert.google_places_data,
+            "fallback_contacts": alert.fallback_contacts,
+            "status": alert.status,
+            "created_at": alert.created_at.isoformat(),
+            "resolved_at": alert.resolved_at.isoformat() if alert.resolved_at else None
+        }
+        return Response(alert_data)
+    except SOSAlert.DoesNotExist:
+        return Response({"error": "SOS alert not found"}, status=status.HTTP_404_NOT_FOUND)
