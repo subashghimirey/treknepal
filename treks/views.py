@@ -282,7 +282,7 @@ def send_sos_alert(request):
         user_lon = float(request.data.get('longitude'))
         selected_types = request.data.get('selected_types', [])  
         emergency_type = request.data.get('emergency_type', []) 
-        description = request.data.get('description', '')  
+        description = request.data.get('description')  
         
         user_profile = request.user.profile
         user_name = user_profile.display_name or request.user.username
@@ -371,6 +371,8 @@ def send_sos_alert(request):
             user=user_profile,
             latitude=user_lat,
             longitude=user_lon,
+            description=description,
+            emergency_type=emergency_type,
             selected_types=selected_types,
             contacted_services=contacted_services,
             google_places_data=all_nearby_places,
@@ -440,6 +442,8 @@ def get_sos_alerts(request):
             "latitude": alert.latitude,
             "longitude": alert.longitude,
             "selected_types": alert.selected_types,
+            "description": alert.description,
+            "emergency_type": alert.emergency_type,
             "contacted_services": alert.contacted_services,
             "google_places_data": alert.google_places_data,
             "fallback_contacts": alert.fallback_contacts,
@@ -481,6 +485,8 @@ def sos_alert_detail(request, alert_id):
             "id": alert.id,
             "latitude": alert.latitude,
             "longitude": alert.longitude,
+            "description": alert.description,
+            "emergency_type": alert.emergency_type,
             "selected_types": alert.selected_types,
             "contacted_services": alert.contacted_services,
             "google_places_data": alert.google_places_data,
