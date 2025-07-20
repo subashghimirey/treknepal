@@ -8,7 +8,6 @@ from .views import SignupView, LoginView, recommended_treks_api
 
 
 urlpatterns = [
-
     path('signup/', SignupView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
 
@@ -18,8 +17,9 @@ urlpatterns = [
     path('treks/', views.TrekListCreateView.as_view()),
     path('treks/<int:id>/', views.TrekDetailView.as_view()),
 
-    path('tims/', views.TimsApplicationListCreateView.as_view()),
-    path('tims/<int:id>/', views.TimsApplicationDetailView.as_view()),
+    # TIMS Application endpoints
+    path('transit-pass/', views.TimsApplicationListCreateView.as_view(), name='tims-application-list'),
+    path('transit-pass/<int:id>/', views.TimsApplicationDetailView.as_view(), name='tims-application-detail'),
 
     path('posts/', views.PostListCreateView.as_view()),
     path('posts/<int:pk>/', views.PostDetailView.as_view()),
@@ -35,8 +35,8 @@ urlpatterns = [
 
     path('interactions/', views.UserTrekInteractionView.as_view()),
 
-    path('transit-pass/', views.TransitPassListCreateView.as_view()),
-    path('transit-pass/<int:pk>/', views.TransitPassDetailView.as_view()),
+    # path('transit-pass/', views.TransitPassListCreateView.as_view()),
+    # path('transit-pass/<int:pk>/', views.TransitPassDetailView.as_view()),
 
     path('recommendations/', recommended_treks_api),
 

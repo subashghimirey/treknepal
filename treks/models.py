@@ -2,6 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils import timezone
+import qrcode
+import base64
+from io import BytesIO
+import requests
+import math
 
 
 class UserProfile(models.Model):
@@ -48,51 +53,92 @@ class Trek(models.Model):
 
 
 class TimsApplication(models.Model):
-
-    STATUS = (
+    STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('approved', 'Approved'),
-        ('rejected', 'Rejected'),
-    )
-
-    tims_card_no = models.CharField(max_length=255, unique=True)
-    transaction_id = models.CharField(max_length=255, unique=True)
-    issue_date = models.DateTimeField()
-    full_name = models.CharField(max_length=255)
-    nationality = models.CharField(max_length=255)
-    passport_number = models.CharField(max_length=255)
+        ('rejected', 'Rejected')
+    ]
+    PAYMENT_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed')
+    ]
+    
+    user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
+    tims_card_no = models.CharField(max_length=50, unique=True, blank=True, null=True)
+    encrypted_qr_code = models.URLField(blank=True, null=True)
+    transaction_id = models.CharField(max_length=100)
+    issue_date = models.DateField(auto_now_add=True)
+    image = models.URLField()
+    full_name = models.CharField(max_length=200)
+    nationality = models.CharField(max_length=100)
+    passport_number = models.CharField(max_length=100)
     gender = models.CharField(max_length=10)
     date_of_birth = models.DateField()
-    trekker_area = models.CharField(max_length=255)
-    route = models.CharField(max_length=255)
+    trekker_area = models.CharField(max_length=200)
+    route = models.CharField(max_length=200)
     entry_date = models.DateField()
     exit_date = models.DateField()
-
-    # Nepal contact
-    nepal_contact_name = models.CharField(max_length=255)
-    nepal_organization = models.CharField(max_length=255)
-    nepal_designation = models.CharField(max_length=255, null=True, blank=True)
+    
+    # Nepal Contact Information
+    nepal_contact_name = models.CharField(max_length=200)
+    nepal_organization = models.CharField(max_length=200)
+    nepal_designation = models.CharField(max_length=200, blank=True)
     nepal_mobile = models.CharField(max_length=20)
-    nepal_office_number = models.CharField(max_length=20, null=True, blank=True)
+    nepal_office_number = models.CharField(max_length=20, blank=True)
     nepal_address = models.TextField()
-
- 
-    home_contact_name = models.CharField(max_length=255)
-    home_city = models.CharField(max_length=255)
+    
+    # Home Country Contact Information
+    home_contact_name = models.CharField(max_length=200)
+    home_city = models.CharField(max_length=200)
     home_mobile = models.CharField(max_length=20)
-    home_office_number = models.CharField(max_length=20, null=True, blank=True)
+    home_office_number = models.CharField(max_length=20, blank=True)
     home_address = models.TextField()
-
-    status = models.CharField(max_length=50,choices=STATUS ,default='pending')
-    payment_status = models.CharField(max_length=50, default='pending')
-    permit_cost = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-
-    created_at = models.DateTimeField(default=timezone.now)
+    
+    # Status and Cost Information
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='pending')
+    transit_pass_cost = models.JSONField()
+    permit_cost = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
+
+    def save(self, *args, **kwargs):
+        # First save to get an ID if it's a new object
+        if not self.pk:
+            super().save(*args, **kwargs)
+        
+        # Generate TIMS card number and QR code if not already generated
+        if not self.tims_card_no:
+            year = self.created_at.strftime('%Y')
+            self.tims_card_no = f'TIMS-{year}-{str(self.id).zfill(6)}'
+            
+            # Generate encrypted QR code
+            try:
+                from .utils import columnar_encrypt, generate_qr_and_upload_v2
+                
+                # Encrypt the TIMS card number
+                encrypted_data = columnar_encrypt(self.tims_card_no)
+                
+                # Generate QR code and upload to Cloudinary
+                qr_url = generate_qr_and_upload_v2(encrypted_data, 'finalProject')
+                self.encrypted_qr_code = qr_url
+                
+                # Save again with the generated data
+                super().save(update_fields=['tims_card_no', 'encrypted_qr_code'])
+            except Exception as e:
+                print(f"Error generating QR code: {e}")
+                # Save at least the TIMS card number
+                super().save(update_fields=['tims_card_no'])
+        else:
+            super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.tims_card_no
+        return f"{self.full_name} - {self.tims_card_no or 'Pending'}"
+
+    class Meta:
+        ordering = ['-created_at']
 
 
 class Post(models.Model):
