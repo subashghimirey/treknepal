@@ -17,6 +17,24 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'profile', ]
+
+
+class TimsApplicationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TimsApplication
+        fields = [
+            'id', 'tims_card_no', 'encrypted_qr_code', 'transaction_id', 
+            'issue_date', 'image', 'full_name', 'nationality', 
+            'passport_number', 'gender', 'date_of_birth',
+            'trekker_area', 'route', 'entry_date', 'exit_date',
+            'nepal_contact_name', 'nepal_organization', 'nepal_designation',
+            'nepal_mobile', 'nepal_office_number', 'nepal_address',
+            'home_contact_name', 'home_city', 'home_mobile',
+            'home_office_number', 'home_address',
+            'status', 'payment_status', 'transit_pass_cost', 'permit_cost',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'tims_card_no', 'issue_date', 'created_at', 'updated_at']
     
     def update(self, instance, validated_data):
         # Pop profile data from validated_data

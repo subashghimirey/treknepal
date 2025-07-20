@@ -1,7 +1,6 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
 from .models import *
 from .serializers import *
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -18,6 +17,29 @@ from .serializers import TrekSerializer
 from django.core.mail import send_mail
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+
+class TimsApplicationListCreateView(generics.ListCreateAPIView):
+    queryset = TimsApplication.objects.all()
+    serializer_class = TimsApplicationSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_queryset(self):
+        user = self.request.user
+        return TimsApplication.objects.filter(user=user)
+
+
+class TimsApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TransitPass.objects.all()
+    serializer_class = TransitPassSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        user = self.request.user
+        return TimsApplication.objects.filter(user=user)
 from rest_framework import status
 
 from .models import EmergencyContactPoint
@@ -191,10 +213,30 @@ class TimsApplicationListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return TimsApplication.objects.filter(user=self.request.user.profile)
+        # Check if user is authenticated and has a profile
+        if self.request.user.is_authenticated:
+            try:
+                return TimsApplication.objects.filter(user=self.request.user.profile)
+            except AttributeError:
+                # User doesn't have a profile yet
+                return TimsApplication.objects.none()
+        return TimsApplication.objects.none()
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user.profile)
+        # Ensure user has a profile
+        if self.request.user.is_authenticated:
+            try:
+                user_profile = self.request.user.profile
+            except AttributeError:
+                # Create profile if it doesn't exist
+                from .models import UserProfile
+                user_profile = UserProfile.objects.create(
+                    user=self.request.user,
+                    display_name=self.request.user.username
+                )
+            serializer.save(user=user_profile)
+        else:
+            raise PermissionError("Authentication required")
 
 class TimsApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TimsApplicationSerializer
@@ -271,6 +313,41 @@ class TransitPassListCreateView(generics.ListCreateAPIView):
 class TransitPassDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TransitPass.objects.all()
     serializer_class = TransitPassSerializer
+
+
+@api_view(['POST'])
+def test_qr_generation(request):
+    """Test endpoint for QR code generation"""
+    try:
+        from .utils import columnar_encrypt, generate_qr_and_upload
+        
+        test_text = request.data.get('text', 'TIMS-2025-000001')
+        
+        # Encrypt the text
+        encrypted_data = columnar_encrypt(test_text)
+        print(f"Test - Original text: {test_text}")
+        print(f"Test - Encrypted data: {encrypted_data}")
+        
+        # Generate QR code and upload
+        cloudinary_url = f"https://api.cloudinary.com/v1_1/ddykuhurr/image/upload"
+        qr_url = generate_qr_and_upload(
+            encrypted_data,
+            cloudinary_url,
+            'finalProject'
+        )
+        
+        return Response({
+            "success": True,
+            "original_text": test_text,
+            "encrypted_data": encrypted_data,
+            "qr_url": qr_url
+        })
+        
+    except Exception as e:
+        return Response({
+            "success": False,
+            "error": str(e)
+        }, status=400)
 
 
 # --- SOS ALERT ---
