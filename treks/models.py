@@ -10,17 +10,27 @@ import math
 
 
 class UserProfile(models.Model):
+
+    ROLE_CHOICES = [
+        ('user', 'Regular User'),
+        ('admin', 'Admin/Officer'),
+        ('superadmin', 'Super Admin'),
+    ]
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     display_name = models.CharField(max_length=255)
     photo_url = models.URLField(blank=True, null=True)
-    role = models.CharField(max_length=20, default='user')
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES,default='user')
     interests = models.JSONField(default=list, blank=True) 
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(default=timezone.now)
 
+    def is_admin(self):
+        return self.role in ['admin', 'superadmin']
 
     def __str__(self):
         return self.display_name or self.user.username
+    
 
 
 class Trek(models.Model):
@@ -74,11 +84,11 @@ class TimsApplication(models.Model):
     nationality = models.CharField(max_length=100)
     passport_number = models.CharField(max_length=100)
     gender = models.CharField(max_length=10)
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField(null=True, blank=True)
     trekker_area = models.CharField(max_length=200)
     route = models.CharField(max_length=200)
-    entry_date = models.DateField()
-    exit_date = models.DateField()
+    entry_date = models.DateField(null=True, blank=True)
+    exit_date = models.DateField(null=True, blank=True)
     
     # Nepal Contact Information
     nepal_contact_name = models.CharField(max_length=200)
@@ -99,37 +109,29 @@ class TimsApplication(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='pending')
     transit_pass_cost = models.JSONField()
-    permit_cost = models.DecimalField(max_digits=10, decimal_places=2)
+    permit_cost = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        # First save to get an ID if it's a new object
         if not self.pk:
             super().save(*args, **kwargs)
         
-        # Generate TIMS card number and QR code if not already generated
         if not self.tims_card_no:
             year = self.created_at.strftime('%Y')
-            self.tims_card_no = f'TIMS-{year}-{str(self.id).zfill(6)}'
+            self.tims_card_no = f'TIMS{year}{str(self.id).zfill(6)}'
             
-            # Generate encrypted QR code
             try:
-                from .utils import columnar_encrypt, generate_qr_and_upload_v2
+                from .utils import columnar_encrypt, generate_qr_and_upload
                 
-                # Encrypt the TIMS card number
                 encrypted_data = columnar_encrypt(self.tims_card_no)
-                
-                # Generate QR code and upload to Cloudinary
-                qr_url = generate_qr_and_upload_v2(encrypted_data, 'finalProject')
+                qr_url = generate_qr_and_upload(encrypted_data, 'timsqr')  # Use 'timsqr' preset
                 self.encrypted_qr_code = qr_url
                 
-                # Save again with the generated data
                 super().save(update_fields=['tims_card_no', 'encrypted_qr_code'])
             except Exception as e:
                 print(f"Error generating QR code: {e}")
-                # Save at least the TIMS card number
                 super().save(update_fields=['tims_card_no'])
         else:
             super().save(*args, **kwargs)
@@ -190,13 +192,6 @@ class UserTrekInteraction(models.Model):
     interaction_weight = models.IntegerField(default=1)
     created_at = models.DateTimeField(default=timezone.now)
 
-
-class TransitPass(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    trek = models.ForeignKey(Trek, on_delete=models.CASCADE)
-    encrypted_qr = models.TextField()
-    issued_at = models.DateTimeField(default=timezone.now)
-    validated_at = models.DateTimeField(null=True, blank=True)
 
 
 class EmergencyContactPoint(models.Model):

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from .models import (
     UserProfile, Trek, TimsApplication,
     Post, Comment, Like, Favorite,
-    UserTrekInteraction, TransitPass
+    UserTrekInteraction
 )
 
 
@@ -105,11 +105,6 @@ class UserTrekInteractionSerializer(serializers.ModelSerializer):
         model = UserTrekInteraction
         fields = '__all__'
 
-
-class TransitPassSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TransitPass
-        fields = '__all__'
 
 
 # ✅ Signup serializer handling user + user profile

@@ -9,7 +9,6 @@ admin.site.register(Comment)
 admin.site.register(Like)
 admin.site.register(Favorite)
 admin.site.register(UserTrekInteraction)
-admin.site.register(TransitPass)
 admin.site.register(EmergencyContactPoint)
 admin.site.register(SOSAlert)
 

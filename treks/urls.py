@@ -1,11 +1,12 @@
 from django.urls import path
 from . import views
 
-from .views import SignupView, LoginView, recommended_treks_api
+from .views import SignupView, LoginView, recommended_treks_api, TIMSViewSet
 
-
+from rest_framework.routers import DefaultRouter
     
-
+router = DefaultRouter()
+router.register(r'tims', TIMSViewSet, basename='tims')
 
 urlpatterns = [
     path('signup/', SignupView.as_view(), name='signup'),
@@ -16,10 +17,6 @@ urlpatterns = [
 
     path('treks/', views.TrekListCreateView.as_view()),
     path('treks/<int:id>/', views.TrekDetailView.as_view()),
-
-    # TIMS Application endpoints
-    path('transit-pass/', views.TimsApplicationListCreateView.as_view(), name='tims-application-list'),
-    path('transit-pass/<int:id>/', views.TimsApplicationDetailView.as_view(), name='tims-application-detail'),
 
     path('posts/', views.PostListCreateView.as_view()),
     path('posts/<int:pk>/', views.PostDetailView.as_view()),
@@ -35,9 +32,7 @@ urlpatterns = [
 
     path('interactions/', views.UserTrekInteractionView.as_view()),
 
-    # path('transit-pass/', views.TransitPassListCreateView.as_view()),
-    # path('transit-pass/<int:pk>/', views.TransitPassDetailView.as_view()),
-
+  
     path('recommendations/', recommended_treks_api),
 
     # path('send-sos/', views.send_sos, name='send_sos'),
@@ -48,4 +43,9 @@ urlpatterns = [
     path('sos-alerts/<int:alert_id>/', views.sos_alert_detail, name='sos-alert-detail'),
     path('sos-alerts/<int:alert_id>/resolve/', views.resolve_sos_alert, name='resolve-sos-alert'),
 
+    path('verify-qr/', views.verify_qr_code, name='verify-qr'),
+    path('check-role/', views.check_user_role, name='check-user-role'),
 ]
+
+
+urlpatterns += router.urls

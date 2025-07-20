@@ -1,4 +1,6 @@
 from rest_framework import generics, permissions
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 from .models import *
 from .serializers import *
 from rest_framework.views import APIView
@@ -18,76 +20,10 @@ from django.core.mail import send_mail
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-
-class TimsApplicationListCreateView(generics.ListCreateAPIView):
-    queryset = TimsApplication.objects.all()
-    serializer_class = TimsApplicationSerializer
-    permission_classes = [permissions.AllowAny]
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-    def get_queryset(self):
-        user = self.request.user
-        return TimsApplication.objects.filter(user=user)
-
-
-class TimsApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = TransitPass.objects.all()
-    serializer_class = TransitPassSerializer
-    permission_classes = [permissions.AllowAny]
-
-    def get_queryset(self):
-        user = self.request.user
-        return TimsApplication.objects.filter(user=user)
 from rest_framework import status
-
-from .models import EmergencyContactPoint
 from .utils import google_places_service
 from django.utils import timezone
 from .models import SOSAlert
-
-# @api_view(['POST'])
-# def send_sos(request):
-#     try:
-#         user_lat = float(request.data.get('latitude'))
-#         user_lon = float(request.data.get('longitude'))
-#         selected_types = request.data.get('selected_types', [])  # e.g. ["police", "hospital"]
-
-#         # Get user info from profile (assuming request.user is authenticated)
-#         user_profile = request.user.profile  # or however your UserProfile is related
-#         user_name = user_profile.display_name or request.user.username
-        
-
-#         nearest_contacts = find_nearest_contacts(user_lat, user_lon, selected_types)
-
-#         # Prepare email
-#         subject = f"SOS Alert from {user_name}"
-#         message = (
-#             f"User {user_name} triggered an SOS.\n"
-            
-#             f"Location: https://maps.google.com/?q={user_lat},{user_lon}\n"
-#             "Please respond immediately."
-#         )
-#         recipient_list = [cp.email for cp in nearest_contacts if cp.email]
-
-#         if recipient_list:
-#             send_mail(subject, message, 'codewithme.noworries@gmail.com', recipient_list)
-
-#         # Prepare call numbers
-#         call_numbers = [cp.phone for cp in nearest_contacts if cp.phone]
-
-#         return Response({
-#             "message": "SOS sent successfully",
-#             "notified_emails": recipient_list,
-#             "call_numbers": call_numbers,
-#         }, status=status.HTTP_200_OK)
-
-#     except Exception as e:
-#         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-
-
 
 
 
@@ -304,50 +240,6 @@ class UserTrekInteractionView(generics.ListCreateAPIView):
     serializer_class = UserTrekInteractionSerializer
 
 
-# --- TRANSIT PASS ---
-class TransitPassListCreateView(generics.ListCreateAPIView):
-    queryset = TransitPass.objects.all()
-    serializer_class = TransitPassSerializer
-
-
-class TransitPassDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = TransitPass.objects.all()
-    serializer_class = TransitPassSerializer
-
-
-@api_view(['POST'])
-def test_qr_generation(request):
-    """Test endpoint for QR code generation"""
-    try:
-        from .utils import columnar_encrypt, generate_qr_and_upload
-        
-        test_text = request.data.get('text', 'TIMS-2025-000001')
-        
-        # Encrypt the text
-        encrypted_data = columnar_encrypt(test_text)
-        print(f"Test - Original text: {test_text}")
-        print(f"Test - Encrypted data: {encrypted_data}")
-        
-        # Generate QR code and upload
-        cloudinary_url = f"https://api.cloudinary.com/v1_1/ddykuhurr/image/upload"
-        qr_url = generate_qr_and_upload(
-            encrypted_data,
-            cloudinary_url,
-            'finalProject'
-        )
-        
-        return Response({
-            "success": True,
-            "original_text": test_text,
-            "encrypted_data": encrypted_data,
-            "qr_url": qr_url
-        })
-        
-    except Exception as e:
-        return Response({
-            "success": False,
-            "error": str(e)
-        }, status=400)
 
 
 # --- SOS ALERT ---
@@ -575,3 +467,139 @@ def sos_alert_detail(request, alert_id):
         return Response(alert_data)
     except SOSAlert.DoesNotExist:
         return Response({"error": "SOS alert not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+
+class TIMSViewSet(viewsets.ModelViewSet):
+    queryset = TimsApplication.objects.all()
+    serializer_class = TimsApplicationSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        
+        try:
+            user_profile = user.profile
+            return self.queryset.filter(user=user_profile).order_by('-created_at')
+        except AttributeError:
+            user_profile = UserProfile.objects.create(
+                user=user,
+                display_name=user.username
+            )
+            return self.queryset.filter(user=user_profile).order_by('-created_at')
+        except Exception as e:
+            return self.queryset.none()
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        try:
+            user_profile = user.profile
+        except AttributeError:
+            user_profile = UserProfile.objects.create(
+                user=user,
+                display_name=user.username
+            )
+        serializer.save(user=user_profile)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])  # Officers need special authentication
+def verify_qr_code(request):
+    """Verify a scanned QR code and return permit details - Admin only"""
+    try:
+        # Check if user is admin
+        user_profile = request.user.profile
+        if not user_profile.is_admin():
+            return Response({
+                "success": False,
+                "error": "Access denied. Only admin users can verify QR codes.",
+                "user_role": user_profile.role,
+                "message": "Contact administrator to get admin access."
+            }, status=status.HTTP_403_FORBIDDEN)
+        
+        # Get QR data from request
+        encrypted_data = request.data.get('qr_data')
+        
+        if not encrypted_data:
+            return Response({
+                "success": False,
+                "error": "QR data is required"
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Decrypt the QR code data
+        from .utils import columnar_decrypt
+        decrypted_tims_no = columnar_decrypt(encrypted_data)
+        
+        # Find the TIMS application
+        try:
+            tims_app = TimsApplication.objects.get(tims_card_no=decrypted_tims_no)
+            
+            return Response({
+                "success": True,
+                "verified": True,
+                "verification_details": {
+                    "verified_by": user_profile.display_name,
+                    "officer_role": user_profile.role,
+                    "verification_time": timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+                },
+                "permit_details": {
+                    "tims_card_no": tims_app.tims_card_no,
+                    "full_name": tims_app.full_name,
+                    "nationality": tims_app.nationality,
+                    "passport_number": tims_app.passport_number,
+                    "gender": tims_app.gender,
+                    "trekker_area": tims_app.trekker_area,
+                    "route": tims_app.route,
+                    "entry_date": tims_app.entry_date.strftime('%Y-%m-%d') if tims_app.entry_date else None,
+                    "exit_date": tims_app.exit_date.strftime('%Y-%m-%d') if tims_app.exit_date else None,
+                    "status": tims_app.status,
+                    "validity_status": "✅ VALID" if tims_app.status == 'approved' else "⚠️ PENDING/INVALID",
+                    "applicant": tims_app.user.display_name,
+                    "issued_date": tims_app.created_at.strftime('%Y-%m-%d')
+                }
+            }, status=status.HTTP_200_OK)
+            
+        except TimsApplication.DoesNotExist:
+            return Response({
+                "success": True,
+                "verified": False,
+                "error": "❌ INVALID PERMIT - Not found in database",
+                "message": "This permit may be fake or expired",
+                "verification_details": {
+                    "verified_by": user_profile.display_name,
+                    "verification_time": timezone.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    "attempted_tims_no": decrypted_tims_no
+                }
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+    except AttributeError:
+        # User doesn't have profile
+        return Response({
+            "success": False,
+            "error": "User profile not found. Please contact administrator.",
+        }, status=status.HTTP_403_FORBIDDEN)
+        
+    except Exception as e:
+        return Response({
+            "success": False,
+            "verified": False,
+            "error": f"Verification failed: {str(e)}"
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def check_user_role(request):
+    """Check current user's role and permissions"""
+    try:
+        user_profile = request.user.profile
+        return Response({
+            "user_details": {
+                "username": request.user.username,
+                "display_name": user_profile.display_name,
+                "role": user_profile.role,
+                "is_admin": user_profile.is_admin(),
+                "can_verify_qr": user_profile.is_admin(),
+            }
+        })
+    except AttributeError:
+        return Response({
+            "error": "User profile not found"
+        }, status=status.HTTP_404_NOT_FOUND)
