@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from .models import (
     UserProfile, Trek, TimsApplication,
     Post, Comment, Like, Favorite,
-    UserTrekInteraction
+    UserTrekInteraction, SOSAlert
 )
 
 
@@ -14,10 +14,28 @@ class UserProfileInlineSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileInlineSerializer()
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'profile', ]
+        fields = ['id', 'username', 'email', 'profile']
 
+    def update(self, instance, validated_data):
+        # Extract profile data
+        profile_data = validated_data.pop('profile', None)
+        
+        # Update User fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        
+        # Update profile if provided
+        if profile_data:
+            profile_instance = instance.profile
+            for attr, value in profile_data.items():
+                setattr(profile_instance, attr, value)
+            profile_instance.save()
+        
+        return instance
 
 class TimsApplicationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -95,11 +113,20 @@ class LikeSerializer(serializers.ModelSerializer):
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
+    trek = TrekSerializer(read_only=True)  
+    trek_id = serializers.IntegerField(write_only=True)  
+    
     class Meta:
         model = Favorite
-        fields = '__all__'
-
-
+        fields = ['id', 'created_at', 'user', 'trek', 'trek_id']
+        read_only_fields = ['user']
+    
+    def create(self, validated_data):
+        trek_id = validated_data.pop('trek_id')
+        trek = Trek.objects.get(id=trek_id)
+        validated_data['trek'] = trek
+        return super().create(validated_data)
+    
 class UserTrekInteractionSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTrekInteraction
@@ -130,3 +157,32 @@ class UserSignupSerializer(serializers.ModelSerializer):
             photo_url=photo_url
         )
         return user
+
+class SOSAlertSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SOSAlert
+        fields = [
+            'id', 
+            'latitude', 
+            'longitude',
+            'selected_types',
+            'description',
+            'emergency_type',
+            'contacted_services',
+            'google_places_data',
+            'fallback_contacts',
+            'status',
+            'created_at',
+            'resolved_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'resolved_at', 'status']
+
+    def to_representation(self, instance):
+        """Customize the output format"""
+        data = super().to_representation(instance)
+        # Ensure empty lists instead of null
+        data['selected_types'] = data.get('selected_types') or []
+        data['contacted_services'] = data.get('contacted_services') or []
+        data['google_places_data'] = data.get('google_places_data') or []
+        data['fallback_contacts'] = data.get('fallback_contacts') or []
+        return data
