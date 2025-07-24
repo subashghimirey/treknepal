@@ -18,15 +18,30 @@ from .email_service import EmailService
 
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def recommended_treks_api(request):
-    profile = request.user.profile
-    print(f"Fetching recommendations for user: {profile.user.username} with interests: {profile.interests}")
-    recommended = recommend_treks(profile)
-    serializer = TrekSerializer(recommended, many=True)
-    return Response(serializer.data)
+class RecommendationViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
 
+    @action(detail=False, methods=['get'])
+    def treks(self, request):
+        try:
+            profile = request.user.profile
+            print(f"Fetching recommendations for user: {profile.user.username} with interests: {profile.interests}")
+            recommended = recommend_treks(profile)
+            serializer = TrekSerializer(recommended, many=True)
+            return Response({
+                "success": True,
+                "recommended_treks": serializer.data
+            })
+        except AttributeError:
+            return Response({
+                "success": False,
+                "error": "User profile not found"
+            }, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({
+                "success": False,
+                "error": str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 class AuthViewSet(viewsets.ViewSet):
     
@@ -67,6 +82,7 @@ class AuthViewSet(viewsets.ViewSet):
         }, status=status.HTTP_401_UNAUTHORIZED)
 
 class UserProfileListCreateView(generics.ListCreateAPIView):
+    
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
 
@@ -90,33 +106,118 @@ class TrekViewSet(viewsets.ModelViewSet):
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Post.objects.all().order_by('-created_at')
+        return Post.objects.filter(status='active').order_by('-created_at')
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user.profile)
+    def create(self, request, *args, **kwargs):
+        try:
+            # Add user to request data
+            data = request.data.copy()
+            
+            serializer = self.get_serializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            
+            # Explicitly set the user before saving
+            post = serializer.save(user=request.user.profile)
+            
+            return Response({
+                "success": True,
+                "message": "Post created successfully",
+                "post": {
+                    "id": post.id,
+                    "content": post.content,
+                    "images": post.images,
+                    "location": post.location,
+                    "likes_count": 0,
+                    "comments_count": 0,
+                    "created_at": post.created_at,
+                    "user": {
+                        "id": request.user.profile.id,
+                        "display_name": request.user.profile.display_name,
+                        "photo_url": request.user.profile.photo_url
+                    },
+                    "trek": {
+                        "id": post.trek.id,
+                        "name": post.trek.name
+                    } if post.trek else None
+                }
+            }, status=status.HTTP_201_CREATED)
 
+            
+
+        except Exception as e:
+            return Response({
+                "success": False,
+                "error": str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['post'])
+    def like(self, request, pk=None):
+        
+        post = self.get_object()
+        user_profile = request.user.profile
+        
+        try:
+            like = Like.objects.get(post=post, user=user_profile)
+            like.delete()
+            return Response({'status': 'unliked'})
+        except Like.DoesNotExist:
+            Like.objects.create(post=post, user=user_profile)
+            return Response({'status': 'liked'})
+
+    @action(detail=True, methods=['post'])
+    def report(self, request, pk=None):
+       
+        post = self.get_object()
+        post.status = 'reported'
+        post.save()
+        return Response({'status': 'reported'})
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
+   
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Comment.objects.all().order_by('-created_at')
+        return Comment.objects.filter(status='active')
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user.profile)
+        # Update post's comment count
+        post = serializer.validated_data['post']
+        post.comments_count = post.comments.count()
+        post.save()
 
+    @action(detail=True, methods=['post'])
+    def like(self, request, pk=None):
+       
+        comment = self.get_object()
+        user_profile = request.user.profile
+        
+        try:
+            like = Like.objects.get(comment=comment, user=user_profile)
+            like.delete()
+            return Response({'status': 'unliked'})
+        except Like.DoesNotExist:
+            Like.objects.create(comment=comment, user=user_profile)
+            return Response({'status': 'liked'})
+
+    @action(detail=True, methods=['post'])
+    def report(self, request, pk=None):
+        
+        comment = self.get_object()
+        comment.status = 'reported'
+        comment.save()
+        return Response({'status': 'reported'})
 
 class LikeViewSet(viewsets.ModelViewSet):
-    queryset = Like.objects.all()
+   
     serializer_class = LikeSerializer
     permission_classes = [IsAuthenticated]
+    http_method_names = ['get', 'post', 'delete']  
 
     def get_queryset(self):
         return Like.objects.filter(user=self.request.user.profile)
@@ -303,7 +404,7 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
                 },
                 {
                     "name": "Emergency Contact 2",
-                    "email": "sudeepkarki74@gmail.com",
+                    "email": "sudeepkarki75@gmail.com",
                     "type": "emergency",
                     "source": "default"
                 }
@@ -325,7 +426,7 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
             
             nearby_places = []
             contacted_services = default_contacts.copy()
-            recipient_emails = ["nepalihoni226@gmail.com", "sudeepkarki74@gmail.com"]
+            recipient_emails = ["nepalihoni226@gmail.com", "sudeepkarki75@gmail.com"]
             call_numbers = []
 
             if selected_types:

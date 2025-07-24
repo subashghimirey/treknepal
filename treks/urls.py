@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-from .views import AuthViewSet, recommended_treks_api, TIMSViewSet, TrekViewSet, PostViewSet, LikeViewSet, CommentViewSet, FavoriteViewSet, SOSAlertViewSet, VerificationViewSet
+from .views import AuthViewSet, TIMSViewSet, TrekViewSet, PostViewSet, LikeViewSet, CommentViewSet, FavoriteViewSet, SOSAlertViewSet, VerificationViewSet, RecommendationViewSet
 
 from rest_framework.routers import DefaultRouter
     
@@ -15,6 +15,7 @@ router.register(r'likes', LikeViewSet, basename='like')
 router.register(r'favorites', FavoriteViewSet, basename='favorite')
 router.register(r'sos', SOSAlertViewSet, basename='sos-alert')
 router.register(r'verify', VerificationViewSet, basename='verify')
+router.register(r'recommendations', RecommendationViewSet, basename='recommendation')
 
 urlpatterns = [
    
@@ -23,8 +24,6 @@ urlpatterns = [
 
     path('interactions/', views.UserTrekInteractionView.as_view()),
 
-  
-    path('recommendations/', recommended_treks_api),
 ]
 
 

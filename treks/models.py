@@ -75,6 +75,7 @@ class TimsApplication(models.Model):
     ]
     
     user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
+    trek = models.ForeignKey(Trek, on_delete=models.SET_NULL, null=True)  
     tims_card_no = models.CharField(max_length=50, unique=True, blank=True, null=True)
     encrypted_qr_code = models.URLField(blank=True, null=True)
     transaction_id = models.CharField(max_length=100)
@@ -137,35 +138,100 @@ class TimsApplication(models.Model):
             super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.full_name} - {self.tims_card_no or 'Pending'}"
+        trek_name = self.trek.name if self.trek else 'No Trek'
+        return f"{self.full_name} - {trek_name} - {self.tims_card_no or 'Pending'}"
+
 
     class Meta:
         ordering = ['-created_at']
-
 
 class Post(models.Model):
     trek = models.ForeignKey(Trek, on_delete=models.CASCADE)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     content = models.TextField()
+    images = models.JSONField(default=list, blank=True, null=True)  
+    location = models.JSONField(null=True, blank=True) 
+    likes_count = models.IntegerField(default=0)  
+    comments_count = models.IntegerField(default=0)  
+    status = models.CharField(max_length=20, default='active', 
+                            choices=[('active', 'Active'), 
+                                   ('archived', 'Archived'), 
+                                   ('reported', 'Reported')], blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['trek', '-created_at']),
+            models.Index(fields=['user', '-created_at']),
+        ]
+
+    def __str__(self):
+        return f"{self.user.display_name}'s post on {self.trek.name}"
 
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     content = models.TextField()
+    parent = models.ForeignKey('self', null=True, blank=True, 
+                             on_delete=models.CASCADE, 
+                             related_name='replies')  
+    likes_count = models.IntegerField(default=0)
+    status = models.CharField(max_length=20, default='active',
+                            choices=[('active', 'Active'),
+                                   ('archived', 'Archived'),
+                                   ('reported', 'Reported')])
     created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['created_at']
+        indexes = [
+            models.Index(fields=['post', 'created_at']),
+            models.Index(fields=['user', '-created_at']),
+        ]
+
+    def __str__(self):
+        return f"Comment by {self.user.display_name} on {self.post}"
 
 
 class Like(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, 
+                           related_name='likes', null=True)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, 
+                              related_name='likes', null=True)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        unique_together = ('post', 'user')
+        unique_together = [
+            ('post', 'user'),
+            ('comment', 'user')
+        ]
+        indexes = [
+            models.Index(fields=['post', 'user']),
+            models.Index(fields=['comment', 'user']),
+        ]
 
+    def save(self, *args, **kwargs):
+        if self.post:
+            self.post.likes_count = self.post.likes.count() + 1
+            self.post.save()
+        elif self.comment:
+            self.comment.likes_count = self.comment.likes.count() + 1
+            self.comment.save()
+        super().save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        if self.post:
+            self.post.likes_count = self.post.likes.count() - 1
+            self.post.save()
+        elif self.comment:
+            self.comment.likes_count = self.comment.likes.count() - 1
+            self.comment.save()
+        super().delete(*args, **kwargs)
 
 
 class Favorite(models.Model):
