@@ -329,7 +329,7 @@ Errors are returned with appropriate HTTP status codes and messages:
 
 ## Support 💬
 
-For support, email contact@treknepal.com or join our Slack channel.
+For support, email ghimiresubash980843@gmail.com
 
 ## Authors ✨
 
