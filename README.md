@@ -57,152 +57,261 @@ python manage.py runserver
 
 ## API Documentation 📚
 
-### Authentication Endpoints
+# Trek Nepal API Documentation
 
+## Authentication Endpoints
+
+### Sign Up
 ```http
 POST /api/auth/signup/
-POST /api/auth/login/
 ```
-
-### Trek Management
-
-```http
-GET /api/treks/
-POST /api/treks/
-GET /api/treks/{id}/
-PUT /api/treks/{id}/
-DELETE /api/treks/{id}/
-```
-
-### TIMS Applications
-
-```http
-GET /api/tims/
-POST /api/tims/
-GET /api/tims/{id}/
-PATCH /api/tims/{id}/
-DELETE /api/tims/{id}/
-```
-
-### SOS Alerts
-
-```http
-GET /api/sos/
-POST /api/sos/
-GET /api/sos/{id}/
-PATCH /api/sos/{id}/
-```
-
-### Social Features
-
-```http
-# Posts
-GET /api/posts/
-POST /api/posts/
-
-# Comments
-GET /api/comments/
-POST /api/comments/
-
-# Likes
-GET /api/likes/
-POST /api/likes/
-```
-
-### QR Verification
-
-```http
-POST /api/verify/verify-qr/
-GET /api/verify/check-role/
-```
-
-## Data Models 📊
-
-### UserProfile
-- User authentication and profile data
-- Role-based access (user, admin, superadmin)
-- Interest tracking for recommendations
-
-### Trek
-- Trek details (difficulty, duration, elevation)
-- Location and route information
-- Seasonal recommendations
-- Itinerary and packing lists
-
-### TimsApplication
-- TIMS permit management
-- Status tracking
-- QR code integration
-
-### SOSAlert
-- Emergency alert system
-- Location tracking
-- Service contact management
-
-## Environment Variables 🔐
-
-```env
-SECRET_KEY=your_secret_key
-DEBUG=True
-DATABASE_URL=your_database_url
-GOOGLE_PLACES_API_KEY=your_api_key
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_HOST_USER=your_email
-EMAIL_HOST_PASSWORD=your_app_password
-```
-
-## API Authentication 🔑
-
-Use Token Authentication:
-```http
-Authorization: Token your_token_here
-```
-
-## Example Requests 📝
-
-### Create TIMS Application
+**Request Body:**
 ```json
-POST /api/tims/
 {
-    "full_name": "John Doe",
-    "nationality": "USA",
-    "passport_number": "123456789",
-    "gender": "male",
-    "trekker_area": "Annapurna",
-    "route": "ABC Trek"
+    "username": "johndoe",
+    "password": "StrongPass123",
+    "email": "john@example.com",
+    "display_name": "John Doe",
+    "interests": ["hiking", "photography"]
 }
 ```
 
-### Send SOS Alert
+### Login
+```http
+POST /api/auth/login/
+```
+**Request Body:**
 ```json
+{
+    "username": "johndoe",
+    "password": "StrongPass123"
+}
+```
+
+### Change Password (Authenticated)
+```http
+POST /api/auth/change_password/
+```
+**Request Body:**
+```json
+{
+    "old_password": "CurrentPass123",
+    "new_password": "NewPass123"
+}
+```
+
+### Password Reset Flow
+
+1. Request OTP
+```http
+POST /api/auth/forgot_password/
+```
+**Request Body:**
+```json
+{
+    "email": "john@example.com"
+}
+```
+
+2. Verify OTP
+```http
+POST /api/auth/verify_otp/
+```
+**Request Body:**
+```json
+{
+    "otp": "123456"
+}
+```
+
+3. Set New Password
+```http
+POST /api/auth/set_new_password/
+```
+**Request Body:**
+```json
+{
+    "otp": "123456",
+    "new_password": "NewPass123"
+}
+```
+
+## Trek Management
+
+### List All Treks
+```http
+GET /api/treks/
+```
+
+### Get Trek Details
+```http
+GET /api/treks/{id}/
+```
+
+### Get Recommended Treks
+```http
+GET /api/recommendations/treks/
+```
+
+## TIMS Application
+
+### Create TIMS Application
+```http
+POST /api/tims/
+```
+**Request Body:**
+```json
+{
+    "trek_id": 1,
+    "transaction_id": "TRX123456",
+    "image": "https://example.com/photo.jpg",
+    "full_name": "John Doe",
+    "nationality": "USA",
+    "passport_number": "123456789",
+    "gender": "Male",
+    "date_of_birth": "1990-01-01",
+    "trekker_area": "Annapurna",
+    "route": "ABC Trek",
+    "entry_date": "2025-07-01",
+    "exit_date": "2025-07-15",
+    "nepal_contact_name": "Nepal Contact",
+    "nepal_organization": "Trek Org",
+    "nepal_designation": "Guide",
+    "nepal_mobile": "9876543210",
+    "nepal_office_number": "01-4321567",
+    "nepal_address": "Thamel, Kathmandu",
+    "home_contact_name": "Home Contact",
+    "home_city": "New York",
+    "home_mobile": "123-456-7890",
+    "home_office_number": "098-765-4321",
+    "home_address": "123 Main St, NY",
+    "transit_pass_cost": 1500.00,
+    "permit_cost": 2000.00
+}
+```
+
+### List User's TIMS Applications
+```http
+GET /api/tims/
+```
+
+## Social Features
+
+### Posts
+
+#### Create Post
+```http
+POST /api/posts/
+```
+**Request Body:**
+```json
+{
+    "trek": 1,
+    "content": "Amazing trek experience!",
+    "images": ["https://example.com/image1.jpg"],
+    "location": {
+        "latitude": 27.7172,
+        "longitude": 85.3240,
+        "place_name": "Annapurna Base Camp"
+    }
+}
+```
+
+#### Like/Unlike Post
+```http
+POST /api/posts/{id}/like/
+```
+
+#### Report Post
+```http
+POST /api/posts/{id}/report/
+```
+
+### Comments
+
+#### Add Comment
+```http
+POST /api/comments/
+```
+**Request Body:**
+```json
+{
+    "post": 1,
+    "content": "Great views!",
+    "parent": null
+}
+```
+
+#### Like/Unlike Comment
+```http
+POST /api/comments/{id}/like/
+```
+
+## User Management
+
+### List Users (Admin Only)
+```http
+GET /api/users/
+```
+
+### Update User Profile
+```http
+PATCH /api/users/{id}/
+```
+**Request Body:**
+```json
+{
+    "display_name": "New Name",
+    "photo_url": "https://example.com/photo.jpg",
+    "interests": ["trekking", "camping"]
+}
+```
+
+## SOS Alert
+
+### Create SOS Alert
+```http
 POST /api/sos/
+```
+**Request Body:**
+```json
 {
     "latitude": 27.7172,
     "longitude": 85.3240,
     "selected_types": ["hospital", "police"],
-    "emergency_type": ["medical"],
-    "description": "Medical emergency"
+    "emergency_type": "medical",
+    "description": "Need immediate medical assistance"
 }
 ```
 
-## Response Formats 📨
+### List User's SOS Alerts
+```http
+GET /api/sos/
+```
 
-Success Response:
+## Authentication
+All endpoints except signup, login, and password reset require authentication.
+Add the following header to requests:
+```http
+Authorization: Token your_token_here
+```
+
+## Response Format
+Most endpoints return responses in this format:
 ```json
 {
-    "success": true,
-    "data": {},
-    "message": "Operation successful"
+    "success": true/false,
+    "message": "Success/error message",
+    "data": { ... }
 }
 ```
 
-Error Response:
+## Error Handling
+Errors are returned with appropriate HTTP status codes and messages:
 ```json
 {
     "success": false,
-    "error": "Error message",
-    "details": {}
+    "error": "Error description"
 }
 ```
 
@@ -224,5 +333,4 @@ For support, email contact@treknepal.com or join our Slack channel.
 
 ## Authors ✨
 
-- [Your Name]
-- [Team Members]
+- [Subash Ghimire]

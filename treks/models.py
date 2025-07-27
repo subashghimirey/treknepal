@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils import timezone
+from datetime import timedelta
 import qrcode
 import base64
 from io import BytesIO
@@ -304,3 +305,18 @@ class SOSAlert(models.Model):
     
     def __str__(self):
         return f"SOS Alert by {self.user.display_name} at {self.created_at}"
+
+
+class PasswordResetOTP(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_used = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False) 
+
+    def is_valid(self):
+        # OTP valid for 10 minutes
+        return (
+            not self.is_used and 
+            self.created_at >= timezone.now() - timedelta(minutes=10)
+        )

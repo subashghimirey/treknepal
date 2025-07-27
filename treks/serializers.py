@@ -38,14 +38,31 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserSerializer(read_only=False)
     
     class Meta:
         model = UserProfile
-        fields = ['user', 'display_name', 'photo_url', 'interests' , 'role', 'is_active', 'created_at']
+        fields = ['user', 'display_name', 'photo_url', 'interests', 'role', 'is_active', 'created_at']
+
+    def update(self, instance, validated_data):
+        # Handle nested user data
+        user_data = validated_data.pop('user', None)
+        if user_data:
+            user = instance.user
+            for attr, value in user_data.items():
+                setattr(user, attr, value)
+            user.save()
+
+        # Update UserProfile fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        return instance
+    
 
 class UserProfileMiniSerializer(serializers.ModelSerializer):
-    """Minimal user info for nested relationships"""
+   
     class Meta:
         model = UserProfile
         fields = ['id', 'display_name', 'photo_url']
@@ -271,3 +288,37 @@ class SOSAlertSerializer(serializers.ModelSerializer):
         data['google_places_data'] = data.get('google_places_data') or []
         data['fallback_contacts'] = data.get('fallback_contacts') or []
         return data
+
+class ChangePasswordSerializer(serializers.Serializer):
+   
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True, min_length=8)
+
+    def validate_new_password(self, value):
+        
+        if len(value) < 8:
+            raise serializers.ValidationError("Password must be at least 8 characters long")
+        if not any(char.isdigit() for char in value):
+            raise serializers.ValidationError("Password must contain at least one number")
+        if not any(char.isupper() for char in value):
+            raise serializers.ValidationError("Password must contain at least one uppercase letter")
+        return value
+
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+class OTPVerificationSerializer(serializers.Serializer):
+    otp = serializers.CharField(min_length=6, max_length=6)
+
+class SetNewPasswordSerializer(serializers.Serializer):
+    otp = serializers.CharField(min_length=6, max_length=6)
+    new_password = serializers.CharField(min_length=8)
+
+    def validate_new_password(self, value):
+        if len(value) < 8:
+            raise serializers.ValidationError("Password must be at least 8 characters long")
+        if not any(char.isdigit() for char in value):
+            raise serializers.ValidationError("Password must contain at least one number")
+        if not any(char.isupper() for char in value):
+            raise serializers.ValidationError("Password must contain at least one uppercase letter")
+        return value

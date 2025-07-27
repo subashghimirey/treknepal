@@ -10,13 +10,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes, action
 
 from django.utils import timezone
-from django.contrib.auth import authenticate
-
-from .recommend import recommend_treks
-from .utils import google_places_service
-from .email_service import EmailService
-
-
+from datetime import timedelta
+import random
 
 class RecommendationViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -81,24 +76,230 @@ class AuthViewSet(viewsets.ViewSet):
             'error': 'Invalid credentials'
         }, status=status.HTTP_401_UNAUTHORIZED)
 
+    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
+    def change_password(self, request):
+        """
+        Change password for authenticated user
+        """
+        serializer = ChangePasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user
+            if user.check_password(serializer.validated_data['old_password']):
+                user.set_password(serializer.validated_data['new_password'])
+                user.save()
+                return Response({
+                    'success': True,
+                    'message': 'Password changed successfully'
+                })
+            return Response({
+                'success': False,
+                'error': 'Invalid old password'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['post'])
+    def forgot_password(self, request):
+        """Request password reset OTP"""
+        serializer = PasswordResetRequestSerializer(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data['email']
+            try:
+                user = User.objects.get(email=email)
+                
+                # Generate 6 digit OTP
+                otp = ''.join([str(random.randint(0, 9)) for _ in range(6)])
+                
+                # Save OTP with user reference
+                PasswordResetOTP.objects.create(
+                    user=user,
+                    otp=otp
+                )
+                
+                # Send email
+                send_mail(
+                    'Password Reset Code',
+                    f'Your password reset code is: {otp}\nValid for 10 minutes.',
+                    settings.DEFAULT_FROM_EMAIL,
+                    [email],
+                    fail_silently=False,
+                )
+                
+                return Response({
+                    'success': True,
+                    'message': 'Password reset code sent to your email'
+                })
+            except User.DoesNotExist:
+                return Response({
+                    'success': False,
+                    'error': 'No user found with this email'
+                }, status=status.HTTP_404_NOT_FOUND)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['post'])
+    def reset_password_with_otp(self, request):
+        """Reset password using OTP"""
+        serializer = ResetPasswordWithOTPSerializer(data=request.data)
+        if serializer.is_valid():
+            otp = serializer.validated_data['otp']
+            new_password = serializer.validated_data['new_password']
+            
+            try:
+                # Get the latest unused OTP
+                otp_obj = PasswordResetOTP.objects.filter(
+                    otp=otp,
+                    is_used=False
+                ).latest('created_at')
+                
+                # Check if OTP is valid and not expired
+                if otp_obj.is_valid():
+                    user = otp_obj.user
+                    # Update password
+                    user.set_password(new_password)
+                    user.save()
+                    
+                    # Mark OTP as used
+                    otp_obj.is_used = True
+                    otp_obj.save()
+                    
+                    return Response({
+                        'success': True,
+                        'message': 'Password reset successful'
+                    })
+                return Response({
+                    'success': False,
+                    'error': 'OTP has expired'
+                }, status=status.HTTP_400_BAD_REQUEST)
+                
+            except PasswordResetOTP.DoesNotExist:
+                return Response({
+                    'success': False,
+                    'error': 'Invalid OTP'
+                }, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['post'])
+    def verify_otp(self, request):
+        """First step: Verify OTP"""
+        serializer = OTPVerificationSerializer(data=request.data)
+        if serializer.is_valid():
+            otp = serializer.validated_data['otp']
+            
+            try:
+                otp_obj = PasswordResetOTP.objects.filter(
+                    otp=otp,
+                    is_used=False
+                ).latest('created_at')
+                
+                if otp_obj.is_valid():
+                    # Mark as verified but not used
+                    otp_obj.is_verified = True
+                    otp_obj.save()
+                    
+                    return Response({
+                        'success': True,
+                        'message': 'OTP verified successfully. You can now reset your password.',
+                        'verified': True
+                    })
+                return Response({
+                    'success': False,
+                    'error': 'OTP has expired'
+                }, status=status.HTTP_400_BAD_REQUEST)
+                
+            except PasswordResetOTP.DoesNotExist:
+                return Response({
+                    'success': False,
+                    'error': 'Invalid OTP'
+                }, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['post'])
+    def set_new_password(self, request):
+        """Second step: Set new password after OTP verification"""
+        serializer = SetNewPasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            otp = serializer.validated_data['otp']
+            new_password = serializer.validated_data['new_password']
+            
+            try:
+                otp_obj = PasswordResetOTP.objects.filter(
+                    otp=otp,
+                    is_verified=True,
+                    is_used=False
+                ).latest('created_at')
+                
+                if otp_obj.is_valid():
+                    user = otp_obj.user
+                    user.set_password(new_password)
+                    user.save()
+                    
+                    # Mark OTP as used
+                    otp_obj.is_used = True
+                    otp_obj.save()
+                    
+                    return Response({
+                        'success': True,
+                        'message': 'Password reset successful'
+                    })
+                return Response({
+                    'success': False,
+                    'error': 'OTP has expired'
+                }, status=status.HTTP_400_BAD_REQUEST)
+                
+            except PasswordResetOTP.DoesNotExist:
+                return Response({
+                    'success': False,
+                    'error': 'Invalid or unverified OTP'
+                }, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class IsAdminUser(permissions.BasePermission):
+    def has_permission(self, request, view):
+        try:
+            return request.user.profile.is_admin()
+        except AttributeError:
+            return False
+
+class IsAdminOrSelf(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.user.is_authenticated:
+            return True
+        return False
+
+    def has_object_permission(self, request, view, obj):
+        if request.user.profile.is_admin():
+            return True
+            
+        return obj.id == request.user.profile.id
+
 class UserProfileListCreateView(generics.ListCreateAPIView):
-    
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]  
 
+    def get_queryset(self):
+        if self.request.user.profile.is_admin():
+            return UserProfile.objects.all()
+        return UserProfile.objects.none()
 
 class UserProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticated, IsAdminOrSelf]  
     lookup_field = 'id'
 
+    def get_queryset(self):
+        user = self.request.user
+        if user.profile.is_admin():
+            return UserProfile.objects.all()
+        
+        return UserProfile.objects.filter(id=user.profile.id)
 
 class TrekViewSet(viewsets.ModelViewSet):
     
     queryset = Trek.objects.all()
     serializer_class = TrekSerializer
     lookup_field = 'id'
-    # permission_classes = [IsAuthenticated] 
+    
 
     def get_queryset(self):
         queryset = Trek.objects.all()
