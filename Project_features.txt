@@ -1,0 +1,162 @@
+# Trek Nepal - Trekking Companion App
+
+## Project Overview
+Trek Nepal is a comprehensive mobile application designed to enhance the trekking experience in Nepal by providing essential features for trekkers' safety, convenience, and community engagement.
+
+## Core Features
+
+### 1. User Authentication & Profile Management
+- Secure signup and login system
+- Profile customization with photo and interests
+- Password reset via OTP verification
+- Role-based access control (User/Admin)
+
+### 2. Trek Information
+- Detailed information about popular treks
+- Trek difficulty levels and duration
+- Route descriptions and elevation profiles
+- Best seasons for trekking
+- Required permits and costs
+- Photo galleries of trek locations
+
+### 3. TIMS Card Application
+- Digital TIMS (Trekkers' Information Management System) application
+- Online form submission
+- Document upload capability
+- Payment processing
+- Application status tracking
+- Digital permit storage
+
+### 4. Emergency SOS System
+- One-tap SOS alert activation
+- GPS location tracking
+- Automatic notification to nearby:
+  - Police stations
+  - Hospitals
+  - Emergency contacts
+  - Tea houses
+- Offline emergency contact information
+- Real-time location sharing
+
+### 5. Social Features
+- User-generated trek reviews and ratings
+- Photo sharing from treks
+- Comments and discussions
+- Like and bookmark functionality
+- Community engagement through posts
+- Trek experience sharing
+
+### 6. Safety Features
+- Emergency contact database for each trek
+- Offline maps and routes
+- Weather updates and alerts
+- Altitude sickness information
+- Safety tips and guidelines
+- Location-based emergency services
+
+### 7. Trek Planning Tools
+- Interactive trek maps
+- Customizable itineraries
+- Packing checklists
+- Budget calculators
+- Accommodation information
+- Transportation details
+
+### 8. Location Services
+- GPS tracking
+- Nearby facilities finder
+- Altitude monitoring
+- Distance calculation
+- Route navigation
+- Offline map support
+
+### 9. Administrative Features
+- User management
+- Content moderation
+- TIMS application processing
+- Emergency alert management
+- Analytics and reporting
+- System monitoring
+
+### 10. Technical Features
+- Token-based authentication
+- REST API architecture
+- Real-time notifications
+- Secure data storage
+- Offline functionality
+- Location services
+- File upload handling
+
+## Technology Stack
+
+### Backend
+- Django REST Framework
+- PostgreSQL Database
+- JWT Authentication
+- Redis Cache
+- Celery for Background Tasks
+
+### Security Features
+- Token-based authentication
+- Password encryption
+- OTP verification
+- Rate limiting
+- Input validation
+- CORS protection
+
+### Data Management
+- User profiles and preferences
+- Trek information and routes
+- Emergency contact database
+- TIMS applications
+- Social interactions
+- Location data
+
+## API Endpoints
+
+### Authentication
+- `/api/auth/signup/` - User registration
+- `/api/auth/login/` - User login
+- `/api/auth/forgot_password/` - Password reset request
+- `/api/auth/verify_otp/` - OTP verification
+- `/api/auth/set_new_password/` - Password reset
+
+### Trek Management
+- `/api/treks/` - Trek listing and details
+- `/api/recommendations/` - Personalized trek recommendations
+- `/api/favorites/` - Favorite treks management
+
+### TIMS Application
+- `/api/tims/` - TIMS application submission and status
+- `/api/tims/verify/` - Document verification
+- `/api/tims/payment/` - Payment processing
+
+### Emergency Services
+- `/api/sos/` - SOS alert creation and management
+- `/api/emergency-contacts/` - Emergency contact information
+- `/api/locations/` - Location tracking and updates
+
+### Social Features
+- `/api/posts/` - User posts management
+- `/api/comments/` - Comment management
+- `/api/likes/` - Like functionality
+- `/api/users/` - User profile management
+
+
+## Target Users
+- Trekkers and hikers
+- Tourism agencies
+- Emergency response teams
+- Trek guides
+- Local businesses
+- Tourism administrators
+
+## Benefits
+1. Enhanced trekker safety
+2. Streamlined TIMS processing
+3. Better emergency response
+4. Improved trek planning
+5. Community building
+6. Accessible trek information
+7. Digital transformation of trekking
+8. Environmental awareness

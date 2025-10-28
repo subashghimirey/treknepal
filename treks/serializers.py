@@ -307,6 +307,19 @@ class ChangePasswordSerializer(serializers.Serializer):
 class PasswordResetRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
+class ResetPasswordWithOTPSerializer(serializers.Serializer):
+    otp = serializers.CharField(min_length=6, max_length=6)
+    new_password = serializers.CharField(min_length=8)
+
+    def validate_new_password(self, value):
+        if len(value) < 8:
+            raise serializers.ValidationError("Password must be at least 8 characters long")
+        if not any(char.isdigit() for char in value):
+            raise serializers.ValidationError("Password must contain at least one number")
+        if not any(char.isupper() for char in value):
+            raise serializers.ValidationError("Password must contain at least one uppercase letter")
+        return value
+
 class OTPVerificationSerializer(serializers.Serializer):
     otp = serializers.CharField(min_length=6, max_length=6)
 

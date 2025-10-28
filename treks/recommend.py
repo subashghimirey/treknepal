@@ -81,6 +81,10 @@ def recommend_treks(user_profile, top_n=6):
 
     # Sort by similarity
     similarities.sort(key=lambda x: x[1], reverse=True)
+
+    print(f"Computed similarities for {len(similarities)} treks.")
+    print(f"Top similarity scores: {[score for trek, score in similarities[:top_n]]}")
+
     recommendations = [trek for trek, score in similarities if score > 0][:top_n]
 
     print(f"Recommended {len(recommendations)} treks for user {user_profile.user.username} based on interests: {user_profile.interests}")

@@ -1,6 +1,6 @@
 from .models import *
 from .serializers import *
-from .serializers import UserSignupSerializer, SOSAlertSerializer
+from .serializers import UserSignupSerializer, SOSAlertSerializer, PasswordResetRequestSerializer, ResetPasswordWithOTPSerializer, OTPVerificationSerializer, SetNewPasswordSerializer, ChangePasswordSerializer
 
 from rest_framework import generics, permissions, viewsets, status
 from rest_framework.permissions import IsAuthenticated
@@ -10,8 +10,19 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes, action
 
 from django.utils import timezone
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib.auth import authenticate
+
+from .recommend import recommend_treks 
+from .email_service import EmailService
+from .utils import google_places_service
+
+
 from datetime import timedelta
 import random
+
+
 
 class RecommendationViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -577,25 +588,34 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
-        
         return SOSAlert.objects.filter(
             user=self.request.user.profile
         ).order_by('-created_at')
 
     def create(self, request, *args, **kwargs):
         
+        print("\n" + "="*80)
+        print("SOS ALERT CREATION STARTED")
+        print("="*80)
+        
         try:
-            
+            # Get request data
             user_lat = float(request.data.get('latitude'))
             user_lon = float(request.data.get('longitude'))
             selected_types = request.data.get('selected_types', [])
-            emergency_type = request.data.get('emergency_type', [])
-            description = request.data.get('description')
+            emergency_type = request.data.get('emergency_type', '')
+            description = request.data.get('description', '')
+
+            print(f"\n📍 Location: ({user_lat}, {user_lon})")
+            print(f"🚨 Emergency Type: {emergency_type}")
+            print(f"📋 Selected Types: {selected_types}")
+            print(f"📝 Description: {description}")
 
             user_profile = request.user.profile
             user_name = user_profile.display_name or request.user.username
+            print(f"👤 User: {user_name}")
 
-            
+            # Default contacts
             default_contacts = [
                 {
                     "name": "Emergency Contact 1",
@@ -611,7 +631,7 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
                 }
             ]
 
-            
+            # Create SOS alert
             sos_alert = SOSAlert.objects.create(
                 user=user_profile,
                 latitude=user_lat,
@@ -623,53 +643,123 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
                 google_places_data=[],
                 status='sent'
             )
-
             
+            print(f"\n✅ SOS Alert created with ID: {sos_alert.id}")
+
+            # Initialize tracking
             nearby_places = []
             contacted_services = default_contacts.copy()
             recipient_emails = ["nepalihoni226@gmail.com", "sudeepkarki75@gmail.com"]
             call_numbers = []
 
+            # CRITICAL SECTION - Search Google Places
             if selected_types:
-                for place_type in selected_types:
-                    places = google_places_service.search_nearby_places(
-                        user_lat, user_lon, place_type
-                    )
-                    nearby_places.extend(places)
-
-                   
-                    for place in places:
-                        if place.get('phone') or place.get('email'):
-                            service = {
-                                'name': place['name'],
-                                'phone': place.get('phone', ''),
-                                'email': place.get('email', ''),
-                                'type': place_type,
-                                'distance_km': place['distance_km'],
-                                'source': 'google_places'
-                            }
-                            contacted_services.append(service)
+                print(f"\n{'='*80}")
+                print(f"SEARCHING GOOGLE PLACES API")
+                print(f"{'='*80}")
+                print(f"Types to search: {selected_types}")
+                print(f"Number of types: {len(selected_types)}\n")
+                
+                for idx, place_type in enumerate(selected_types, 1):
+                    print(f"\n--- Search {idx}/{len(selected_types)}: {place_type} ---")
+                    
+                    try:
+                        # Call Google Places API
+                        print(f"🔍 Calling search_nearby_places({user_lat}, {user_lon}, '{place_type}')")
+                        
+                        places = google_places_service.search_nearby_places(
+                            user_lat, user_lon, place_type, radius=5000
+                        )
+                        
+                        print(f"📊 Returned: {len(places)} places")
+                        
+                        if places:
+                            print(f"✅ Success! Found {len(places)} {place_type}(s)")
                             
-                            if service['email'] and service['email'] not in recipient_emails:
-                                recipient_emails.append(service['email'])
-                            if service['phone']:
-                                call_numbers.append({
-                                    'name': service['name'],
-                                    'phone': service['phone'],
-                                    'type': service['type']
-                                })
+                            # Add to nearby_places
+                            nearby_places.extend(places)
+                            print(f"   Total places now: {len(nearby_places)}")
+                            
+                            # Process each place
+                            for i, place in enumerate(places, 1):
+                                print(f"   {i}. {place['name']} - {place['distance_km']} km")
+                                
+                                # Add to contacted services if has contact info
+                                if place.get('phone') or place.get('email'):
+                                    service = {
+                                        'name': place['name'],
+                                        'phone': place.get('phone', ''),
+                                        'email': place.get('email', ''),
+                                        'type': place_type,
+                                        'distance_km': place['distance_km'],
+                                        'source': 'google_places'
+                                    }
+                                    contacted_services.append(service)
+                                    
+                                    # Add email if exists
+                                    if service['email'] and service['email'] not in recipient_emails:
+                                        recipient_emails.append(service['email'])
+                                        print(f"      📧 Email added: {service['email']}")
+                                    
+                                    # Add phone if exists
+                                    if service['phone']:
+                                        call_numbers.append({
+                                            'name': service['name'],
+                                            'phone': service['phone'],
+                                            'type': service['type']
+                                        })
+                                        print(f"      📞 Phone added: {service['phone']}")
+                        else:
+                            print(f"⚠️ No {place_type} found within 5km radius")
+                    
+                    except Exception as place_error:
+                        print(f"❌ ERROR searching for {place_type}:")
+                        print(f"   Error type: {type(place_error).__name__}")
+                        print(f"   Error message: {str(place_error)}")
+                        import traceback
+                        traceback.print_exc()
+                        # Continue to next type instead of failing completely
+                        continue
+            else:
+                print("\n⚠️ WARNING: No service types selected!")
+
+            print(f"\n{'='*80}")
+            print(f"GOOGLE PLACES SEARCH COMPLETE")
+            print(f"{'='*80}")
+            print(f"Total nearby places found: {len(nearby_places)}")
+            print(f"Total contacted services: {len(contacted_services)}")
+            print(f"Recipient emails: {len(recipient_emails)}")
+            print(f"Call numbers: {len(call_numbers)}")
 
             # Send emails
+            print(f"\n📧 Sending emails to {len(recipient_emails)} recipients...")
             if recipient_emails:
-                EmailService.send_sos_alert(
-                    user_name=user_name,
-                    user_lat=user_lat,
-                    user_lon=user_lon,
-                    selected_types=selected_types,
-                    description=description,
-                    alert_id=sos_alert.id,
-                    recipient_emails=recipient_emails
-                )
+                try:
+                    EmailService.send_sos_alert(
+                        user_name=user_name,
+                        user_lat=user_lat,
+                        user_lon=user_lon,
+                        selected_types=selected_types,
+                        description=description,
+                        alert_id=sos_alert.id,
+                        recipient_emails=recipient_emails
+                    )
+                    print("✅ Emails sent successfully")
+                except Exception as email_error:
+                    print(f"⚠️ Email sending failed: {email_error}")
+            
+            # Update SOS alert with Google Places data
+            sos_alert.google_places_data = nearby_places
+            sos_alert.contacted_services = contacted_services
+            sos_alert.save()
+            print(f"\n✅ SOS Alert updated with Google Places data")
+
+            print(f"\n{'='*80}")
+            print(f"SOS ALERT COMPLETED SUCCESSFULLY")
+            print(f"Alert ID: {sos_alert.id}")
+            print(f"Nearby places: {len(nearby_places)}")
+            print(f"Contacted services: {len(contacted_services)}")
+            print(f"{'='*80}\n")
 
             return Response({
                 "success": True,
@@ -679,6 +769,7 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
                 "alert_id": sos_alert.id,
                 "contacted_services": len(contacted_services),
                 "nearby_places_found": len(nearby_places),
+                "nearby_places": nearby_places,  # Include actual places data
                 "emails_sent_to": recipient_emails,
                 "call_numbers": call_numbers,
                 "location": {
@@ -689,7 +780,18 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
             }, status=status.HTTP_201_CREATED)
 
         except Exception as e:
+            print(f"\n{'='*80}")
+            print(f"❌ CRITICAL ERROR IN SOS ALERT CREATION")
+            print(f"{'='*80}")
+            print(f"Error type: {type(e).__name__}")
+            print(f"Error message: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            print(f"{'='*80}\n")
+            
             return Response({
                 "success": False,
-                "error": str(e)
+                "error": str(e),
+                "error_type": type(e).__name__
             }, status=status.HTTP_400_BAD_REQUEST)
+
