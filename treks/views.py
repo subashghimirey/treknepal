@@ -527,6 +527,7 @@ class VerificationViewSet(viewsets.ViewSet):
                         "verification_time": timezone.now().strftime('%Y-%m-%d %H:%M:%S')
                     },
                     "permit_details": {
+                        "id": tims_app.id,
                         "tims_card_no": tims_app.tims_card_no,
                         "full_name": tims_app.full_name,
                         "nationality": tims_app.nationality,
