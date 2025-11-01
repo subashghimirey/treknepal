@@ -1,162 +1,1391 @@
-# Trek Nepal - Trekking Companion App
+```markdown
+# **AUTHENTICATION & POST CREATION MODULE - DETAILED DOCUMENTATION**
 
-## Project Overview
-Trek Nepal is a comprehensive mobile application designed to enhance the trekking experience in Nepal by providing essential features for trekkers' safety, convenience, and community engagement.
+---
 
-## Core Features
+## **1. AUTHENTICATION MODULE**
 
-### 1. User Authentication & Profile Management
-- Secure signup and login system
-- Profile customization with photo and interests
-- Password reset via OTP verification
-- Role-based access control (User/Admin)
+### **1.1 Overview**
 
-### 2. Trek Information
-- Detailed information about popular treks
-- Trek difficulty levels and duration
-- Route descriptions and elevation profiles
-- Best seasons for trekking
-- Required permits and costs
-- Photo galleries of trek locations
+The Authentication Module handles user registration, login, password management, and session management using Token-based authentication in the Trek Nepal system.
 
-### 3. TIMS Card Application
-- Digital TIMS (Trekkers' Information Management System) application
-- Online form submission
-- Document upload capability
-- Payment processing
-- Application status tracking
-- Digital permit storage
+---
 
-### 4. Emergency SOS System
-- One-tap SOS alert activation
-- GPS location tracking
-- Automatic notification to nearby:
-  - Police stations
-  - Hospitals
-  - Emergency contacts
-  - Tea houses
-- Offline emergency contact information
-- Real-time location sharing
+### **1.2 Architecture**
 
-### 5. Social Features
-- User-generated trek reviews and ratings
-- Photo sharing from treks
-- Comments and discussions
-- Like and bookmark functionality
-- Community engagement through posts
-- Trek experience sharing
+```
+┌─────────────────────────────────────────────────────────────┐
+│                AUTHENTICATION ARCHITECTURE                  │
+└─────────────────────────────────────────────────────────────┘
 
-### 6. Safety Features
-- Emergency contact database for each trek
-- Offline maps and routes
-- Weather updates and alerts
-- Altitude sickness information
-- Safety tips and guidelines
-- Location-based emergency services
+┌──────────────┐         ┌──────────────┐         ┌──────────────┐
+│   Frontend   │────────▶│    Django    │────────▶│   Database   │
+│   (React)    │◀────────│  REST API    │◀────────│  PostgreSQL  │
+└──────────────┘         └──────────────┘         └──────────────┘
+      │                         │                         │
+      │  HTTP Request           │  Token Auth             │
+      │  (JSON)                 │  Validation             │
+      │                         │                         │
+      ▼                         ▼                         ▼
+┌──────────────┐         ┌──────────────┐         ┌──────────────┐
+│ Auth Token   │         │ Serializers  │         │ User Model   │
+│ Storage      │         │ & Validators │         │ UserProfile  │
+└──────────────┘         └──────────────┘         └──────────────┘
+```
 
-### 7. Trek Planning Tools
-- Interactive trek maps
-- Customizable itineraries
-- Packing checklists
-- Budget calculators
-- Accommodation information
-- Transportation details
+---
 
-### 8. Location Services
-- GPS tracking
-- Nearby facilities finder
-- Altitude monitoring
-- Distance calculation
-- Route navigation
-- Offline map support
+### **1.3 Components**
 
-### 9. Administrative Features
-- User management
-- Content moderation
-- TIMS application processing
-- Emergency alert management
-- Analytics and reporting
-- System monitoring
+#### **A. Models**
 
-### 10. Technical Features
-- Token-based authentication
-- REST API architecture
-- Real-time notifications
-- Secure data storage
-- Offline functionality
-- Location services
-- File upload handling
+```python
+# User Model (Django Built-in)
+from django.contrib.auth.models import User
 
-## Technology Stack
+# Custom UserProfile Model
+class UserProfile(models.Model):
+    ROLE_CHOICES = [
+        ('user', 'Regular User'),
+        ('admin', 'Admin/Officer'),
+        ('superadmin', 'Super Admin'),
+    ]
+    
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    display_name = models.CharField(max_length=255)
+    photo_url = models.URLField(blank=True, null=True)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='user')
+    interests = models.JSONField(default=list, blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(default=timezone.now)
+```
 
-### Backend
-- Django REST Framework
-- PostgreSQL Database
-- JWT Authentication
-- Redis Cache
-- Celery for Background Tasks
+#### **B. Token Storage**
 
-### Security Features
-- Token-based authentication
-- Password encryption
-- OTP verification
-- Rate limiting
-- Input validation
-- CORS protection
+```python
+from rest_framework.authtoken.models import Token
 
-### Data Management
-- User profiles and preferences
-- Trek information and routes
-- Emergency contact database
-- TIMS applications
-- Social interactions
-- Location data
+# Token automatically created on signup/login
+# Stored in database: authtoken_token table
+# Format: 
+# - key: 40-character hexadecimal token
+# - user_id: Foreign key to User
+# - created: timestamp
+```
 
-## API Endpoints
+---
 
-### Authentication
-- `/api/auth/signup/` - User registration
-- `/api/auth/login/` - User login
-- `/api/auth/forgot_password/` - Password reset request
-- `/api/auth/verify_otp/` - OTP verification
-- `/api/auth/set_new_password/` - Password reset
+### **1.4 Authentication Flow Diagrams**
 
-### Trek Management
-- `/api/treks/` - Trek listing and details
-- `/api/recommendations/` - Personalized trek recommendations
-- `/api/favorites/` - Favorite treks management
+#### **A. User Registration (Signup)**
 
-### TIMS Application
-- `/api/tims/` - TIMS application submission and status
-- `/api/tims/verify/` - Document verification
-- `/api/tims/payment/` - Payment processing
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    SIGNUP FLOW DIAGRAM                          │
+└─────────────────────────────────────────────────────────────────┘
 
-### Emergency Services
-- `/api/sos/` - SOS alert creation and management
-- `/api/emergency-contacts/` - Emergency contact information
-- `/api/locations/` - Location tracking and updates
+CLIENT                    SERVER                      DATABASE
+  │                         │                             │
+  │  POST /auth/signup/     │                             │
+  ├────────────────────────▶│                             │
+  │  {                      │                             │
+  │    username,            │  1. Validate Data           │
+  │    email,               │     (Serializer)            │
+  │    password,            ├──────────────┐              │
+  │    display_name         │              │              │
+  │  }                      │◀─────────────┘              │
+  │                         │                             │
+  │                         │  2. Check Username Exists   │
+  │                         ├────────────────────────────▶│
+  │                         │◀────────────────────────────┤
+  │                         │     (Query)                 │
+  │                         │                             │
+  │                         │  3. Hash Password           │
+  │                         ├──────────────┐              │
+  │                         │              │              │
+  │                         │◀─────────────┘              │
+  │                         │  (bcrypt)                   │
+  │                         │                             │
+  │                         │  4. Create User             │
+  │                         ├────────────────────────────▶│
+  │                         │     INSERT INTO auth_user   │
+  │                         │◀────────────────────────────┤
+  │                         │     (User ID)               │
+  │                         │                             │
+  │                         │  5. Create UserProfile      │
+  │                         ├────────────────────────────▶│
+  │                         │     INSERT INTO user_profile│
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │                         │  6. Generate Token          │
+  │                         ├────────────────────────────▶│
+  │                         │     INSERT INTO authtoken   │
+  │                         │◀────────────────────────────┤
+  │                         │     (Token: a3f8d2...)      │
+  │                         │                             │
+  │  Response 201           │                             │
+  │◀────────────────────────┤                             │
+  │  {                      │                             │
+  │    token: "a3f8d2...",  │                             │
+  │    user: {              │                             │
+  │      id, username,      │                             │
+  │      display_name,      │                             │
+  │      role               │                             │
+  │    }                    │                             │
+  │  }                      │                             │
+  │                         │                             │
+  │  7. Store Token         │                             │
+  │     (localStorage)      │                             │
+  └─────────────────────────┴─────────────────────────────┘
+```
 
-### Social Features
-- `/api/posts/` - User posts management
-- `/api/comments/` - Comment management
-- `/api/likes/` - Like functionality
-- `/api/users/` - User profile management
+**Pseudocode:**
+
+```
+ALGORITHM: User_Registration
+INPUT: username, email, password, display_name
+OUTPUT: auth_token, user_profile
+
+BEGIN
+    // Step 1: Validate Input
+    IF username is EMPTY OR password is EMPTY:
+        RETURN error("Required fields missing")
+    
+    IF LENGTH(password) < 8:
+        RETURN error("Password must be at least 8 characters")
+    
+    IF email format is INVALID:
+        RETURN error("Invalid email format")
+    
+    // Step 2: Check Uniqueness
+    IF User.exists(username):
+        RETURN error("Username already taken")
+    
+    IF User.exists(email):
+        RETURN error("Email already registered")
+    
+    // Step 3: Hash Password
+    hashed_password = bcrypt.hash(password, salt_rounds=12)
+    
+    // Step 4: Create User
+    user = User.create({
+        username: username,
+        email: email,
+        password: hashed_password,
+        first_name: display_name,
+        is_active: TRUE
+    })
+    
+    // Step 5: Create UserProfile
+    profile = UserProfile.create({
+        user_id: user.id,
+        display_name: display_name,
+        role: 'user',
+        interests: [],
+        is_active: TRUE
+    })
+    
+    // Step 6: Generate Token
+    token = Token.create(user)
+    // Token format: 40 random hex chars
+    // Example: "9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b"
+    
+    // Step 7: Return Response
+    RETURN {
+        token: token.key,
+        user: {
+            id: profile.id,
+            username: user.username,
+            email: user.email,
+            display_name: profile.display_name,
+            role: profile.role,
+            photo_url: profile.photo_url,
+            interests: profile.interests
+        }
+    }
+END
+```
+
+---
+
+#### **B. User Login**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      LOGIN FLOW DIAGRAM                         │
+└─────────────────────────────────────────────────────────────────┘
+
+CLIENT                    SERVER                      DATABASE
+  │                         │                             │
+  │  POST /auth/login/      │                             │
+  ├────────────────────────▶│                             │
+  │  {                      │                             │
+  │    username,            │  1. Validate Credentials    │
+  │    password             │     (authenticate)          │
+  │  }                      ├────────────────────────────▶│
+  │                         │  SELECT * FROM auth_user    │
+  │                         │  WHERE username = ?         │
+  │                         │◀────────────────────────────┤
+  │                         │     (User Object)           │
+  │                         │                             │
+  │                         │  2. Verify Password         │
+  │                         ├──────────────┐              │
+  │                         │  bcrypt.verify()            │
+  │                         │◀─────────────┘              │
+  │                         │  (True/False)               │
+  │                         │                             │
+  │                         │  IF password INVALID:       │
+  │  Response 401           │     RETURN 401              │
+  │◀────────────────────────┤                             │
+  │  {                      │                             │
+  │    error: "Invalid      │                             │
+  │     credentials"        │                             │
+  │  }                      │                             │
+  │                         │                             │
+  │                         │  3. Get or Create Token     │
+  │                         ├────────────────────────────▶│
+  │                         │  SELECT token FROM authtoken│
+  │                         │  WHERE user_id = ?          │
+  │                         │◀────────────────────────────┤
+  │                         │  IF NOT EXISTS: CREATE      │
+  │                         │                             │
+  │                         │  4. Get UserProfile         │
+  │                         ├────────────────────────────▶│
+  │                         │  SELECT * FROM user_profile │
+  │                         │  WHERE user_id = ?          │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │  Response 200           │                             │
+  │◀────────────────────────┤                             │
+  │  {                      │                             │
+  │    token: "9944b09...", │                             │
+  │    user: {...},         │                             │
+  │    message: "Login      │                             │
+  │     successful"         │                             │
+  │  }                      │                             │
+  │                         │                             │
+  │  5. Store Token         │                             │
+  │     (localStorage)      │                             │
+  └─────────────────────────┴─────────────────────────────┘
+```
+
+**Pseudocode:**
+
+```
+ALGORITHM: User_Login
+INPUT: username, password
+OUTPUT: auth_token, user_profile
+
+BEGIN
+    // Step 1: Authenticate User
+    user = authenticate(username, password)
+    
+    IF user is NULL:
+        RETURN error("Invalid credentials", status=401)
+    
+    IF user.is_active is FALSE:
+        RETURN error("Account is disabled", status=403)
+    
+    // Step 2: Get or Create Token
+    TRY:
+        token = Token.get(user_id=user.id)
+    CATCH TokenDoesNotExist:
+        token = Token.create(user_id=user.id)
+    
+    // Step 3: Get UserProfile
+    TRY:
+        profile = UserProfile.get(user_id=user.id)
+    CATCH UserProfileDoesNotExist:
+        // Create profile if doesn't exist
+        profile = UserProfile.create({
+            user_id: user.id,
+            display_name: user.username,
+            role: 'user'
+        })
+    
+    // Step 4: Update Last Login
+    user.last_login = CURRENT_TIMESTAMP()
+    user.save()
+    
+    // Step 5: Return Response
+    RETURN {
+        token: token.key,
+        user: serialize(profile),
+        message: "Login successful"
+    }
+END
+```
+
+---
+
+#### **C. Password Reset Flow**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              PASSWORD RESET FLOW (3-STEP PROCESS)               │
+└─────────────────────────────────────────────────────────────────┘
+
+STEP 1: REQUEST OTP
+═══════════════════
+
+CLIENT                    SERVER                      DATABASE
+  │                         │                             │
+  │  POST /auth/           │                             │
+  │   forgot-password/      │                             │
+  ├────────────────────────▶│                             │
+  │  {                      │  1. Find User by Email      │
+  │    email: "user@.."     ├────────────────────────────▶│
+  │  }                      │  SELECT * FROM auth_user    │
+  │                         │  WHERE email = ?            │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │                         │  2. Generate 6-digit OTP    │
+  │                         ├──────────────┐              │
+  │                         │  random(100000, 999999)     │
+  │                         │◀─────────────┘              │
+  │                         │  OTP: "482751"              │
+  │                         │                             │
+  │                         │  3. Save OTP                │
+  │                         ├────────────────────────────▶│
+  │                         │  INSERT INTO password_reset │
+  │                         │  (user_id, otp, created_at) │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │                         │  4. Send Email              │
+  │                         ├──────────────┐              │
+  │                         │  SMTP Send   │              │
+  │                         │◀─────────────┘              │
+  │                         │                             │
+  │  Response 200           │                             │
+  │◀────────────────────────┤                             │
+  │  {                      │                             │
+  │    success: true,       │                             │
+  │    message: "OTP sent"  │                             │
+  │  }                      │                             │
+  └─────────────────────────┴─────────────────────────────┘
 
 
-## Target Users
-- Trekkers and hikers
-- Tourism agencies
-- Emergency response teams
-- Trek guides
-- Local businesses
-- Tourism administrators
+STEP 2: VERIFY OTP
+══════════════════
 
-## Benefits
-1. Enhanced trekker safety
-2. Streamlined TIMS processing
-3. Better emergency response
-4. Improved trek planning
-5. Community building
-6. Accessible trek information
-7. Digital transformation of trekking
-8. Environmental awareness
+CLIENT                    SERVER                      DATABASE
+  │                         │                             │
+  │  POST /auth/           │                             │
+  │   verify-otp/           │                             │
+  ├────────────────────────▶│                             │
+  │  {                      │  1. Find OTP                │
+  │    otp: "482751"        ├────────────────────────────▶│
+  │  }                      │  SELECT * FROM password_reset│
+  │                         │  WHERE otp = ?              │
+  │                         │    AND is_used = FALSE      │
+  │                         │  ORDER BY created_at DESC   │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │                         │  2. Check Expiry            │
+  │                         ├──────────────┐              │
+  │                         │  IF (now - created) > 10min:│
+  │                         │    RETURN "expired"         │
+  │                         │◀─────────────┘              │
+  │                         │                             │
+  │                         │  3. Mark as Verified        │
+  │                         ├────────────────────────────▶│
+  │                         │  UPDATE password_reset      │
+  │                         │  SET is_verified = TRUE     │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │  Response 200           │                             │
+  │◀────────────────────────┤                             │
+  │  {                      │                             │
+  │    success: true,       │                             │
+  │    verified: true       │                             │
+  │  }                      │                             │
+  └─────────────────────────┴─────────────────────────────┘
+
+
+STEP 3: SET NEW PASSWORD
+════════════════════════
+
+CLIENT                    SERVER                      DATABASE
+  │                         │                             │
+  │  POST /auth/           │                             │
+  │   set-new-password/     │                             │
+  ├────────────────────────▶│                             │
+  │  {                      │  1. Validate OTP            │
+  │    otp: "482751",       ├────────────────────────────▶│
+  │    new_password         │  SELECT * FROM password_reset│
+  │  }                      │  WHERE otp = ?              │
+  │                         │    AND is_verified = TRUE   │
+  │                         │    AND is_used = FALSE      │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │                         │  2. Hash New Password       │
+  │                         ├──────────────┐              │
+  │                         │  bcrypt.hash()              │
+  │                         │◀─────────────┘              │
+  │                         │                             │
+  │                         │  3. Update User Password    │
+  │                         ├────────────────────────────▶│
+  │                         │  UPDATE auth_user           │
+  │                         │  SET password = ?           │
+  │                         │  WHERE id = ?               │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │                         │  4. Mark OTP as Used        │
+  │                         ├────────────────────────────▶│
+  │                         │  UPDATE password_reset      │
+  │                         │  SET is_used = TRUE         │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │  Response 200           │                             │
+  │◀────────────────────────┤                             │
+  │  {                      │                             │
+  │    success: true,       │                             │
+  │    message: "Password   │                             │
+  │     reset successful"   │                             │
+  │  }                      │                             │
+  └─────────────────────────┴─────────────────────────────┘
+```
+
+**Pseudocode:**
+
+```
+ALGORITHM: Password_Reset_Request_OTP
+INPUT: email
+OUTPUT: success_message
+
+BEGIN
+    // Step 1: Find User
+    TRY:
+        user = User.get(email=email)
+    CATCH UserDoesNotExist:
+        RETURN error("No user found with this email", 404)
+    
+    // Step 2: Generate OTP
+    otp = RANDOM_NUMBER(6_digits)  // e.g., "482751"
+    
+    // Step 3: Save OTP
+    PasswordResetOTP.create({
+        user_id: user.id,
+        otp: otp,
+        created_at: CURRENT_TIMESTAMP(),
+        is_used: FALSE,
+        is_verified: FALSE
+    })
+    
+    // Step 4: Send Email
+    email_body = "Your password reset code is: " + otp + 
+                 "\nValid for 10 minutes."
+    
+    send_email(
+        to: email,
+        subject: "Password Reset Code",
+        body: email_body
+    )
+    
+    RETURN {
+        success: TRUE,
+        message: "Password reset code sent to your email"
+    }
+END
+
+
+ALGORITHM: Verify_OTP
+INPUT: otp
+OUTPUT: verification_status
+
+BEGIN
+    // Step 1: Find OTP
+    TRY:
+        otp_obj = PasswordResetOTP.filter(
+            otp=otp,
+            is_used=FALSE
+        ).latest('created_at')
+    CATCH DoesNotExist:
+        RETURN error("Invalid OTP", 400)
+    
+    // Step 2: Check Expiry
+    time_elapsed = CURRENT_TIMESTAMP() - otp_obj.created_at
+    
+    IF time_elapsed > 10_MINUTES:
+        RETURN error("OTP has expired", 400)
+    
+    // Step 3: Mark as Verified
+    otp_obj.is_verified = TRUE
+    otp_obj.save()
+    
+    RETURN {
+        success: TRUE,
+        verified: TRUE,
+        message: "OTP verified successfully"
+    }
+END
+
+
+ALGORITHM: Set_New_Password
+INPUT: otp, new_password
+OUTPUT: success_message
+
+BEGIN
+    // Step 1: Validate OTP
+    TRY:
+        otp_obj = PasswordResetOTP.filter(
+            otp=otp,
+            is_verified=TRUE,
+            is_used=FALSE
+        ).latest('created_at')
+    CATCH DoesNotExist:
+        RETURN error("Invalid or unverified OTP", 400)
+    
+    // Step 2: Check Expiry Again
+    time_elapsed = CURRENT_TIMESTAMP() - otp_obj.created_at
+    IF time_elapsed > 10_MINUTES:
+        RETURN error("OTP has expired", 400)
+    
+    // Step 3: Hash New Password
+    hashed_password = bcrypt.hash(new_password, salt_rounds=12)
+    
+    // Step 4: Update User Password
+    user = otp_obj.user
+    user.password = hashed_password
+    user.save()
+    
+    // Step 5: Mark OTP as Used
+    otp_obj.is_used = TRUE
+    otp_obj.save()
+    
+    RETURN {
+        success: TRUE,
+        message: "Password reset successful"
+    }
+END
+```
+
+---
+
+#### **D. Change Password (Authenticated User)**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                  CHANGE PASSWORD FLOW                           │
+└─────────────────────────────────────────────────────────────────┘
+
+CLIENT                    SERVER                      DATABASE
+  │                         │                             │
+  │  POST /auth/           │                             │
+  │   change-password/      │                             │
+  ├────────────────────────▶│                             │
+  │  Headers:               │  1. Verify Token            │
+  │   Authorization:        ├────────────────────────────▶│
+  │   Token 9944b09...      │  SELECT user_id FROM token  │
+  │                         │  WHERE key = ?              │
+  │  Body: {                │◀────────────────────────────┤
+  │    old_password,        │     (user_id: 42)           │
+  │    new_password         │                             │
+  │  }                      │  2. Get User                │
+  │                         ├────────────────────────────▶│
+  │                         │  SELECT * FROM auth_user    │
+  │                         │  WHERE id = 42              │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │                         │  3. Verify Old Password     │
+  │                         ├──────────────┐              │
+  │                         │  bcrypt.verify()            │
+  │                         │◀─────────────┘              │
+  │                         │  (True/False)               │
+  │                         │                             │
+  │                         │  IF INVALID:                │
+  │  Response 400           │     RETURN 400              │
+  │◀────────────────────────┤                             │
+  │  {                      │                             │
+  │    error: "Invalid      │                             │
+  │     old password"       │                             │
+  │  }                      │                             │
+  │                         │                             │
+  │                         │  4. Hash New Password       │
+  │                         ├──────────────┐              │
+  │                         │  bcrypt.hash()              │
+  │                         │◀─────────────┘              │
+  │                         │                             │
+  │                         │  5. Update Password         │
+  │                         ├────────────────────────────▶│
+  │                         │  UPDATE auth_user           │
+  │                         │  SET password = ?           │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │  Response 200           │                             │
+  │◀────────────────────────┤                             │
+  │  {                      │                             │
+  │    success: true,       │                             │
+  │    message: "Password   │                             │
+  │     changed"            │                             │
+  │  }                      │                             │
+  └─────────────────────────┴─────────────────────────────┘
+```
+
+---
+
+### **1.5 Security Features**
+
+#### **A. Password Hashing**
+
+```python
+# Django uses PBKDF2 with SHA256 by default
+# Format: <algorithm>$<iterations>$<salt>$<hash>
+
+Example Stored Password:
+"pbkdf2_sha256$260000$randomsalt$hashedpassword..."
+
+Breakdown:
+├─ Algorithm: pbkdf2_sha256
+├─ Iterations: 260,000 (as of Django 3.2+)
+├─ Salt: Random 22-character string
+└─ Hash: 44-character base64 encoded hash
+
+Security Benefits:
+✓ Salted (prevents rainbow table attacks)
+✓ 260,000 iterations (computationally expensive)
+✓ SHA256 hashing algorithm
+✓ Cannot be reversed
+```
+
+#### **B. Token Authentication**
+
+```python
+# Token Format
+Token Key: "9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b"
+Length: 40 hexadecimal characters
+Entropy: 160 bits (2^160 possible combinations)
+
+# HTTP Header
+Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b
+
+Security Features:
+✓ Cryptographically secure random generation
+✓ Stored in database (can be invalidated)
+✓ No expiration (logout to invalidate)
+✓ One token per user
+```
+
+#### **C. OTP Security**
+
+```python
+# OTP Specifications
+Format: 6-digit numeric code
+Range: 100000 - 999999
+Validity: 10 minutes
+One-time use: Marked as used after consumption
+
+Security Features:
+✓ Time-limited (10 minutes)
+✓ Single use only
+✓ Random generation
+✓ Email delivery (out-of-band verification)
+✓ Cannot be reused
+```
+
+---
+
+### **1.6 API Endpoints Summary**
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                   AUTHENTICATION API ENDPOINTS                   │
+└──────────────────────────────────────────────────────────────────┘
+
+┌────────┬────────────────────────────────┬──────────────┬──────────┐
+│ Method │ Endpoint                       │ Auth Required│ Role     │
+├────────┼────────────────────────────────┼──────────────┼──────────┤
+│ POST   │ /api/auth/signup/              │ ❌ No        │ Public   │
+│ POST   │ /api/auth/login/               │ ❌ No        │ Public   │
+│ POST   │ /api/auth/change-password/     │ ✅ Yes       │ User     │
+│ POST   │ /api/auth/forgot-password/     │ ❌ No        │ Public   │
+│ POST   │ /api/auth/verify-otp/          │ ❌ No        │ Public   │
+│ POST   │ /api/auth/set-new-password/    │ ❌ No        │ Public   │
+└────────┴────────────────────────────────┴──────────────┴──────────┘
+```
+
+---
+
+## **2. POST CREATION MODULE**
+
+### **2.1 Overview**
+
+The Post Creation Module allows authenticated users to create, view, like, comment, and share posts related to treks. It includes image upload, location tagging, and social interactions.
+
+---
+
+### **2.2 Architecture**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                  POST CREATION ARCHITECTURE                     │
+└─────────────────────────────────────────────────────────────────┘
+
+┌──────────────┐         ┌──────────────┐         ┌──────────────┐
+│   Frontend   │────────▶│  Django API  │────────▶│   Database   │
+│   (Upload)   │◀────────│  (Process)   │◀────────│ (PostgreSQL) │
+└──────────────┘         └──────────────┘         └──────────────┘
+      │                         │                         │
+      │  Images                 │                         │
+      ▼                         ▼                         ▼
+┌──────────────┐         ┌──────────────┐         ┌──────────────┐
+│  Cloudinary  │         │ Serializer   │         │ Post Model   │
+│   (CDN)      │         │ Validator    │         │ Comment Model│
+└──────────────┘         └──────────────┘         └──────────────┘
+```
+
+---
+
+### **2.3 Post Model Structure**
+
+```python
+class Post(models.Model):
+    # Relationships
+    trek = models.ForeignKey(Trek, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    
+    # Content
+    content = models.TextField()  # Post description
+    images = models.JSONField(default=list)  # Array of image URLs
+    location = models.JSONField(null=True)  # GPS coordinates
+    
+    # Engagement Metrics
+    likes_count = models.IntegerField(default=0)
+    comments_count = models.IntegerField(default=0)
+    
+    # Status
+    status = models.CharField(
+        max_length=20, 
+        default='active',
+        choices=[
+            ('active', 'Active'),
+            ('archived', 'Archived'),
+            ('reported', 'Reported')
+        ]
+    )
+    
+    # Timestamps
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+```
+
+---
+
+### **2.4 Post Creation Flow**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                   POST CREATION FLOW DIAGRAM                    │
+└─────────────────────────────────────────────────────────────────┘
+
+CLIENT                    SERVER                      DATABASE
+  │                         │                             │
+  │  1. User selects trek   │                             │
+  │     & writes content    │                             │
+  │                         │                             │
+  │  2. User uploads images │                             │
+  │     (Multiple files)    │                             │
+  │                         │                             │
+  │  3. User adds location  │                             │
+  │     (GPS coordinates)   │                             │
+  │                         │                             │
+  │  POST /api/posts/       │                             │
+  ├────────────────────────▶│                             │
+  │  Headers:               │  4. Verify Authentication   │
+  │   Authorization:        ├────────────────────────────▶│
+  │   Token 9944b09...      │  SELECT user FROM authtoken │
+  │                         │◀────────────────────────────┤
+  │  Body: {                │                             │
+  │    trek: 5,             │  5. Validate Data           │
+  │    content: "Amazing!", ├──────────────┐              │
+  │    images: [            │  • Content not empty        │
+  │      "data:image/..."   │  • Trek exists              │
+  │    ],                   │  • Images valid             │
+  │    location: {          │◀─────────────┘              │
+  │      lat: 27.7,         │                             │
+  │      lon: 85.3          │  6. Upload Images           │
+  │    }                    ├──────────────┐              │
+  │  }                      │  cloudinary.upload()        │
+  │                         │◀─────────────┘              │
+  │                         │  URLs: [                    │
+  │                         │   "https://res.cloudinary...│
+  │                         │  ]                          │
+  │                         │                             │
+  │                         │  7. Create Post             │
+  │                         ├────────────────────────────▶│
+  │                         │  INSERT INTO post           │
+  │                         │  (user_id, trek_id,         │
+  │                         │   content, images,          │
+  │                         │   location, created_at)     │
+  │                         │◀────────────────────────────┤
+  │                         │  (post_id: 123)             │
+  │                         │                             │
+  │                         │  8. Get Post Details        │
+  │                         ├────────────────────────────▶│
+  │                         │  SELECT post, user, trek    │
+  │                         │  FROM post                  │
+  │                         │  JOIN user_profile          │
+  │                         │  JOIN trek                  │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │  Response 201           │                             │
+  │◀────────────────────────┤                             │
+  │  {                      │                             │
+  │    success: true,       │                             │
+  │    message: "Post       │                             │
+  │     created",           │                             │
+  │    post: {              │                             │
+  │      id: 123,           │                             │
+  │      content: "...",    │                             │
+  │      images: [...],     │                             │
+  │      user: {...},       │                             │
+  │      trek: {...},       │                             │
+  │      likes_count: 0,    │                             │
+  │      comments_count: 0, │                             │
+  │      created_at: "..."  │                             │
+  │    }                    │                             │
+  │  }                      │                             │
+  └─────────────────────────┴─────────────────────────────┘
+```
+
+---
+
+### **2.5 Post Creation Pseudocode**
+
+```
+ALGORITHM: Create_Post
+INPUT: user_token, trek_id, content, images[], location
+OUTPUT: created_post
+
+BEGIN
+    // Step 1: Authenticate User
+    user = authenticate_token(user_token)
+    IF user is NULL:
+        RETURN error("Unauthorized", 401)
+    
+    // Step 2: Validate Trek
+    TRY:
+        trek = Trek.get(id=trek_id)
+    CATCH TrekDoesNotExist:
+        RETURN error("Trek not found", 404)
+    
+    // Step 3: Validate Content
+    IF content is EMPTY:
+        RETURN error("Content is required", 400)
+    
+    IF LENGTH(content) > 5000:
+        RETURN error("Content too long (max 5000 chars)", 400)
+    
+    // Step 4: Upload Images to Cloudinary
+    uploaded_images = []
+    
+    FOR each image IN images:
+        // Validate image
+        IF NOT is_valid_image(image):
+            RETURN error("Invalid image format", 400)
+        
+        IF image.size > 10_MB:
+            RETURN error("Image too large (max 10MB)", 400)
+        
+        // Upload to Cloudinary
+        TRY:
+            result = cloudinary.uploader.upload(
+                image,
+                folder="trek_posts",
+                transformation=[
+                    {width: 1200, height: 1200, crop: "limit"},
+                    {quality: "auto"},
+                    {fetch_format: "auto"}
+                ]
+            )
+            uploaded_images.APPEND(result.secure_url)
+        CATCH CloudinaryError as e:
+            RETURN error("Image upload failed: " + e.message, 500)
+    
+    // Step 5: Validate Location (Optional)
+    IF location is NOT NULL:
+        IF location.latitude < -90 OR location.latitude > 90:
+            RETURN error("Invalid latitude", 400)
+        
+        IF location.longitude < -180 OR location.longitude > 180:
+            RETURN error("Invalid longitude", 400)
+    
+    // Step 6: Create Post
+    post = Post.create({
+        user_id: user.profile.id,
+        trek_id: trek.id,
+        content: content,
+        images: uploaded_images,  // Array of Cloudinary URLs
+        location: location,
+        likes_count: 0,
+        comments_count: 0,
+        status: 'active',
+        created_at: CURRENT_TIMESTAMP()
+    })
+    
+    // Step 7: Serialize Response
+    response = {
+        success: TRUE,
+        message: "Post created successfully",
+        post: {
+            id: post.id,
+            content: post.content,
+            images: post.images,
+            location: post.location,
+            likes_count: post.likes_count,
+            comments_count: post.comments_count,
+            created_at: post.created_at,
+            user: {
+                id: user.profile.id,
+                display_name: user.profile.display_name,
+                photo_url: user.profile.photo_url
+            },
+            trek: {
+                id: trek.id,
+                name: trek.name,
+                region: trek.region,
+                difficulty: trek.difficulty
+            }
+        }
+    }
+    
+    RETURN response (status=201)
+END
+```
+
+---
+
+### **2.6 Post Interaction Flows**
+
+#### **A. Like/Unlike Post**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      LIKE POST FLOW                             │
+└─────────────────────────────────────────────────────────────────┘
+
+CLIENT                    SERVER                      DATABASE
+  │                         │                             │
+  │  POST /api/posts/       │                             │
+  │   {post_id}/like/       │                             │
+  ├────────────────────────▶│                             │
+  │  Token: 9944b09...      │  1. Authenticate User       │
+  │                         ├────────────────────────────▶│
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │                         │  2. Check Existing Like     │
+  │                         ├────────────────────────────▶│
+  │                         │  SELECT * FROM like         │
+  │                         │  WHERE post_id = ?          │
+  │                         │    AND user_id = ?          │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │                         │  IF Like EXISTS:            │
+  │                         │    3a. Delete Like (Unlike) │
+  │                         ├────────────────────────────▶│
+  │                         │  DELETE FROM like           │
+  │                         │  WHERE id = ?               │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │                         │    4a. Decrement Count      │
+  │                         ├────────────────────────────▶│
+  │                         │  UPDATE post                │
+  │                         │  SET likes_count = likes-1  │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │  Response: "unliked"    │                             │
+  │◀────────────────────────┤                             │
+  │                         │                             │
+  │                         │  ELSE:                      │
+  │                         │    3b. Create Like          │
+  │                         ├────────────────────────────▶│
+  │                         │  INSERT INTO like           │
+  │                         │  (post_id, user_id)         │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │                         │    4b. Increment Count      │
+  │                         ├────────────────────────────▶│
+  │                         │  UPDATE post                │
+  │                         │  SET likes_count = likes+1  │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │  Response: "liked"      │                             │
+  │◀────────────────────────┤                             │
+  └─────────────────────────┴─────────────────────────────┘
+```
+
+**Pseudocode:**
+
+```
+ALGORITHM: Toggle_Post_Like
+INPUT: user_token, post_id
+OUTPUT: like_status
+
+BEGIN
+    // Step 1: Authenticate
+    user = authenticate_token(user_token)
+    IF user is NULL:
+        RETURN error("Unauthorized", 401)
+    
+    // Step 2: Get Post
+    TRY:
+        post = Post.get(id=post_id)
+    CATCH PostDoesNotExist:
+        RETURN error("Post not found", 404)
+    
+    // Step 3: Check Existing Like
+    TRY:
+        like = Like.get(post_id=post_id, user_id=user.profile.id)
+        
+        // Like exists, so unlike
+        like.delete()
+        
+        // Decrement likes count
+        post.likes_count = post.likes_count - 1
+        post.save()
+        
+        RETURN {status: "unliked", likes_count: post.likes_count}
+        
+    CATCH LikeDoesNotExist:
+        // Like doesn't exist, so create it
+        Like.create(post_id=post_id, user_id=user.profile.id)
+        
+        // Increment likes count
+        post.likes_count = post.likes_count + 1
+        post.save()
+        
+        RETURN {status: "liked", likes_count: post.likes_count}
+END
+```
+
+---
+
+#### **B. Comment on Post**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    COMMENT CREATION FLOW                        │
+└─────────────────────────────────────────────────────────────────┘
+
+CLIENT                    SERVER                      DATABASE
+  │                         │                             │
+  │  POST /api/comments/    │                             │
+  ├────────────────────────▶│                             │
+  │  Token: 9944b09...      │  1. Authenticate User       │
+  │                         ├────────────────────────────▶│
+  │  Body: {                │◀────────────────────────────┤
+  │    post: 123,           │                             │
+  │    content: "Nice!",    │  2. Validate Post           │
+  │    parent: null         ├────────────────────────────▶│
+  │  }                      │  SELECT * FROM post         │
+  │                         │  WHERE id = 123             │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │                         │  3. Validate Content        │
+  │                         ├──────────────┐              │
+  │                         │  • Not empty                │
+  │                         │  • Max 1000 chars           │
+  │                         │◀─────────────┘              │
+  │                         │                             │
+  │                         │  4. Create Comment          │
+  │                         ├────────────────────────────▶│
+  │                         │  INSERT INTO comment        │
+  │                         │  (post_id, user_id,         │
+  │                         │   content, parent_id,       │
+  │                         │   created_at)               │
+  │                         │◀────────────────────────────┤
+  │                         │  (comment_id: 456)          │
+  │                         │                             │
+  │                         │  5. Increment Comment Count │
+  │                         ├────────────────────────────▶│
+  │                         │  UPDATE post                │
+  │                         │  SET comments_count =       │
+  │                         │      comments_count + 1     │
+  │                         │◀────────────────────────────┤
+  │                         │                             │
+  │  Response 201           │                             │
+  │◀────────────────────────┤                             │
+  │  {                      │                             │
+  │    id: 456,             │                             │
+  │    content: "Nice!",    │                             │
+  │    user: {...},         │                             │
+  │    created_at: "...",   │                             │
+  │    likes_count: 0       │                             │
+  │  }                      │                             │
+  └─────────────────────────┴─────────────────────────────┘
+```
+
+---
+
+### **2.7 Database Schema**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                  POST MODULE DATABASE SCHEMA                    │
+└─────────────────────────────────────────────────────────────────┘
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃              POST                ┃
+┃─────────────────────────────────┃
+┃ PK  id                  INTEGER ┃
+┃ FK  user_id             INTEGER ┃ → UserProfile
+┃ FK  trek_id             INTEGER ┃ → Trek
+┃ ──────────────────────────────  ┃
+┃     content             TEXT    ┃
+┃     images              JSONB   ┃ ["url1", "url2"]
+┃     location            JSONB   ┃ {lat, lon}
+┃     likes_count         INTEGER ┃ Default: 0
+┃     comments_count      INTEGER ┃ Default: 0
+┃     status              VARCHAR ┃ active/archived/reported
+┃     created_at          DATETIME┃
+┃     updated_at          DATETIME┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+           │
+           │ 1:N
+           ▼
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃            COMMENT               ┃
+┃─────────────────────────────────┃
+┃ PK  id                  INTEGER ┃
+┃ FK  post_id             INTEGER ┃ → Post
+┃ FK  user_id             INTEGER ┃ → UserProfile
+┃ FK  parent_id           INTEGER ┃ → Comment (nullable)
+┃ ──────────────────────────────  ┃
+┃     content             TEXT    ┃
+┃     likes_count         INTEGER ┃
+┃     status              VARCHAR ┃
+┃     created_at          DATETIME┃
+┃     updated_at          DATETIME┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃              LIKE                ┃
+┃─────────────────────────────────┃
+┃ PK  id                  INTEGER ┃
+┃ FK  post_id             INTEGER ┃ → Post (nullable)
+┃ FK  comment_id          INTEGER ┃ → Comment (nullable)
+┃ FK  user_id             INTEGER ┃ → UserProfile
+┃ ──────────────────────────────  ┃
+┃     created_at          DATETIME┃
+┃ ──────────────────────────────  ┃
+┃ UNIQUE (post_id, user_id)       ┃
+┃ UNIQUE (comment_id, user_id)    ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
+
+---
+
+### **2.8 API Endpoints Summary**
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                   POST MODULE API ENDPOINTS                      │
+└──────────────────────────────────────────────────────────────────┘
+
+┌────────┬──────────────────────────────┬──────────────┬──────────┐
+│ Method │ Endpoint                     │ Auth Required│ Purpose  │
+├────────┼──────────────────────────────┼──────────────┼──────────┤
+│ GET    │ /api/posts/                  │ ✅ Yes       │ List all │
+│ POST   │ /api/posts/                  │ ✅ Yes       │ Create   │
+│ GET    │ /api/posts/{id}/             │ ✅ Yes       │ Retrieve │
+│ PUT    │ /api/posts/{id}/             │ ✅ Yes       │ Update   │
+│ DELETE │ /api/posts/{id}/             │ ✅ Yes       │ Delete   │
+│ POST   │ /api/posts/{id}/like/        │ ✅ Yes       │ Like     │
+│ POST   │ /api/posts/{id}/report/      │ ✅ Yes       │ Report   │
+├────────┼──────────────────────────────┼──────────────┼──────────┤
+│ GET    │ /api/comments/               │ ✅ Yes       │ List all │
+│ POST   │ /api/comments/               │ ✅ Yes       │ Create   │
+│ GET    │ /api/comments/{id}/          │ ✅ Yes       │ Retrieve │
+│ PUT    │ /api/comments/{id}/          │ ✅ Yes       │ Update   │
+│ DELETE │ /api/comments/{id}/          │ ✅ Yes       │ Delete   │
+│ POST   │ /api/comments/{id}/like/     │ ✅ Yes       │ Like     │
+└────────┴──────────────────────────────┴──────────────┴──────────┘
+```
+
+---
+
+### **2.9 Image Upload Integration**
+
+```python
+# Cloudinary Configuration
+import cloudinary
+import cloudinary.uploader
+
+cloudinary.config(
+    cloud_name = "your_cloud_name",
+    api_key = "your_api_key",
+    api_secret = "your_api_secret"
+)
+
+# Upload Function
+def upload_post_image(image_file):
+    """
+    Upload image to Cloudinary
+    
+    Args:
+        image_file: File object or base64 string
+    
+    Returns:
+        dict: {url, public_id, format, width, height}
+    """
+    result = cloudinary.uploader.upload(
+        image_file,
+        folder="trek_posts",  # Organize in folders
+        transformation=[
+            {'width': 1200, 'height': 1200, 'crop': 'limit'},
+            {'quality': 'auto'},  # Automatic quality
+            {'fetch_format': 'auto'}  # Auto WebP/AVIF
+        ],
+        # Generate responsive versions
+        responsive_breakpoints={
+            "create_derived": True,
+            "bytes_step": 20000,
+            "min_width": 200,
+            "max_width": 1200,
+            "max_images": 5
+        }
+    )
+    
+    return {
+        'url': result['secure_url'],
+        'public_id': result['public_id'],
+        'format': result['format'],
+        'width': result['width'],
+        'height': result['height']
+    }
+```
+
+---
+
+### **2.10 Sample Request/Response**
+
+#### **Create Post Request**
+
+```json
+POST /api/posts/
+Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b
+Content-Type: application/json
+
+{
+  "trek": 5,
+  "content": "Amazing trek to Everest Base Camp! The views were breathtaking. Highly recommend going in spring season.",
+  "images": [
+    "data:image/jpeg;base64,/9j/4AAQSkZJRg...",
+    "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+  ],
+  "location": {
+    "latitude": 27.7172,
+    "longitude": 85.3240,
+    "address": "Kathmandu, Nepal"
+  }
+}
+```
+
+#### **Create Post Response**
+
+```json
+HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+  "success": true,
+  "message": "Post created successfully",
+  "post": {
+    "id": 123,
+    "content": "Amazing trek to Everest Base Camp! The views were breathtaking. Highly recommend going in spring season.",
+    "images": [
+      "https://res.cloudinary.com/demo/image/upload/trek_posts/img1.jpg",
+      "https://res.cloudinary.com/demo/image/upload/trek_posts/img2.jpg"
+    ],
+    "location": {
+      "latitude": 27.7172,
+      "longitude": 85.3240,
+      "address": "Kathmandu, Nepal"
+    },
+    "likes_count": 0,
+    "comments_count": 0,
+    "created_at": "2025-10-29T14:30:00Z",
+    "updated_at": "2025-10-29T14:30:00Z",
+    "user": {
+      "id": 42,
+      "display_name": "John Doe",
+      "photo_url": "https://res.cloudinary.com/demo/image/upload/profiles/user42.jpg"
+    },
+    "trek": {
+      "id": 5,
+      "name": "Everest Base Camp Trek",
+      "region": "Everest",
+      "difficulty": "Challenging"
+    }
+  }
+}
+```
+
+---
+
+### **2.11 Error Handling**
+
+```json
+// Unauthorized Error
+{
+  "success": false,
+  "error": "Authentication credentials were not provided.",
+  "status_code": 401
+}
+
+// Invalid Trek Error
+{
+  "success": false,
+  "error": "Trek not found",
+  "status_code": 404
+}
+
+// Validation Error
+{
+  "success": false,
+  "errors": {
+    "content": ["This field is required."],
+    "images": ["Image size too large (max 10MB)"]
+  },
+  "status_code": 400
+}
+
+// Server Error
+{
+  "success": false,
+  "error": "Internal server error",
+  "message": "Image upload failed",
+  "status_code": 500
+}
+```
+
+---
+
+## **3. CONCLUSION**
+
+This documentation covers the complete implementation of:
+
+1. **Authentication Module**
+   - User Registration (Signup)
+   - User Login
+   - Password Reset (3-step OTP process)
+   - Change Password
+   - Token-based Authentication
+   - Security Features
+
+2. **Post Creation Module**
+   - Post Creation with Images
+   - Location Tagging
+   - Like/Unlike Functionality
+   - Comment System
+   - Image Upload to Cloudinary
+   - Social Interactions
+
+Both modules follow RESTful API principles, implement proper authentication and authorization, include comprehensive error handling, and maintain data integrity through database constraints.
+
+---
+
+**End of Documentation**
+```
+

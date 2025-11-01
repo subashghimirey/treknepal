@@ -95,7 +95,7 @@ class GooglePlacesService:
             print("⚠️ WARNING: GOOGLE_API_KEY not found in environment variables!")
     
     def calculate_distance(self, lat1, lon1, lat2, lon2):
-        """Calculate distance using Haversine formula"""
+       
         R = 6371  # Earth's radius in km
         dlat = math.radians(lat2 - lat1)
         dlon = math.radians(lon2 - lon1)
@@ -103,10 +103,10 @@ class GooglePlacesService:
              math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * 
              math.sin(dlon/2) * math.sin(dlon/2))
         c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
-        return round(R * c, 2)  # Return rounded distance
+        return round(R * c, 2) 
     
     def get_place_details(self, place_id):
-        """Get detailed information about a place"""
+        
         if not self.api_key:
             return {}
             

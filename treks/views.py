@@ -461,18 +461,23 @@ class TIMSViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        
         try:
-            user_profile = user.profile
-            return self.queryset.filter(user=user_profile).order_by('-created_at')
+            profile = user.profile
         except AttributeError:
-            user_profile = UserProfile.objects.create(
+            profile, _ = UserProfile.objects.get_or_create(
                 user=user,
-                display_name=user.username
+                defaults={"display_name": user.username}
             )
-            return self.queryset.filter(user=user_profile).order_by('-created_at')
-        except Exception as e:
-            return self.queryset.none()
+
+        qs = self.queryset.select_related("user").order_by("-created_at")
+
+        try:
+            if profile.is_admin():
+                return qs
+        except Exception:
+            pass
+
+        return qs.filter(user=profile)
 
     def perform_create(self, serializer):
         user = self.request.user

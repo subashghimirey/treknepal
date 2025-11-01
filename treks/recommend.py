@@ -71,15 +71,14 @@ def recommend_treks(user_profile, top_n=6):
             trek_vector = compute_average_vector_from_text(combined_text)
             trek_vector_cache[trek_id] = trek_vector
 
-        # Skip zero vectors (meaning no meaningful content)
+ 
         if np.linalg.norm(trek_vector) == 0:
             continue
 
-        # Compute cosine similarity
         score = cosine_similarity([user_vector], [trek_vector])[0][0]
         similarities.append((trek, score))
 
-    # Sort by similarity
+
     similarities.sort(key=lambda x: x[1], reverse=True)
 
     print(f"Computed similarities for {len(similarities)} treks.")
@@ -88,4 +87,5 @@ def recommend_treks(user_profile, top_n=6):
     recommendations = [trek for trek, score in similarities if score > 0][:top_n]
 
     print(f"Recommended {len(recommendations)} treks for user {user_profile.user.username} based on interests: {user_profile.interests}")
+    print(f"Recommended Treks: {[trek.name for trek in recommendations]}")
     return recommendations
