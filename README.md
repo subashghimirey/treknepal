@@ -194,6 +194,7 @@ POST /api/tims/
 ```http
 GET /api/tims/
 ```
+Note: Admin users receive all TIMS applications; normal users receive only their own.
 
 ## Social Features
 
@@ -334,3 +335,89 @@ For support, email ghimiresubash980843@gmail.com
 ## Authors ✨
 
 - [Subash Ghimire]
+
+## Verification (TIMS QR)
+
+### Check Role
+```http
+GET /api/verify/check_role/
+```
+Auth required. Returns current user role and admin flags.
+
+Example:
+```json
+{
+  "user_details": {
+    "username": "john",
+    "display_name": "John Doe",
+    "role": "admin",
+    "is_admin": true,
+    "can_verify_qr": true
+  }
+}
+```
+
+### Verify TIMS QR (Admin only)
+```http
+POST /api/verify/verify_qr/
+```
+Headers:
+```
+Authorization: Token <your_token>
+Content-Type: application/json
+```
+Request Body:
+```json
+{
+  "qr_data": "<encrypted QR payload>"
+}
+```
+- qr_data is required and decrypted server-side.
+- Only admin users can access this.
+
+Success (200):
+```json
+{
+  "success": true,
+  "verified": true,
+  "verification_details": {
+    "verified_by": "Officer Name",
+    "officer_role": "admin",
+    "verification_time": "2025-11-01 12:34:56"
+  },
+  "permit_details": {
+    "tims_card_no": "TIMS-12345",
+    "full_name": "Jane Trekker",
+    "nationality": "NP",
+    "passport_number": "P1234567",
+    "gender": "F",
+    "trekker_area": "Annapurna",
+    "route": "ABC",
+    "entry_date": "2025-10-01",
+    "exit_date": "2025-10-10",
+    "status": "approved"
+  }
+}
+```
+
+Bad request (400):
+```json
+{ "success": false, "error": "QR data is required" }
+```
+
+Forbidden (403):
+```json
+{
+  "success": false,
+  "error": "Access denied. Only admin users can verify QR codes.",
+  "user_role": "user"
+}
+```
+
+Windows curl example:
+```bat
+curl -X POST "http://localhost:8000/api/verify/verify_qr/" ^
+  -H "Authorization: Token YOUR_TOKEN_HERE" ^
+  -H "Content-Type: application/json" ^
+  -d "{\"qr_data\":\"ENCRYPTED_QR_STRING\"}"
+```
