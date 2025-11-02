@@ -1,10 +1,7 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
-from .models import (
-    UserProfile, Trek, TimsApplication,
-    Post, Comment, Like, Favorite,
-    UserTrekInteraction, SOSAlert
-)
+from .models import UserProfile, Trek, TimsApplication, Post, Comment, Like, Favorite, UserTrekInteraction, SOSAlert
 
 
 class UserProfileInlineSerializer(serializers.ModelSerializer):
@@ -224,27 +221,49 @@ class UserTrekInteractionSerializer(serializers.ModelSerializer):
 
 
 
-class UserSignupSerializer(serializers.ModelSerializer):
-    display_name = serializers.CharField()
+class UserSignupSerializer(serializers.Serializer):
+    username = serializers.CharField(
+        validators=[UniqueValidator(queryset=User.objects.all(), message="Username is already taken")]
+    )
+    email = serializers.EmailField(required=False, allow_blank=True)
+    password = serializers.CharField(write_only=True, min_length=8)
+    display_name = serializers.CharField(required=False, allow_blank=True)
     photo_url = serializers.URLField(required=False, allow_blank=True)
+    interests = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        default=list
+    )
 
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password', 'display_name', 'photo_url']
-        extra_kwargs = {'password': {'write_only': True}}
+    def validate_username(self, value):
+        # Case-insensitive uniqueness to avoid "John" vs "john"
+        if User.objects.filter(username__iexact=value).exists():
+            raise serializers.ValidationError("Username is already taken")
+        return value
 
     def create(self, validated_data):
-        display_name = validated_data.pop('display_name')
+        display_name = validated_data.pop('display_name', None)
         photo_url = validated_data.pop('photo_url', '')
-        password = validated_data.pop('password')
-        user = User.objects.create_user(**validated_data)
-        user.set_password(password)
-        user.save()
-        UserProfile.objects.create(
-            user=user,
-            display_name=display_name,
-            photo_url=photo_url
+        interests = validated_data.pop('interests', [])
+
+        user = User.objects.create_user(
+            username=validated_data.get('username'),
+            password=validated_data.get('password'),
+            email=validated_data.get('email', '')
         )
+
+        profile, _ = UserProfile.objects.get_or_create(
+            user=user,
+            defaults={"display_name": user.username}
+        )
+        if display_name is not None:
+            profile.display_name = display_name or user.username
+        if photo_url is not None:
+            profile.photo_url = photo_url
+        if interests is not None:
+            profile.interests = interests
+        profile.save()
+
         return user
 
 

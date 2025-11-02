@@ -54,16 +54,35 @@ class AuthViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'])
     def signup(self, request):
         serializer = UserSignupSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            token, created = Token.objects.get_or_create(user=user)
-            profile = UserProfile.objects.get(user=user)
-            profile_data = UserProfileSerializer(profile).data
-            return Response({
-                'token': token.key,
-                'user': profile_data
-            }, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)  # ensure 400 on validation errors
+        user = serializer.save()
+
+        # Ensure token + profile exist
+        from rest_framework.authtoken.models import Token
+        token, _ = Token.objects.get_or_create(user=user)
+        profile = getattr(user, "profile", None)
+        if profile is None:
+            from .models import UserProfile
+            profile, _ = UserProfile.objects.get_or_create(user=user, defaults={"display_name": user.username})
+
+        return Response({
+            "token": token.key,
+            "user": {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+            },
+            "profile": {
+                "id": profile.id,
+                "user_id": user.id,
+                "display_name": profile.display_name,
+                "photo_url": profile.photo_url,
+                "role": profile.role,
+                "interests": profile.interests or [],
+                "is_active": profile.is_active,
+                "created_at": profile.created_at,
+            }
+        }, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=['post'])
     def login(self, request):
