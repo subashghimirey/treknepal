@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'treks',
+    'treks.apps.TreksConfig',
     
 ]
 
