@@ -513,56 +513,62 @@ class VerificationViewSet(viewsets.ViewSet):
                     "error": "QR data is required"
                 }, status=status.HTTP_400_BAD_REQUEST)
 
+            # Use same key as encrypt (default "TREK" or override via settings.TIMS_QR_KEY)
             from .utils import columnar_decrypt
-            decrypted_tims_no = columnar_decrypt(encrypted_data)
+            qr_key = getattr(settings, "TIMS_QR_KEY", "TREK")
+            decrypted_tims_no = columnar_decrypt(encrypted_data, qr_key)
 
+            # Try by decrypted TIMS number; also fall back to raw string just in case
             try:
                 tims_app = TimsApplication.objects.get(tims_card_no=decrypted_tims_no)
-                return Response({
-                    "success": True,
-                    "verified": True,
-                    "verification_details": {
-                        "verified_by": user_profile.display_name,
-                        "officer_role": user_profile.role,
-                        "verification_time": timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-                    },
-                    "permit_details": {
-                        "id": tims_app.id,
-                        "tims_card_no": tims_app.tims_card_no,
-                        "full_name": tims_app.full_name,
-                        "nationality": tims_app.nationality,
-                        "passport_number": tims_app.passport_number,
-                        "gender": tims_app.gender,
-                        "trekker_area": tims_app.trekker_area,
-                        "route": tims_app.route,
-                        "entry_date": tims_app.entry_date.strftime('%Y-%m-%d') if tims_app.entry_date else None,
-                        "exit_date": tims_app.exit_date.strftime('%Y-%m-%d') if tims_app.exit_date else None,
-                        "status": tims_app.status,
-                        "validity_status": "✅ VALID" if tims_app.status == 'approved' else "⚠️ PENDING/INVALID",
-                        "applicant": tims_app.user.display_name,
-                        "issued_date": tims_app.created_at.strftime('%Y-%m-%d')
-                    }
-                }, status.HTTP_200_OK)
-
             except TimsApplication.DoesNotExist:
-                return Response({
-                    "success": True,
-                    "verified": False,
-                    "error": "❌ INVALID PERMIT - Not found in database",
-                    "message": "This permit may be fake or expired",
-                    "verification_details": {
-                        "verified_by": user_profile.display_name,
-                        "verification_time": timezone.now().strftime('%Y-%m-%d %H:%M:%S'),
-                        "attempted_tims_no": decrypted_tims_no
-                    }
-                }, status.HTTP_404_NOT_FOUND)
+                tims_app = TimsApplication.objects.filter(tims_card_no=encrypted_data).first()
+                if not tims_app:
+                    raise
 
+            return Response({
+                "success": True,
+                "verified": True,
+                "verification_details": {
+                    "verified_by": user_profile.display_name,
+                    "officer_role": user_profile.role,
+                    "verification_time": timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+                },
+                "permit_details": {
+                    "id": tims_app.id,
+                    "tims_card_no": tims_app.tims_card_no,
+                    "full_name": tims_app.full_name,
+                    "nationality": tims_app.nationality,
+                    "passport_number": tims_app.passport_number,
+                    "gender": tims_app.gender,
+                    "trekker_area": tims_app.trekker_area,
+                    "route": tims_app.route,
+                    "entry_date": tims_app.entry_date.strftime('%Y-%m-%d') if tims_app.entry_date else None,
+                    "exit_date": tims_app.exit_date.strftime('%Y-%m-%d') if tims_app.exit_date else None,
+                    "status": tims_app.status,
+                    "validity_status": "✅ VALID" if tims_app.status == 'approved' else "⚠️ PENDING/INVALID",
+                    "applicant": tims_app.user.display_name,
+                    "issued_date": tims_app.created_at.strftime('%Y-%m-%d')
+                }
+            }, status.HTTP_200_OK)
+
+        except TimsApplication.DoesNotExist:
+            return Response({
+                "success": True,
+                "verified": False,
+                "error": "❌ INVALID PERMIT - Not found in database",
+                "message": "This permit may be fake or expired",
+                "verification_details": {
+                    "verified_by": request.user.profile.display_name if hasattr(request.user, "profile") else request.user.username,
+                    "verification_time": timezone.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    "attempted_tims_no": decrypted_tims_no if 'decrypted_tims_no' in locals() else encrypted_data
+                }
+            }, status.HTTP_404_NOT_FOUND)
         except AttributeError:
             return Response({
                 "success": False,
                 "error": "User profile not found. Please contact administrator.",
             }, status.HTTP_403_FORBIDDEN)
-
         except Exception as e:
             return Response({
                 "success": False,

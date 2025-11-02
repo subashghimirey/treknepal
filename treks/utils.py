@@ -35,6 +35,48 @@ def columnar_encrypt(text, key="TREK"):
     
     return cipher_text
 
+# NEW: matching decrypt for the above encrypt
+def columnar_decrypt(cipher_text: str, key: str = "TREK") -> str:
+    """
+    Decrypt text encrypted by columnar_encrypt using the same key.
+    Assumes padding with 'X' was used to fill the grid.
+    """
+    if not cipher_text or not key:
+        return cipher_text or ""
+    
+    num_columns = len(key)
+    # ciphertext length is always a multiple of num_columns (padded during encrypt)
+    if len(cipher_text) % num_columns != 0:
+        # Not a clean multiple; return as-is to avoid corrupting data
+        return cipher_text
+    
+    num_rows = len(cipher_text) // num_columns
+
+    # Column order used during encryption (stable sort on key)
+    order = sorted(range(num_columns), key=lambda i: key[i])
+
+    # Split ciphertext into equal columns in the sorted order
+    cols = []
+    idx = 0
+    for _ in range(num_columns):
+        cols.append(cipher_text[idx: idx + num_rows])
+        idx += num_rows
+
+    # Map columns back to their original positions
+    columns_by_original_index = [""] * num_columns
+    for sorted_pos, original_col_index in enumerate(order):
+        columns_by_original_index[original_col_index] = cols[sorted_pos]
+
+    # Reconstruct plaintext row-wise in original column order
+    plaintext_chars = []
+    for r in range(num_rows):
+        for c in range(num_columns):
+            plaintext_chars.append(columns_by_original_index[c][r])
+    plaintext = "".join(plaintext_chars)
+
+    # Strip padding X from the end (safe for TIMS numbers)
+    return plaintext.rstrip("X")
+
 def generate_qr_and_upload(text, upload_preset='timsqr'):  # Change to 'timsqr'
     """Simple QR code generation and Cloudinary upload"""
     try:
