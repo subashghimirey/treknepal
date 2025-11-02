@@ -265,7 +265,7 @@ class SOSAlertSerializer(serializers.ModelSerializer):
             'created_at',
             'resolved_at'
         ]
-        read_only_fields = ['id', 'created_at', 'resolved_at', 'status']
+        read_only_fields = ['id', 'created_at', 'resolved_at']
 
     def to_representation(self, instance):
         """Customize the output format"""

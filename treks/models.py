@@ -288,6 +288,12 @@ class SOSAlert(models.Model):
         ('rescue', 'Rescue'),
     )
 
+    STATUS_CHOICES = (
+        ('sent', 'Sent'),
+        ('inprogress', 'In Progress'),
+        ('resolved', 'Resolved'),
+    )
+
 
     
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
@@ -297,7 +303,7 @@ class SOSAlert(models.Model):
     contacted_services = models.JSONField(default=list) 
     google_places_data = models.JSONField(default=list)  
     fallback_contacts = models.JSONField(default=list)  
-    status = models.CharField(max_length=20 ,default='sent')
+    status = models.CharField(max_length=20 ,default='sent', choices=STATUS_CHOICES)
     emergency_type = models.CharField(max_length=20, choices=EMERGENCY_TYPES, default='health_issues')
     description = models.TextField(null=True, blank=True) 
     created_at = models.DateTimeField(default=timezone.now)

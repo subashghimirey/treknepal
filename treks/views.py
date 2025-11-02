@@ -600,6 +600,8 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
+        if self.request.user.profile.is_admin():
+            return SOSAlert.objects.all().order_by('-created_at')
         return SOSAlert.objects.filter(
             user=self.request.user.profile
         ).order_by('-created_at')
