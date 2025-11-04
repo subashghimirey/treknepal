@@ -6,6 +6,8 @@ from rest_framework import generics, permissions, viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status, permissions
+from .utils import google_places_service
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes, action
 
@@ -16,7 +18,6 @@ from django.contrib.auth import authenticate
 
 from .recommend import recommend_treks 
 from .email_service import EmailService
-from .utils import google_places_service
 
 
 from datetime import timedelta
@@ -639,10 +640,10 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
             emergency_type = request.data.get('emergency_type', '')
             description = request.data.get('description', '')
 
-            print(f"\n📍 Location: ({user_lat}, {user_lon})")
-            print(f"🚨 Emergency Type: {emergency_type}")
-            print(f"📋 Selected Types: {selected_types}")
-            print(f"📝 Description: {description}")
+            print(f"Location: ({user_lat}, {user_lon})")
+            print(f"Emergency Type: {emergency_type}")
+            print(f"Selected Types: {selected_types}")
+            print(f"Description: {description}")
 
             user_profile = request.user.profile
             user_name = user_profile.display_name or request.user.username
@@ -827,4 +828,23 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
                 "error": str(e),
                 "error_type": type(e).__name__
             }, status=status.HTTP_400_BAD_REQUEST)
+
+class NearbyPlacesView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        try:
+            lat = float(request.query_params.get("lat"))
+            lng = float(request.query_params.get("lng"))
+        except (TypeError, ValueError):
+            return Response({"error": "lat and lng are required floats"}, status=status.HTTP_400_BAD_REQUEST)
+
+        place_type = request.query_params.get("type", "hospital")
+        try:
+            radius = int(request.query_params.get("radius", 5000))
+        except ValueError:
+            radius = 5000
+
+        results = google_places_service.search_nearby_places(lat, lng, place_type, radius=radius)
+        return Response({"count": len(results), "results": results}, status=status.HTTP_200_OK)
 

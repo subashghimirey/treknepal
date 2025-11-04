@@ -45,6 +45,7 @@ def recommend_treks(user_profile, top_n=6):
     user_text = " ".join(user_profile.interests)
     user_vector = compute_average_vector_from_text(user_text)
 
+
     # If user vector is empty, return nothing
     if np.linalg.norm(user_vector) == 0:
         return Trek.objects.none()
@@ -60,8 +61,8 @@ def recommend_treks(user_profile, top_n=6):
             trek_vector = trek_vector_cache[trek_id]
         else:
             combined_text = " ".join([
-                trek.name or '',
-                trek.duration or '',
+                # trek.name or '',
+                # trek.duration or '',
                 trek.difficulty or '',
                 trek.description or '',
                 trek.historical_significance or '',
@@ -69,6 +70,7 @@ def recommend_treks(user_profile, top_n=6):
                 " ".join(flatten_list(trek.tags)),
             ])
             trek_vector = compute_average_vector_from_text(combined_text)
+
             trek_vector_cache[trek_id] = trek_vector
 
  
@@ -76,8 +78,15 @@ def recommend_treks(user_profile, top_n=6):
             continue
 
         score = cosine_similarity([user_vector], [trek_vector])[0][0]
-        similarities.append((trek, score))
 
+
+        similarities.append((trek, score))
+    
+    i=0
+    for trek, score in similarities:
+  
+        print(f"Trek {i} : {trek.name}, Similarity Score: {score}")
+        i+=1
 
     similarities.sort(key=lambda x: x[1], reverse=True)
 

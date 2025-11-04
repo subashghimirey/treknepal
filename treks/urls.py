@@ -23,6 +23,7 @@ urlpatterns = [
     path('users/<int:id>/', views.UserProfileDetailView.as_view()),
 
     path('interactions/', views.UserTrekInteractionView.as_view()),
+    path('places/nearby/', views.NearbyPlacesView.as_view(), name='places-nearby'),
 
 ]
 

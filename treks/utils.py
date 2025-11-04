@@ -1,12 +1,13 @@
-import requests
-import math
 import os
-import qrcode
-import base64
+import math
+import requests
+from django.conf import settings
 from io import BytesIO
+import base64
+import qrcode
 
 def columnar_encrypt(text, key="TREK"):
-    """Encrypt text using columnar transposition cipher"""
+
     text = text.replace(" ", "")
     
     num_columns = len(key)
@@ -128,165 +129,95 @@ def generate_qr_and_upload(text, upload_preset='timsqr'):  # Change to 'timsqr'
         print(f"QR generation/upload error: {e}")
         raise e
 
-class GooglePlacesService:
+# REPLACE the old GooglePlacesService with a Geoapify-backed implementation.
+# Keep the same public API: search_nearby_places(lat, lng, type, radius)
+class GeoapifyPlacesService:
     def __init__(self):
-        self.api_key = os.getenv('GOOGLE_API_KEY', None)
-        self.base_url = 'https://maps.googleapis.com/maps/api/place'
-        
-        if not self.api_key:
-            print("⚠️ WARNING: GOOGLE_API_KEY not found in environment variables!")
-    
-    def calculate_distance(self, lat1, lon1, lat2, lon2):
-       
-        R = 6371  # Earth's radius in km
+        self.api_key = getattr(settings, "GEOAPIFY_API_KEY", None) or os.getenv("GEOAPIFY_API_KEY")
+        self.base_url = "https://api.geoapify.com/v2"
+
+    def _distance_km(self, lat1, lon1, lat2, lon2):
+        R = 6371
         dlat = math.radians(lat2 - lat1)
         dlon = math.radians(lon2 - lon1)
-        a = (math.sin(dlat/2) * math.sin(dlat/2) + 
-             math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * 
-             math.sin(dlon/2) * math.sin(dlon/2))
-        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
-        return round(R * c, 2) 
-    
-    def get_place_details(self, place_id):
-        
-        if not self.api_key:
+        a = math.sin(dlat/2) ** 2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon/2) ** 2
+        return round(R * (2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))), 2)
+
+    def _details(self, place_id: str) -> dict:
+        if not place_id or not self.api_key:
             return {}
-            
         try:
-            url = f"{self.base_url}/details/json"
-            params = {
-                'place_id': place_id,
-                'fields': 'formatted_phone_number,international_phone_number,website,formatted_address,opening_hours',
-                'key': self.api_key
-            }
-            
-            response = requests.get(url, params=params, timeout=10)
-            data = response.json()
-            
-            if data.get('status') == 'OK' and data.get('result'):
-                return data['result']
-            else:
-                print(f"⚠️ Place details fetch failed: {data.get('status')}")
-                return {}
-                
-        except requests.exceptions.Timeout:
-            print(f"⚠️ Timeout fetching details for place_id: {place_id}")
+            r = requests.get(f"{self.base_url}/place-details", params={"id": place_id, "apiKey": self.api_key}, timeout=10)
+            data = r.json() if r.ok else {}
+            feat = (data.get("features") or [None])[0]
+            return feat.get("properties") if feat else {}
+        except Exception:
             return {}
-        except Exception as e:
-            print(f"❌ Error fetching place details: {e}")
-            return {}
-    
-    def search_nearby_places(self, latitude, longitude, place_type, radius=5000):
-        """Search for nearby places of specified type"""
+
+    def search_nearby_places(self, latitude: float, longitude: float, place_type: str, radius: int = 5000) -> list:
         if not self.api_key:
-            print("❌ Cannot search - GOOGLE_API_KEY not configured")
-            return []
-            
-        try:
-            # Map our types to Google Places types
-            type_mapping = {
-                'police': 'police',
-                'hospital': 'hospital',
-                'teahouse': 'lodging',
-                'tea_house': 'lodging',
-                'lodge': 'lodging',
-                'rescue': 'fire_station',
-                'pharmacy': 'pharmacy',
-                'clinic': 'doctor'
-            }
-            
-            google_type = type_mapping.get(place_type.lower(), place_type)
-            
-            url = f"{self.base_url}/nearbysearch/json"
-            params = {
-                'location': f"{latitude},{longitude}",
-                'radius': radius,
-                'type': google_type,
-                'key': self.api_key
-            }
-            
-            # Add specific keywords for teahouses
-            if place_type.lower() in ['teahouse', 'tea_house']:
-                params['keyword'] = 'teahouse lodge guest house hotel'
-            
-            print(f"🔍 Searching for {place_type} near ({latitude}, {longitude})")
-            print(f"   Radius: {radius}m, Google Type: {google_type}")
-            
-            response = requests.get(url, params=params, timeout=10)
-            data = response.json()
-            
-            print(f"   API Status: {data.get('status')}")
-            
-            if data.get('status') == 'ZERO_RESULTS':
-                print(f"   ⚠️ No {place_type} found within {radius}m radius")
-                return []
-            
-            if data.get('status') != 'OK':
-                print(f"   ❌ API Error: {data.get('error_message', 'Unknown error')}")
-                return []
-            
-            if not data.get('results'):
-                print(f"   ⚠️ Empty results for {place_type}")
-                return []
-            
-            places = []
-            results = data['results'][:10]  # Get top 10 results
-            
-            print(f"   ✅ Found {len(results)} results, processing...")
-            
-            for idx, place in enumerate(results, 1):
-                try:
-                    place_lat = place['geometry']['location']['lat']
-                    place_lng = place['geometry']['location']['lng']
-                    distance = self.calculate_distance(latitude, longitude, place_lat, place_lng)
-                    
-                    # Basic info without details API call (faster)
-                    place_info = {
-                        'place_id': place['place_id'],
-                        'name': place['name'],
-                        'vicinity': place.get('vicinity', ''),
-                        'rating': place.get('rating', 0),
-                        'user_ratings_total': place.get('user_ratings_total', 0),
-                        'distance_km': distance,
-                        'latitude': place_lat,
-                        'longitude': place_lng,
-                        'phone': '',  # Will be filled if details fetched
-                        'website': '',
-                        'address': place.get('vicinity', ''),
-                        'type': place_type,
-                        'business_status': place.get('business_status', 'OPERATIONAL')
-                    }
-                    
-                    # Only fetch details for the nearest 5 places (to save API calls)
-                    if idx <= 5:
-                        details = self.get_place_details(place['place_id'])
-                        if details:
-                            place_info['phone'] = details.get('formatted_phone_number', details.get('international_phone_number', ''))
-                            place_info['website'] = details.get('website', '')
-                            place_info['address'] = details.get('formatted_address', place.get('vicinity', ''))
-                    
-                    places.append(place_info)
-                    print(f"      {idx}. {place['name']} - {distance} km")
-                    
-                except Exception as e:
-                    print(f"      ⚠️ Error processing place {idx}: {e}")
-                    continue
-            
-            # Sort by distance
-            places.sort(key=lambda x: x['distance_km'])
-            
-            print(f"   📍 Returning {len(places)} places sorted by distance\n")
-            print(f"   Top places: {[place['name'] for place in places[:5]]}")
-            return places[:5]  # Return top 5 nearest
-            
-        except requests.exceptions.Timeout:
-            print(f"❌ Request timeout for {place_type}")
-            return []
-        except Exception as e:
-            print(f"❌ Error searching nearby places: {e}")
-            import traceback
-            traceback.print_exc()
             return []
 
-# Initialize service
-google_places_service = GooglePlacesService()
+        type_map = {
+            "hospital": "healthcare.hospital",
+            "pharmacy": "healthcare.pharmacy",
+            "clinic": "healthcare.clinic",
+            "police": "service.police",
+            "hotel": "accommodation.hotel",
+            "guest_house": "accommodation.guest_house",
+            "lodge": "accommodation.lodge",
+            "teahouse": "accommodation.guest_house",
+            "tea_house": "accommodation.guest_house",
+        }
+        category = type_map.get((place_type or "").lower(), place_type or "healthcare.hospital")
+        try:
+            r = requests.get(
+                f"{self.base_url}/places",
+                params={
+                    "categories": category,
+                    "filter": f"circle:{longitude},{latitude},{radius}",
+                    "limit": 10,
+                    "apiKey": self.api_key,
+                },
+                timeout=12,
+            )
+            data = r.json() if r.ok else {}
+            feats = data.get("features") or []
+            items = []
+            for f in feats:
+                props = f.get("properties", {})
+                coords = (f.get("geometry", {}).get("coordinates") or [None, None])
+                lng, lat = coords[0], coords[1]
+                if lat is None or lng is None:
+                    continue
+                dist = self._distance_km(latitude, longitude, lat, lng)
+                items.append((dist, props, lat, lng))
+            items.sort(key=lambda x: x[0])
+            items = items[:10]
+
+            out = []
+            for i, (dist, props, lat, lng) in enumerate(items, start=1):
+                details = self._details(props.get("place_id")) if i <= 5 else {}
+                contact = details.get("contact", {}) if details else {}
+                out.append({
+                    "place_id": props.get("place_id"),
+                    "name": details.get("name") or props.get("name") or "Unnamed",
+                    "address": details.get("formatted") or props.get("formatted") or props.get("address_line1") or "",
+                    "vicinity": props.get("address_line2") or "",
+                    "rating": props.get("rating") or 0,
+                    "user_ratings_total": props.get("rank") or 0,
+                    "latitude": lat,
+                    "longitude": lng,
+                    "distance_km": dist,
+                    "phone": contact.get("phone") or "",
+                    "website": contact.get("website") or "",
+                    "type": place_type or "",
+                    "business_status": "OPERATIONAL",
+                })
+            return out[:5]
+        except Exception:
+            return []
+
+# Backward-compatible alias
+GooglePlacesService = GeoapifyPlacesService
+google_places_service = GeoapifyPlacesService()
