@@ -14,7 +14,7 @@ class EmailService:
                 f"Coordinates: {user_lat}, {user_lon}\n"
                 f"Emergency Types: {', '.join(selected_types)}\n\n"
                 f"{description}\n\n"
-                f"⚠️ PLEASE RESPOND IMMEDIATELY ⚠️\n\n"
+                f" PLEASE RESPOND IMMEDIATELY  \n\n"
                 f"This is an automated emergency alert from Trek Nepal App.\n"
                 f"Alert ID: {alert_id}"
             )

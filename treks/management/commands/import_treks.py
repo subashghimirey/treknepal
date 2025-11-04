@@ -35,4 +35,4 @@ class Command(BaseCommand):
             treks.append(trek)
 
         Trek.objects.bulk_create(treks)
-        self.stdout.write(self.style.SUCCESS(f"✅ Inserted {len(treks)} trek(s) into the database."))
+        self.stdout.write(self.style.SUCCESS(f"  Inserted {len(treks)} trek(s) into the database."))

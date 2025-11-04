@@ -566,7 +566,7 @@ class VerificationViewSet(viewsets.ViewSet):
                     "entry_date": tims_app.entry_date.strftime('%Y-%m-%d') if tims_app.entry_date else None,
                     "exit_date": tims_app.exit_date.strftime('%Y-%m-%d') if tims_app.exit_date else None,
                     "status": tims_app.status,
-                    "validity_status": "✅ VALID" if tims_app.status == 'approved' else "⚠️ PENDING/INVALID",
+                    "validity_status": "  VALID" if tims_app.status == 'approved' else "  PENDING/INVALID",
                     "applicant": tims_app.user.display_name,
                     "issued_date": tims_app.created_at.strftime('%Y-%m-%d')
                 }
@@ -576,7 +576,7 @@ class VerificationViewSet(viewsets.ViewSet):
             return Response({
                 "success": True,
                 "verified": False,
-                "error": "❌ INVALID PERMIT - Not found in database",
+                "error": "  INVALID PERMIT - Not found in database",
                 "message": "This permit may be fake or expired",
                 "verification_details": {
                     "verified_by": request.user.profile.display_name if hasattr(request.user, "profile") else request.user.username,
@@ -678,7 +678,7 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
                 status='sent'
             )
             
-            print(f"\n✅ SOS Alert created with ID: {sos_alert.id}")
+            print(f"\n  SOS Alert created with ID: {sos_alert.id}")
 
             # Initialize tracking
             nearby_places = []
@@ -708,7 +708,7 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
                         print(f"📊 Returned: {len(places)} places")
                         
                         if places:
-                            print(f"✅ Success! Found {len(places)} {place_type}(s)")
+                            print(f"  Success! Found {len(places)} {place_type}(s)")
                             
                             # Add to nearby_places
                             nearby_places.extend(places)
@@ -744,10 +744,10 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
                                         })
                                         print(f"      📞 Phone added: {service['phone']}")
                         else:
-                            print(f"⚠️ No {place_type} found within 5km radius")
+                            print(f"  No {place_type} found within 5km radius")
                     
                     except Exception as place_error:
-                        print(f"❌ ERROR searching for {place_type}:")
+                        print(f"  ERROR searching for {place_type}:")
                         print(f"   Error type: {type(place_error).__name__}")
                         print(f"   Error message: {str(place_error)}")
                         import traceback
@@ -755,7 +755,7 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
                         # Continue to next type instead of failing completely
                         continue
             else:
-                print("\n⚠️ WARNING: No service types selected!")
+                print("\n  WARNING: No service types selected!")
 
             print(f"\n{'='*80}")
             print(f"GOOGLE PLACES SEARCH COMPLETE")
@@ -778,15 +778,15 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
                         alert_id=sos_alert.id,
                         recipient_emails=recipient_emails
                     )
-                    print("✅ Emails sent successfully")
+                    print("  Emails sent successfully")
                 except Exception as email_error:
-                    print(f"⚠️ Email sending failed: {email_error}")
+                    print(f"  Email sending failed: {email_error}")
             
             # Update SOS alert with Google Places data
             sos_alert.google_places_data = nearby_places
             sos_alert.contacted_services = contacted_services
             sos_alert.save()
-            print(f"\n✅ SOS Alert updated with Google Places data")
+            print(f"\n  SOS Alert updated with Google Places data")
 
             print(f"\n{'='*80}")
             print(f"SOS ALERT COMPLETED SUCCESSFULLY")
@@ -815,7 +815,7 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
 
         except Exception as e:
             print(f"\n{'='*80}")
-            print(f"❌ CRITICAL ERROR IN SOS ALERT CREATION")
+            print(f"  CRITICAL ERROR IN SOS ALERT CREATION")
             print(f"{'='*80}")
             print(f"Error type: {type(e).__name__}")
             print(f"Error message: {str(e)}")

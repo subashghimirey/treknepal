@@ -26,12 +26,12 @@ class Command(BaseCommand):
                 data = json.load(f)
         except FileNotFoundError:
             self.stdout.write(
-                self.style.ERROR(f"❌ File {file_path} not found.")
+                self.style.ERROR(f"  File {file_path} not found.")
             )
             return
         except json.JSONDecodeError:
             self.stdout.write(
-                self.style.ERROR(f"❌ Invalid JSON in file {file_path}.")
+                self.style.ERROR(f"  Invalid JSON in file {file_path}.")
             )
             return
 
@@ -57,6 +57,6 @@ class Command(BaseCommand):
         
         self.stdout.write(
             self.style.SUCCESS(
-                f"✅ Successfully imported {len(contacts)} emergency contact(s)."
+                f"  Successfully imported {len(contacts)} emergency contact(s)."
             )
         )
