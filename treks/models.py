@@ -128,7 +128,7 @@ class TimsApplication(models.Model):
                 from .utils import columnar_encrypt, generate_qr_and_upload
                 
                 encrypted_data = columnar_encrypt(self.tims_card_no)
-                qr_url = generate_qr_and_upload(encrypted_data, 'timsqr')  # Use 'timsqr' preset
+                qr_url = generate_qr_and_upload(encrypted_data, 'timsqr')  
                 self.encrypted_qr_code = qr_url
                 
                 super().save(update_fields=['tims_card_no', 'encrypted_qr_code'])
@@ -244,7 +244,6 @@ class Favorite(models.Model):
         unique_together = ('user', 'trek')
 
 
-
 class UserTrekInteraction(models.Model):
     INTERACTIONS = (
         ('view', 'View'),
@@ -321,7 +320,6 @@ class PasswordResetOTP(models.Model):
     is_verified = models.BooleanField(default=False) 
 
     def is_valid(self):
-        # OTP valid for 10 minutes
         return (
             not self.is_used and 
             self.created_at >= timezone.now() - timedelta(minutes=10)

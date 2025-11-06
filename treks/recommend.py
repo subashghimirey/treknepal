@@ -1,6 +1,5 @@
 import spacy
 import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity
 from .models import Trek
 
 # Load spaCy medium model once
@@ -10,18 +9,13 @@ nlp = spacy.load("en_core_web_md")
 trek_vector_cache = {}
 
 def compute_average_vector_from_text(text):
-    """
-    Processes the full text and averages token vectors,
-    excluding stop words, punctuation, and non-vector tokens.
-    """
+
     doc = nlp(text.lower())
     vectors = [token.vector for token in doc if token.has_vector and not token.is_stop and not token.is_punct]
     return np.mean(vectors, axis=0) if vectors else np.zeros(nlp.vocab.vectors_length)
 
 def flatten_list(json_list):
-    """
-    Flattens JSONFields that may be list of strings or list of dicts.
-    """
+
     if not json_list:
         return []
     flattened = []
@@ -33,11 +27,7 @@ def flatten_list(json_list):
     return flattened
 
 def recommend_treks(user_profile, top_n=6):
-    """
-    Recommends top N treks based on cosine similarity between
-    user interest vector and trek content vectors.
-    Uses caching for trek vectors to speed up recommendations.
-    """
+
     if not user_profile.interests:
         return Trek.objects.none()
 
@@ -77,14 +67,21 @@ def recommend_treks(user_profile, top_n=6):
         if np.linalg.norm(trek_vector) == 0:
             continue
 
-        score = cosine_similarity([user_vector], [trek_vector])[0][0]
 
+        dot_product = np.dot(user_vector, trek_vector)
+        magnitude_user = np.sqrt(np.sum(user_vector ** 2))
+        magnitude_trek = np.sqrt(np.sum(trek_vector ** 2))
+        
+  
+        if magnitude_user == 0 or magnitude_trek == 0:
+            score = 0.0
+        else:
+            score = dot_product / (magnitude_user * magnitude_trek)
 
         similarities.append((trek, score))
     
     i=0
     for trek, score in similarities:
-  
         print(f"Trek {i} : {trek.name}, Similarity Score: {score}")
         i+=1
 

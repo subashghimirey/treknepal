@@ -46,9 +46,8 @@ def columnar_decrypt(cipher_text: str, key: str = "TREK") -> str:
         return cipher_text or ""
     
     num_columns = len(key)
-    # ciphertext length is always a multiple of num_columns (padded during encrypt)
+  
     if len(cipher_text) % num_columns != 0:
-        # Not a clean multiple; return as-is to avoid corrupting data
         return cipher_text
     
     num_rows = len(cipher_text) // num_columns
@@ -78,8 +77,7 @@ def columnar_decrypt(cipher_text: str, key: str = "TREK") -> str:
     # Strip padding X from the end (safe for TIMS numbers)
     return plaintext.rstrip("X")
 
-def generate_qr_and_upload(text, upload_preset='timsqr'):  # Change to 'timsqr'
-    """Simple QR code generation and Cloudinary upload"""
+def generate_qr_and_upload(text, upload_preset='timsqr'): 
     try:
         # Create QR code
         qr = qrcode.QRCode(
@@ -129,8 +127,6 @@ def generate_qr_and_upload(text, upload_preset='timsqr'):  # Change to 'timsqr'
         print(f"QR generation/upload error: {e}")
         raise e
 
-# REPLACE the old GooglePlacesService with a Geoapify-backed implementation.
-# Keep the same public API: search_nearby_places(lat, lng, type, radius)
 class GeoapifyPlacesService:
     def __init__(self):
         self.api_key = getattr(settings, "GEOAPIFY_API_KEY", None) or os.getenv("GEOAPIFY_API_KEY")
