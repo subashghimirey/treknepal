@@ -160,6 +160,11 @@ class Post(models.Model):
                                    ('reported', 'Reported')], blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
+    moderation_appropriate = models.BooleanField(default=True)
+    moderation_confidence = models.FloatField(default=1.0)
+    moderation_reason = models.TextField(blank=True)
+    moderation_method = models.CharField(max_length=50, blank=True)  # gemini_ai, ai_fallback, pre_check
+    flagged_for_review = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-created_at']
@@ -308,8 +313,33 @@ class SOSAlert(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     resolved_at = models.DateTimeField(null=True, blank=True)
     
+    # Validation fields
+    is_valid = models.BooleanField(default=True, help_text="Whether SOS is legitimate")
+    validation_confidence = models.FloatField(default=1.0, help_text="AI confidence score 0-1")
+    validation_reason = models.TextField(blank=True, help_text="Why flagged/approved")
+    validation_method = models.CharField(max_length=50, blank=True, help_text="gemini_ai, pre_check, manual")
+    flagged_for_review = models.BooleanField(default=False, help_text="Needs admin review")
+    
+    # Admin review fields
+    reviewed_by = models.ForeignKey(
+        UserProfile, 
+        null=True, 
+        blank=True, 
+        on_delete=models.SET_NULL, 
+        related_name='reviewed_sos_alerts',
+        help_text="Admin who reviewed this alert"
+    )
+    reviewed_at = models.DateTimeField(null=True, blank=True)
+    
+    class Meta:
+        db_table = 'sos_alerts'
+        ordering = ['-created_at']
+        verbose_name = 'SOS Alert'
+        verbose_name_plural = 'SOS Alerts'
+
     def __str__(self):
-        return f"SOS Alert by {self.user.display_name} at {self.created_at}"
+        status_icon = "✅" if self.is_valid else "🚫"
+        return f"{status_icon} SOS #{self.id} - {self.user.display_name} - {self.status}"
 
 
 class PasswordResetOTP(models.Model):

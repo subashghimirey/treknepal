@@ -6,8 +6,8 @@ from rest_framework import generics, permissions, viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
-from .utils import google_places_service
+from rest_framework import status, viewsets
+from .utils import google_places_service, validate_sos_with_gemini, validate_post_with_gemini
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes, action
 
@@ -339,52 +339,48 @@ class TrekViewSet(viewsets.ModelViewSet):
 
 class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return Post.objects.filter(status='active').order_by('-created_at')
+    queryset = Post.objects.all()
+    permission_classes = [IsAuthenticated]  # uncomment if you require auth
 
     def create(self, request, *args, **kwargs):
-        try:
-            # Add user to request data
-            data = request.data.copy()
-            
-            serializer = self.get_serializer(data=data)
-            serializer.is_valid(raise_exception=True)
-            
-            # Explicitly set the user before saving
-            post = serializer.save(user=request.user.profile)
-            
-            return Response({
-                "success": True,
-                "message": "Post created successfully",
-                "post": {
-                    "id": post.id,
-                    "content": post.content,
-                    "images": post.images,
-                    "location": post.location,
-                    "likes_count": 0,
-                    "comments_count": 0,
-                    "created_at": post.created_at,
-                    "user": {
-                        "id": request.user.profile.id,
-                        "display_name": request.user.profile.display_name,
-                        "photo_url": request.user.profile.photo_url
-                    },
-                    "trek": {
-                        "id": post.trek.id,
-                        "name": post.trek.name
-                    } if post.trek else None
-                }
-            }, status=status.HTTP_201_CREATED)
+        title = request.data.get("title") or ""
+        content = (
+            request.data.get("content")
+            or request.data.get("description")
+            or request.data.get("text")
+            or ""
+        )
 
-            
+        # Moderate content with Gemini
+        moderation = validate_post_with_gemini(content, title)
 
-        except Exception as e:
+        # Hard block clearly abusive content
+        if not moderation["appropriate"] and moderation["confidence"] >= 0.7:
             return Response({
                 "success": False,
-                "error": str(e)
+                "error": "Please use appropriate content.",
+                "message": moderation["reason"],
+                "details": {
+                    "confidence": moderation["confidence"],
+                    "validation_method": moderation["validation_method"]
+                }
             }, status=status.HTTP_400_BAD_REQUEST)
+
+        # Optionally pass moderation metadata to perform_create
+        request._post_moderation = moderation
+        return super().create(request, *args, **kwargs)
+
+    # Optional: save moderation metadata if your Post model has these fields
+    # def perform_create(self, serializer):
+    #     m = getattr(self.request, "_post_moderation", {}) or {}
+    #     flagged = (not m.get("appropriate", True)) and m.get("confidence", 0) >= 0.3
+    #     serializer.save(
+    #         moderation_appropriate=m.get("appropriate", True),
+    #         moderation_confidence=m.get("confidence", 1.0),
+    #         moderation_reason=m.get("reason", ""),
+    #         moderation_method=m.get("validation_method", ""),
+    #         flagged_for_review=flagged,
+    #     )
 
     @action(detail=True, methods=['post'])
     def like(self, request, pk=None):
@@ -627,45 +623,52 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
         ).order_by('-created_at')
 
     def create(self, request, *args, **kwargs):
-        
         print("\n" + "="*80)
-        print("SOS ALERT CREATION STARTED")
+        print("SOS ALERT CREATION")
         print("="*80)
         
         try:
-            # Get request data
             user_lat = float(request.data.get('latitude'))
             user_lon = float(request.data.get('longitude'))
             selected_types = request.data.get('selected_types', [])
             emergency_type = request.data.get('emergency_type', '')
             description = request.data.get('description', '')
 
-            print(f"Location: ({user_lat}, {user_lon})")
-            print(f"Emergency Type: {emergency_type}")
-            print(f"Selected Types: {selected_types}")
-            print(f"Description: {description}")
-
             user_profile = request.user.profile
             user_name = user_profile.display_name or request.user.username
-            print(f"👤 User: {user_name}")
+            
+            # VALIDATE WITH GEMINI AI
+            print(f"🤖 Validating SOS description with Gemini AI...")
+            print(f"Description: {description}")
+            print(f"Type: {emergency_type}")
+            
+            validation = validate_sos_with_gemini(description, emergency_type)
+            
+            print(f"Validation result: {validation}")
+            
+            # Reject if clearly invalid (confidence > 0.7 that it's spam)
+            if not validation['is_valid'] and validation['confidence'] > 0.7:
+                print(f"❌ SOS REJECTED: {validation['reason']}")
+                return Response({
+                    "success": False,
+                    "error": "Invalid SOS request",
+                    "message": validation['reason'],
+                    "details": {
+                        "confidence": validation['confidence'],
+                        "validation_method": validation['validation_method']
+                    },
+                    "help": "Please provide a clear emergency description. Test alerts and spam are not allowed."
+                }, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Flag uncertain cases (0.3 < confidence < 0.7 for invalid)
+            flagged = not validation['is_valid'] and validation['confidence'] >= 0.3
 
-            # Default contacts
             default_contacts = [
-                {
-                    "name": "Emergency Contact 1",
-                    "email": "nepalihoni226@gmail.com",
-                    "type": "emergency",
-                    "source": "default"
-                },
-                {
-                    "name": "Emergency Contact 2",
-                    "email": "sudeepkarki75@gmail.com",
-                    "type": "emergency",
-                    "source": "default"
-                }
+                {"name": "Emergency Contact 1", "email": "nepalihoni226@gmail.com", "type": "emergency", "source": "default"},
+                {"name": "Emergency Contact 2", "email": "sudeepkarki75@gmail.com", "type": "emergency", "source": "default"}
             ]
 
-            # Create SOS alert
+            # Create SOS with validation data
             sos_alert = SOSAlert.objects.create(
                 user=user_profile,
                 latitude=user_lat,
@@ -675,10 +678,15 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
                 selected_types=selected_types,
                 contacted_services=default_contacts,
                 google_places_data=[],
-                status='sent'
+                status='sent',
+                is_valid=validation['is_valid'],
+                validation_confidence=validation['confidence'],
+                validation_reason=validation['reason'],
+                validation_method=validation['validation_method'],
+                flagged_for_review=flagged
             )
             
-            print(f"\n  SOS Alert created with ID: {sos_alert.id}")
+            print(f"✅ SOS Alert created: ID={sos_alert.id}, Valid={validation['is_valid']}, Flagged={flagged}")
 
             # Initialize tracking
             nearby_places = []
@@ -688,37 +696,15 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
 
             # CRITICAL SECTION - Search Google Places
             if selected_types:
-                print(f"\n{'='*80}")
-                print(f"SEARCHING GOOGLE PLACES API")
-                print(f"{'='*80}")
-                print(f"Types to search: {selected_types}")
-                print(f"Number of types: {len(selected_types)}\n")
-                
-                for idx, place_type in enumerate(selected_types, 1):
-                    print(f"\n--- Search {idx}/{len(selected_types)}: {place_type} ---")
-                    
+                print(f"Searching for {len(selected_types)} service types...")
+                for place_type in selected_types:
                     try:
-                        # Call Google Places API
-                        print(f"🔍 Calling search_nearby_places({user_lat}, {user_lon}, '{place_type}')")
-                        
                         places = google_places_service.search_nearby_places(
                             user_lat, user_lon, place_type, radius=5000
                         )
-                        
-                        print(f"📊 Returned: {len(places)} places")
-                        
                         if places:
-                            print(f"  Success! Found {len(places)} {place_type}(s)")
-                            
-                            # Add to nearby_places
                             nearby_places.extend(places)
-                            print(f"   Total places now: {len(nearby_places)}")
-                            
-                            # Process each place
-                            for i, place in enumerate(places, 1):
-                                print(f"   {i}. {place['name']} - {place['distance_km']} km")
-                                
-                                # Add to contacted services if has contact info
+                            for place in places:
                                 if place.get('phone') or place.get('email'):
                                     service = {
                                         'name': place['name'],
@@ -726,47 +712,21 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
                                         'email': place.get('email', ''),
                                         'type': place_type,
                                         'distance_km': place['distance_km'],
-                                        'source': 'google_places'
+                                        'source': 'geoapify'
                                     }
                                     contacted_services.append(service)
-                                    
-                                    # Add email if exists
                                     if service['email'] and service['email'] not in recipient_emails:
                                         recipient_emails.append(service['email'])
-                                        print(f"      📧 Email added: {service['email']}")
-                                    
-                                    # Add phone if exists
                                     if service['phone']:
                                         call_numbers.append({
                                             'name': service['name'],
                                             'phone': service['phone'],
                                             'type': service['type']
                                         })
-                                        print(f"      📞 Phone added: {service['phone']}")
-                        else:
-                            print(f"  No {place_type} found within 5km radius")
-                    
-                    except Exception as place_error:
-                        print(f"  ERROR searching for {place_type}:")
-                        print(f"   Error type: {type(place_error).__name__}")
-                        print(f"   Error message: {str(place_error)}")
-                        import traceback
-                        traceback.print_exc()
-                        # Continue to next type instead of failing completely
-                        continue
-            else:
-                print("\n  WARNING: No service types selected!")
-
-            print(f"\n{'='*80}")
-            print(f"GOOGLE PLACES SEARCH COMPLETE")
-            print(f"{'='*80}")
-            print(f"Total nearby places found: {len(nearby_places)}")
-            print(f"Total contacted services: {len(contacted_services)}")
-            print(f"Recipient emails: {len(recipient_emails)}")
-            print(f"Call numbers: {len(call_numbers)}")
+                    except Exception as e:
+                        print(f"Error searching {place_type}: {e}")
 
             # Send emails
-            print(f"\n📧 Sending emails to {len(recipient_emails)} recipients...")
             if recipient_emails:
                 try:
                     EmailService.send_sos_alert(
@@ -778,32 +738,28 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
                         alert_id=sos_alert.id,
                         recipient_emails=recipient_emails
                     )
-                    print("  Emails sent successfully")
-                except Exception as email_error:
-                    print(f"  Email sending failed: {email_error}")
+                    print(f"📧 Emails sent to {len(recipient_emails)} recipients")
+                except Exception as e:
+                    print(f"Email error: {e}")
             
-            # Update SOS alert with Google Places data
             sos_alert.google_places_data = nearby_places
             sos_alert.contacted_services = contacted_services
             sos_alert.save()
-            print(f"\n  SOS Alert updated with Google Places data")
 
-            print(f"\n{'='*80}")
-            print(f"SOS ALERT COMPLETED SUCCESSFULLY")
-            print(f"Alert ID: {sos_alert.id}")
-            print(f"Nearby places: {len(nearby_places)}")
-            print(f"Contacted services: {len(contacted_services)}")
-            print(f"{'='*80}\n")
-
-            return Response({
+            # Prepare response
+            response_data = {
                 "success": True,
                 "message": "SOS alert sent successfully",
-                "description": description,
-                "emergency_type": emergency_type,
                 "alert_id": sos_alert.id,
+                "validation": {
+                    "is_valid": validation['is_valid'],
+                    "confidence": validation['confidence'],
+                    "reason": validation['reason'],
+                    "method": validation['validation_method']
+                },
                 "contacted_services": len(contacted_services),
                 "nearby_places_found": len(nearby_places),
-                "nearby_places": nearby_places,  # Include actual places data
+                "nearby_places": nearby_places,
                 "emails_sent_to": recipient_emails,
                 "call_numbers": call_numbers,
                 "location": {
@@ -811,23 +767,56 @@ class SOSAlertViewSet(viewsets.ModelViewSet):
                     "longitude": user_lon,
                     "maps_url": f"https://maps.google.com/?q={user_lat},{user_lon}"
                 }
-            }, status=status.HTTP_201_CREATED)
+            }
+            
+            # Add warning if flagged
+            if flagged:
+                response_data["warning"] = f"Alert created but flagged for review: {validation['reason']}"
+                response_data["alert_status"] = "flagged_for_review"
+            
+            print("SOS ALERT COMPLETED")
+            print("="*80 + "\n")
+            
+            return Response(response_data, status=status.HTTP_201_CREATED)
 
         except Exception as e:
-            print(f"\n{'='*80}")
-            print(f"  CRITICAL ERROR IN SOS ALERT CREATION")
-            print(f"{'='*80}")
-            print(f"Error type: {type(e).__name__}")
-            print(f"Error message: {str(e)}")
+            print(f"CRITICAL ERROR: {type(e).__name__}: {e}")
             import traceback
             traceback.print_exc()
-            print(f"{'='*80}\n")
-            
             return Response({
                 "success": False,
                 "error": str(e),
                 "error_type": type(e).__name__
             }, status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=True, methods=['patch'], permission_classes=[IsAuthenticated])
+    def review(self, request, pk=None):
+        """Admin endpoint to review flagged SOS alerts"""
+        if not request.user.profile.is_admin():
+            return Response({"error": "Admin access required"}, status=status.HTTP_403_FORBIDDEN)
+        
+        sos_alert = self.get_object()
+        action = request.data.get('action')
+        
+        if action == 'approve':
+            sos_alert.is_valid = True
+            sos_alert.flagged_for_review = False
+            sos_alert.reviewed_by = request.user.profile
+            sos_alert.reviewed_at = timezone.now()
+            sos_alert.validation_reason = f"Manually approved by {request.user.username}"
+            sos_alert.save()
+            return Response({"message": "SOS alert approved", "alert_id": sos_alert.id})
+        
+        elif action == 'reject':
+            sos_alert.is_valid = False
+            sos_alert.status = 'cancelled'
+            sos_alert.flagged_for_review = False
+            sos_alert.reviewed_by = request.user.profile
+            sos_alert.reviewed_at = timezone.now()
+            sos_alert.save()
+            return Response({"message": "SOS alert rejected as spam", "alert_id": sos_alert.id})
+        
+        return Response({"error": "Invalid action (use 'approve' or 'reject')"}, status=status.HTTP_400_BAD_REQUEST)
 
 class NearbyPlacesView(APIView):
     permission_classes = [permissions.AllowAny]
